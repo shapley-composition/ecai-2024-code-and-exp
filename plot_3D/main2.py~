@@ -1,0 +1,27 @@
+import plotly.graph_objects as go
+import itertools, math, numpy as np
+
+from scipy.spatial import ConvexHull
+
+# This simply creates a set of points:
+n = 3
+m = 3
+E = np.array(list(itertools.product(np.arange(-1, 1.1, .5), repeat=m)))
+V = [
+ [-2.20676418,  1.53670924, -1.5541674 ],
+ [ 0.63437404,  0.07306301,  3.82253086],
+ [ 3.19989112,  0.71987311,  2.79373418]
+]
+x = np.array([np.dot(V, e) for e in E])
+
+# Then I compute the convex hull using scipy:
+xc = x[ConvexHull(x).vertices]
+
+fig = go.Figure()
+fig.add_trace(go.Mesh3d(x=xc[:, 0], 
+                        y=xc[:, 1], 
+                        z=xc[:, 2], 
+                        color="blue", 
+                        opacity=.5,
+                        alphahull=0))
+fig
