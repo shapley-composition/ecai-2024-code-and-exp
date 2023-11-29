@@ -1,7 +1,10 @@
 import random
 import numpy as np
-import math
+from math import sqrt
 from composition_stats import closure, ilr, ilr_inv, inner, perturb, perturb_inv, power, multiplicative_replacement, sbp_basis
+import plotly.graph_objects as go
+from scipy.spatial import ConvexHull
+
 
 def welford_update(aggregates, count, new_element):
     (mean, M2) = aggregates
@@ -10,6 +13,7 @@ def welford_update(aggregates, count, new_element):
     diff2 = new_element - mean
     M2 += np.dot(diff,np.transpose(diff2))
     return (mean, M2)
+
 
 class ShapleyExplainer():
 
@@ -73,3 +77,68 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
             for i in range(self.n_feat):
                 phi[i] += sum_error*(v[i]-(v[i]*v.sum())/(1+v.sum()))
         return (phi,self.base)
+
+
+
+def fig_2D_ilr_space(lim=5, figsize=500, names_classes=None):
+    #CREATE A PLOTLY GRAPH_OBJECTS FIGURE OF THE 2D ILR SPACE (with gram-schmidt basis)
+    #plot range [-lim, lim]
+    #names_classes should be a list of 3 strings.
+    fig = go.Figure(layout=go.Layout(autosize=False, width=figsize, height=figsize))
+    fig.update_xaxes(range=[-lim, lim])
+    fig.update_yaxes(range=[-lim, lim])
+    fig.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), font=dict(size=10))
+    
+    #Draw maximum probability region boundaries
+    fig.add_trace(go.Scatter(x=[0,0], y=[0,lim], mode='lines', line={ 'color': 'black', 'dash': 'dot'}, 
+                             opacity=0.4, name='Max. proba. region boundaries'))
+    fig.add_trace(go.Scatter(x=[0,lim], y=[0,-lim/sqrt(3)], mode='lines', line={ 'color': 'black', 'dash': 'dot'}, 
+                         opacity=0.4, showlegend=False, name='Max. proba. region boundaries'))
+    fig.add_trace(go.Scatter(x=[0,-lim], y=[0,-lim/sqrt(3)], mode='lines', line={ 'color': 'black', 'dash': 'dot'}, 
+                         opacity=0.4, showlegend=False, name='Max. proba. region boundaries'))
+
+    if names_classes is None:
+        names_classes = ['class 1','class 2','class 3']
+    
+    #Draw the class vectors, meaning the vectors going straight in favor of one class with a norm 1.
+    fig.add_trace(go.Scatter(x=[0,sqrt(3)/2], y=[0,1/2], mode='lines', line={ 'color': 'blue', 'dash': 'dot'}, name=names_classes[0], legendgroup='class', legendgrouptitle_text='Classes'))
+    fig.add_trace(go.Scatter(x=[0,-sqrt(3)/2], y=[0,1/2], mode='lines', line={ 'color': 'red', 'dash': 'dot'}, name=names_classes[1], legendgroup='class', legendgrouptitle_text='Classes'))
+    fig.add_trace(go.Scatter(x=[0,0], y=[0,-1], mode='lines', line={ 'color': 'green', 'dash': 'dot'}, name=names_classes[2], legendgroup='class', legendgrouptitle_text='Classes'))
+
+    return fig
+
+
+def fig_3D_ilr_space(lim=5, figsize=500, names_classes=None):
+    #CREATE A PLOTLY GRAPH_OBJECTS FIGURE OF THE 3D ILR SPACE (with gram-schmidt basis)
+    #plot range [-lim, lim]
+    #names_classes should be a list of 3 strings.
+
+    v = np.vstack(( [sqrt(2/3), sqrt(2)/3, 1/3], [-sqrt(2/3), sqrt(2)/3, 1/3], [0, -4/(3*sqrt(2)), 1/3], [0, 0, -1]))      #class vectors, meaning the vectors going straight in favor of one class with a norm 1.
+
+    fig = go.Figure(layout=go.Layout(autosize=False, width=figsize, height=figsize))
+    fig.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
+                      font=dict(size=10),
+                      scene = dict(xaxis = dict(title="ilr1", range=[-lim,lim]),
+                                   yaxis = dict(title="ilr2", range=[-lim,lim]),
+                                   zaxis = dict(title="ilr3", range=[-lim,lim])))
+
+    if names_classes is None:
+        names_classes = ['class 1','class 2','class 3', 'class 4']
+    
+    for i in range(v.shape[0]):    
+        x = -10*lim*v
+        x[i,:] = 0
+        xc = x[ConvexHull(x).vertices]
+        fig.add_trace(go.Mesh3d(x=xc[:, 0], 
+                                y=xc[:, 1], 
+                                z=xc[:, 2], 
+                                color="black", 
+                                opacity=.15,
+                                alphahull=0))
+        
+    fig.add_trace(go.Scatter3d(x=[0,v[0,0]], y=[0,v[0,1]],z=[0,v[0,2]], mode='lines', line={ 'color': 'blue', 'dash': 'dash', 'width' : 5}, name=names_classes[0], legendgroup='class', legendgrouptitle_text='Classes')) 
+    fig.add_trace(go.Scatter3d(x=[0,v[1,0]], y=[0,v[1,1]],z=[0,v[1,2]], mode='lines', line={ 'color': 'red', 'dash': 'dash', 'width' : 5}, name=names_classes[1], legendgroup='class', legendgrouptitle_text='Classes'))
+    fig.add_trace(go.Scatter3d(x=[0,v[2,0]], y=[0,v[2,1]],z=[0,v[2,2]], mode='lines', line={ 'color': 'green', 'dash': 'dash', 'width' : 5}, name=names_classes[2], legendgroup='class', legendgrouptitle_text='Classes'))
+    fig.add_trace(go.Scatter3d(x=[0,v[3,0]], y=[0,v[3,1]],z=[0,v[3,2]], mode='lines', line={ 'color': 'orange', 'dash': 'dash', 'width' : 5}, name=names_classes[3], legendgroup='class', legendgrouptitle_text='Classes')) 
+    
+    return fig
