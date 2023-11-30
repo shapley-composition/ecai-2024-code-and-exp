@@ -33,9 +33,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         else:
             self.basis = np.flip(sbp_basis(sbpmatrix), axis=0)
         self.base       = ilr(model(train_data), basis=self.basis).mean(axis=0)
-        print(self.base.shape)
-        print("test")
-
+        
     def explain_instance(self, x, adjust_sum=True):
         pi       = list(range(self.n_feat))
         phi      = np.zeros((self.n_feat,self.n_class-1))
