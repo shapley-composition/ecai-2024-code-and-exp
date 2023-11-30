@@ -72,14 +72,14 @@ def build_graph(root, graph):
         build_graph(root.right, graph)
 
 # S = np.array([[1,1,-1,-1,1,1],[1,-1,0,0,-1,-1],[0,1,0,0,-1,-1],[0,0,0,0,1,-1],[0,0,1,-1,0,0]])
-# #S = np.array([[1,1,1,1,1,-1],[1,1,1,1,-1,0],[1,1,1,-1,0,0],[1,1,-1,0,0,0],[1,-1,0,0,0,0]])
+# # #S = np.array([[1,1,1,1,1,-1],[1,1,1,1,-1,0],[1,1,1,-1,0,0],[1,1,-1,0,0,0],[1,-1,0,0,0,0]])
 
 # root = create_tree_from_sbp(S, 6)
-# root.Print()
-# print("")
+# # root.Print()
+# # print("")
 
-# tree = init_tree()
-# build_tree(root, tree)
+# tree = init_graph()
+# build_graph(root, tree)
 
 # tree.render('tree.pdf', view=True)  
 
