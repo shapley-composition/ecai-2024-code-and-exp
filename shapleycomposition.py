@@ -33,6 +33,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         else:
             self.basis = np.flip(sbp_basis(sbpmatrix), axis=0)
         self.base       = ilr(model(train_data), basis=self.basis).mean(axis=0)
+        self.shapley
         
     def explain_instance(self, x, adjust_sum=True):
         pi       = list(range(self.n_feat))
@@ -74,9 +75,11 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
             adj = np.ones((self.n_feat,self.n_class))/self.n_class
             for i in range(self.n_feat):
                 phi[i] += sum_error*(v[i]-(v[i]*v.sum())/(1+v.sum()))
-        return (phi,self.base)
+            self.shapley = phi
+        return (phi, self.base)
 
-
+    def summarize():
+        
 
 def fig_2D_ilr_space(lim=5, figsize=500, names_classes=None):
     #CREATE A PLOTLY GRAPH_OBJECTS FIGURE OF THE 2D ILR SPACE (with gram-schmidt basis)
@@ -85,7 +88,7 @@ def fig_2D_ilr_space(lim=5, figsize=500, names_classes=None):
     fig = go.Figure(layout=go.Layout(autosize=False, width=figsize, height=figsize))
     fig.update_xaxes(range=[-lim, lim])
     fig.update_yaxes(range=[-lim, lim])
-    fig.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), font=dict(size=10))
+    fig.update_layout(xaxis_title="ILR1", yaxis_title="ILR2", legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), font=dict(size=10))
     
     #Draw maximum probability region boundaries
     fig.add_trace(go.Scatter(x=[0,0], y=[0,lim], mode='lines', line={ 'color': 'black', 'dash': 'dot'}, 
@@ -140,3 +143,5 @@ def fig_3D_ilr_space(lim=5, figsize=500, names_classes=None):
     fig.add_trace(go.Scatter3d(x=[0,v[3,0]], y=[0,v[3,1]],z=[0,v[3,2]], mode='lines', line={ 'color': 'orange', 'dash': 'dash', 'width' : 5}, name=names_classes[3], legendgroup='class', legendgrouptitle_text='Classes')) 
     
     return fig
+
+
