@@ -1,0 +1,44 @@
+(TeX-add-style-hook
+ "main"
+ (lambda ()
+   (setq TeX-command-extra-options
+         "--synctex=1 -shell-escape")
+   (TeX-add-to-alist 'LaTeX-provided-package-options
+                     '(("cleveref" "capitalize" "noabbrev") ("todonotes" "textsize=tiny")))
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "href")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
+   (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
+   (TeX-run-style-hooks
+    "latex2e"
+    "article"
+    "art10"
+    "microtype"
+    "graphicx"
+    "subfigure"
+    "booktabs"
+    "hyperref"
+    "icml2024"
+    "amsmath"
+    "amssymb"
+    "mathtools"
+    "amsthm"
+    "cleveref"
+    "todonotes")
+   (TeX-add-symbols
+    "theHalgorithm")
+   (LaTeX-add-bibliographies
+    "biblio")
+   (LaTeX-add-amsthm-newtheorems
+    "theorem"
+    "proposition"
+    "lemma"
+    "corollary"
+    "definition"
+    "assumption"
+    "remark"))
+ :latex)
+
