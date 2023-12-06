@@ -3,44 +3,47 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: main.aux
 The style file: icml2024.bst
 Database file #1: biblio.bib
-You've used 8 entries,
+Warning--I didn't find a database entry for "langley00"
+Warning--empty journal in shapley1953value
+You've used 7 entries,
             2773 wiz_defined-function locations,
-            646 strings with 5903 characters,
-and the built_in function-call counts, 3248 in all, are:
-= -- 293
-> -- 140
-< -- 9
-+ -- 49
-- -- 41
-* -- 223
-:= -- 507
-add.period$ -- 25
-call.type$ -- 8
-change.case$ -- 36
-chr.to.int$ -- 8
-cite$ -- 16
-duplicate$ -- 174
-empty$ -- 295
-format.name$ -- 51
-if$ -- 691
+            645 strings with 6318 characters,
+and the built_in function-call counts, 3535 in all, are:
+= -- 320
+> -- 169
+< -- 8
++ -- 57
+- -- 50
+* -- 253
+:= -- 527
+add.period$ -- 24
+call.type$ -- 7
+change.case$ -- 33
+chr.to.int$ -- 7
+cite$ -- 15
+duplicate$ -- 182
+empty$ -- 310
+format.name$ -- 62
+if$ -- 773
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 6
-newline$ -- 47
-num.names$ -- 37
-pop$ -- 81
+missing$ -- 8
+newline$ -- 44
+num.names$ -- 32
+pop$ -- 77
 preamble$ -- 1
-purify$ -- 29
+purify$ -- 27
 quote$ -- 0
-skip$ -- 127
+skip$ -- 141
 stack$ -- 0
-substring$ -- 100
-swap$ -- 24
+substring$ -- 160
+swap$ -- 36
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 78
-warning$ -- 0
+type$ -- 72
+warning$ -- 1
 while$ -- 34
 width$ -- 0
-write$ -- 113
+write$ -- 100
+(There were 2 warnings)

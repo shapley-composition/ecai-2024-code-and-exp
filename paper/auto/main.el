@@ -26,6 +26,7 @@
     "amssymb"
     "mathtools"
     "amsthm"
+    "bm"
     "cleveref"
     "todonotes")
    (TeX-add-symbols
