@@ -59,6 +59,9 @@
 % Therefore, a short form for the running title is supplied here:
 \icmltitlerunning{Submission and Formatting Instructions for ICML 2024}
 
+\DeclareMathOperator{\ilr}{ilr}
+\DeclareMathOperator{\tr}{tr}
+
 \begin{document}
 
 \twocolumn[
@@ -141,6 +144,7 @@ Limitation,
 ...
 
 \section{The Shapley value in machine learning}
+\label{sec:shapley}
 
 In this section, we recall the theoretical formulation of the Shapley value for measuring the contribution of each feature on a machine learning prediction.
 
@@ -148,10 +152,12 @@ Let $f:\mathcal{X}\to\mathbb{R}$ be a learned model one want to \emph{locally} e
 
 When an instance $\bm{x}$ is observed, the expected value of the prediction is simply $\mathbb{E}[f(\bm{x}) \mid \bm{x}] = f(\bm{x})$. However, when only $\bm{x}_S$ is given, i.e. part of the features, there is uncertainty about the other features and we therefore compute the expected prediction given $\bm{x}_S$: $\mathbb{E}_{\text{Pr}}[f(\bm{x}) \mid \bm{x}_S] = \int_{\bm{x} \in \mathcal{X}}f(\bm{x})\text{Pr}(\bm{x} \mid \bm{x}_S)d\bm{x}$. The contribution of the feature indexed by $i \notin S$ in the prediction $f(\bm{x})$ given the known features indexed by $S$ is given by:
 \begin{equation}
+  \label{eq:contrib}
   c_{f,\bm{x},\text{Pr}}(i,\bm{X}_S) = v_{f,\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) - v_{f,\bm{x},\text{Pr}}(\bm{X}_S),
 \end{equation}
 where $v$ is known as the value function:
 \begin{equation}
+  \label{eq:valuefunction}
   \begin{aligned}
     v_{f,\bm{x},\text{Pr}}: 2^{\mathcal{X}} &\to \mathbb{R},\\
     S &\mapsto \mathbb{E}_\text{Pr}[f(\bm{x})\mid \bm{x}_S],
@@ -187,11 +193,34 @@ This give to the simplex a $(N-1)$-dimensional Euclidean vector space structure 
 
 \subsection{The isometric log-ratio transformation}
 
-...
+An $(N-1)$-dimensional orthonormal basis of the simplex, refered as an \emph{Aitchison} orthonormal basis, can be built. The projection of a composition (a discrete probability distribution in our case) into this basis defined an isometric isomorphism between $\mathcal{S}^N$ and $\mathbb{R}^{N-1}$. This is known as an Isometric-Log-Ratio (ILR) transformation \cite{egozcue2003isometric} and allows to express the compositions into a Cartesian coordinates system preserving the metric of the Aitchison geometry. Within this real space, the permutation, the powering and the Aitchison inner product defined above are respectively the standard addition, multiplication by a scalar and inner product.
 
-\section{Shapley compositions on the simplex}
+Given a composition $\bm{p} = \left[ p_1,\dots p_N \right]^T \in \mathcal{S}^N$ we express is ILR transformation as $\tilde{\bm{p}} = \ilr \left( \bm{p} \right) = \left[ \tilde{p}_1,\dots \tilde{p}_{N-1} \right]^T \in \mathbb{R}^{N-1}$. The $i$th element $\tilde{p}_i$ of $\tilde{\bm{p}}$ is be obtained as: $\tilde{p}_i = \langle \bm{p}, \bm{e}^{(i)} \rangle_a$ where set $\{\bm{e}^{(i)} \in \mathcal{S}^N, i=1,\dots N-1\}$ forms an \emph{Aitchison} orthonormal basis of the simplex. The choice of the basis will be discussed latter in Section \ref{sec:explain}.
+
+
+\section{Shapley on the simplex}
+
+In Section \ref{sec:shapley} we have briefly presented the standard formulation of Shapley value designed for one-dimensional prediction. In this Section, we will see how the Aitchison geometry can be used to extend this concept to the multidimensional simplex for explaning probabilistic predictions.
+
+
+Let $\bm{f}:\mathcal{X}\to\mathcal{S}^N$ be a learned model, like a $N$-classes probabilistic classifier for instance, which outputs a probabilistic prediction on the $(N-1)$-dimensional probability simplex $S^N$. To properly consider the relative information between the probabilities, The outputs of the model must be treated as compositional data using the operators and metric defined by the Aitchison geometry of the simplex. We therefore rewrite the contribution and the value function of Equations \ref{eq:contrib} and \ref{eq:valuefunction} as follow:
+\begin{equation}
+  \bm{c}_{\bm{f},\bm{x},\text{Pr}}(i,\bm{X}_S) = \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) \ominus \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_S),
+\end{equation}
+where $\bm{a}\ominus\bm{b}$ is the perturbation $\bm{a} \oplus \left( (-1)\odot \bm{b}\right)$ which correspond to a substraction between compositions $\bm{a}$ and $\bm{b}$, and where:
+\begin{equation}
+  \label{eq:valuefunctionsimplex}
+  \begin{aligned}
+    \bm{v}_{\bm{f},\bm{x},\text{Pr}}: 2^{\mathcal{X}} &\to \mathcal{S}^N,\\
+    \bm{X}_S &\mapsto \mathbb{E}^{\mathcal{A}}_\text{Pr}[\bm{f}(\bm{x})\mid \bm{x}_S],
+  \end{aligned}
+\end{equation}
+
 
 \section{Explaining probabilistic prediction}
+\label{sec:explain}
+
+\subsection{Implementation and experiment}
 
 \section{Discussion and conclusion}
 

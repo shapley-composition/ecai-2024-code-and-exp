@@ -1,4 +1,4 @@
-\begin{thebibliography}{7}
+\begin{thebibliography}{8}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -25,6 +25,13 @@ Datta, A., Sen, S., and Zick, Y.
 \newblock In \emph{2016 IEEE Symposium on Security and Privacy (SP)}, pp.\
   598--617, 2016.
 \newblock \doi{10.1109/SP.2016.42}.
+
+\bibitem[Egozcue et~al.(2003)Egozcue, Pawlowsky-Glahn, Mateu-Figueras, and
+  Barcelo-Vidal]{egozcue2003isometric}
+Egozcue, J.~J., Pawlowsky-Glahn, V., Mateu-Figueras, G., and Barcelo-Vidal, C.
+\newblock Isometric logratio transformations for compositional data analysis.
+\newblock \emph{Mathematical geology}, 35\penalty0 (3):\penalty0 279--300,
+  2003.
 
 \bibitem[Lundberg \& Lee(2017)Lundberg and Lee]{NIPS2017_7062}
 Lundberg, S.~M. and Lee, S.-I.

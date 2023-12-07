@@ -31,6 +31,12 @@
     "todonotes")
    (TeX-add-symbols
     "theHalgorithm")
+   (LaTeX-add-labels
+    "sec:shapley"
+    "eq:contrib"
+    "eq:valuefunction"
+    "eq:valuefunctionsimplex"
+    "sec:explain")
    (LaTeX-add-bibliographies
     "biblio")
    (LaTeX-add-amsthm-newtheorems

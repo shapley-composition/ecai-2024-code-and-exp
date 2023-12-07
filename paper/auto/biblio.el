@@ -10,6 +10,7 @@
     "shapley1953value"
     "pawlowskymodeling"
     "aitchison1982"
-    "aitchison2001"))
+    "aitchison2001"
+    "egozcue2003isometric"))
  '(or :bibtex :latex))
 
