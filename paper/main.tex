@@ -171,7 +171,7 @@ where $\pi$ is a permutation of the set $S$ of indexes and $\pi^{<i}_{\bm{X}}$ i
 
 This quantity is known as the Shapley value for the $i$th feature. It comes from cooperative game theory and is known to be only quantity respecting a set of desired axiomatic properties \cite{shapley1953value}. It is linear as a function of the model ($\alpha, \beta \in \mathbb{R}$): $\phi_{\alpha f +\beta g}(i) = \alpha \phi_f(i) + \beta \phi_g(i)$, and the ``centered'' learned model is additively separable with respect to the Shapley values: $(\bm{x})-\mathbb{E}_{\text{Pr}}[f(\bm{X})] = \sum_{i=1}^{d} \phi_f(i)$, which is known as the \emph{efficiency} property.
 
-Like originally developed in game theory, the Shapley value is designed for one-dimensinal codomain of the function $f$. For explaining machine learning model with a multidimensional output like for multiclass classifiers, people have been explaining each output dimension one-by-one ignoring the relative information between them. Indeed, for application with more than two classes, the probabilistic output of a classifier lives on a multidimensional simplex. The latter is the sample space of data refered as \emph{compositional data} we briefly review in the next section.
+Like originally developed in game theory, the Shapley value is designed for one-dimensinal codomain of the function $f$. For explaining machine learning models which output multidimensional discrete probability distribution, like in multiclass classification, people have been explaining each output dimension one-by-one, applying a logit transformation to the probabilities, resulting in a one-vs-rest comparison. However, this ignores the relative information between each probability and the compositional nature of probability distributions. Indeed, the probabilistic output of a classifier lives on a multidimensional simplex. The latter is the sample space of data refered as \emph{compositional data} we briefly review in the next section.
 
 \section{Compositional data}
 
@@ -234,7 +234,20 @@ This can be seen as a multidimensional extension of the Shapley value framework 
 \section{Explaining probabilistic prediction with Shapley compositions}
 \label{sec:explain}
 
-\subsection{About the implementation and the experiment}
+
+Given a prediction $\bm{f}(\bm{x})$, the Shapley composition $\bm{\phi}_{\bm{f},\bm{x},\text{Pr}}(i)$ describes the contribution of the $i$th feature on the prediction. The efficiency property shows how the probability distribution moves from the base value, i.e. the expected prediction regardless of the current input, to the prediction $\bm{f}(\bm{x})$. In the standard Shapley formulation recalled in Section \ref{sec:shapley}, the prediction is one-dimensional such that the Shapley quantity is a scalar. In application where there are more than two possible classes, the prediction is multidimensional such that the Shapley quantity is too. Both lives on the same space: the probability simplex. In this section, we discuss how the set of Shapley compositions can be analysed to better understand the contribution and influence of each features on the prediction.
+
+\subsection{Angles, norms and projections}
+
+\subsection{Visualization}
+
+\subsubsection{Three classes}
+
+\subsubsection{Four classes}
+
+\subsubsection{More classes}
+
+\subsection{About our plementation and experiment}
 
 \section{Discussion and conclusion}
 
@@ -300,6 +313,7 @@ The Shapley composition is linear, within the Aitchison geometry of the simplex,
   \end{equation}
 \end{proof}
 
+\newpage
 \subsection{Efficiency}
 The efficiency property naturally holds for Shapley compositions within the Aitchison geometry.
 \begin{proof}
@@ -318,6 +332,10 @@ The efficiency property naturally holds for Shapley compositions within the Aitc
   \end{equation}
 \end{proof}
 
+
+\section{Class compositions}
+
+A $k$-class compositions is defined as an unit norm composition going straight to the direction of the $k$th class. This is a discrete probability distribution with maximum probability for the $k$th class 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
