@@ -4,7 +4,7 @@
    (setq TeX-command-extra-options
          "--synctex=1 -shell-escape")
    (TeX-add-to-alist 'LaTeX-provided-package-options
-                     '(("cleveref" "capitalize" "noabbrev") ("todonotes" "textsize=tiny")))
+                     '(("cleveref" "capitalize" "noabbrev")))
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "href")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
@@ -27,8 +27,7 @@
     "mathtools"
     "amsthm"
     "bm"
-    "cleveref"
-    "todonotes")
+    "cleveref")
    (TeX-add-symbols
     "theHalgorithm")
    (LaTeX-add-labels
@@ -36,7 +35,9 @@
     "eq:contrib"
     "eq:valuefunction"
     "eq:valuefunctionsimplex"
-    "sec:explain")
+    "sec:explain"
+    "app:properties"
+    "eq:linearsimplex")
    (LaTeX-add-bibliographies
     "biblio")
    (LaTeX-add-amsthm-newtheorems

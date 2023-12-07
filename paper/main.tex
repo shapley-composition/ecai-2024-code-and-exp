@@ -52,7 +52,7 @@
 % Todonotes is useful during development; simply uncomment the next line
 %    and comment out the line below the next line to turn off comments
 %\usepackage[disable,textsize=tiny]{todonotes}
-\usepackage[textsize=tiny]{todonotes}
+% \usepackage[textsize=tiny]{todonotes}
 
 
 % The \icmltitle you define below is probably too long as a header.
@@ -212,15 +212,29 @@ where $\bm{a}\ominus\bm{b}$ is the perturbation $\bm{a} \oplus \left( (-1)\odot 
   \label{eq:valuefunctionsimplex}
   \begin{aligned}
     \bm{v}_{\bm{f},\bm{x},\text{Pr}}: 2^{\mathcal{X}} &\to \mathcal{S}^N,\\
-    \bm{X}_S &\mapsto \mathbb{E}^{\mathcal{A}}_\text{Pr}[\bm{f}(\bm{x})\mid \bm{x}_S],
+    \bm{X}_S &\mapsto \mathbb{E}^{\mathcal{A}}_\text{Pr}[\bm{f}(\bm{x})\mid \bm{x}_S].
   \end{aligned}
 \end{equation}
+The $\mathcal{A}$ in superscript highlight the fact that the expectation is done with respect to the Aitchison measure, rather than the Lebesgue measure, which can simply be computed as \cite{pawlowskymodeling}: $\mathbb{E}^{\mathcal{A}}[\bm{Y}] = \ilr^{-1}\left( \mathbb{E} \left[ \ilr\left( \bm{Y} \right) \right] \right)$,
+where $\mathbb{E}^{\mathcal{A}}$ refers to the expectation with respect to the Aitchison measure while $\mathbb{E}$ refers to the expectation with respect to the Lebesgue measure.
 
+The Shapley quantity expressing the contribution of the $i$th feature on a prediction can simply be expressed on the simplex as the \emph{Shapley composition} $\bm{\phi}(i)$ given by:
+\begin{equation}
+  \bm{\phi}_{\bm{f},\bm{x},\text{Pr}}(i) = \frac{1}{d!} \odot \underset{\pi}{\bigoplus}\bm{c}_{\bm{f},\bm{x},\text{Pr}}(i,\pi^{<i}_{\bm{X}}).
+\end{equation}
+It can be shown (in Appendix \ref{app:properties}) that the linearity and the efficiency properties naturally hold for the Shapley composition:
+\begin{equation}
+  \begin{aligned}
+    \bm{\phi}_{\alpha \odot \bm{f}(\bm{x}) \oplus \beta \odot \bm{g}(\bm{x})}(i) &= \alpha \odot \bm{\phi}_{\bm{f}}(i) \oplus \beta\odot \bm{\phi}_{\bm{g}}(i),\\
+    \underset{i=1}{\overset{d}\bigoplus} \bm{\phi}_{\bm{f}}(i) &= \bm{f}(\bm{x}) \ominus \mathbb{E}^{\mathcal{A}}_{\text{Pr}}[\bm{f}(\bm{X})].
+  \end{aligned}
+\end{equation}
+This can be seen as a multidimensional extension of the Shapley value framework on the simplex. Here, the Shapley quantity is not a scalar anymore, this is a composition living on the probability simplex. In the next section, we will see in more details how this can be used to explain the contribution of the features on a multidimensional probabilistic prediction.
 
-\section{Explaining probabilistic prediction}
+\section{Explaining probabilistic prediction with Shapley compositions}
 \label{sec:explain}
 
-\subsection{Implementation and experiment}
+\subsection{About the implementation and the experiment}
 
 \section{Discussion and conclusion}
 
@@ -241,14 +255,72 @@ where $\bm{a}\ominus\bm{b}$ is the perturbation $\bm{a} \oplus \left( (-1)\odot 
 \newpage
 \appendix
 \onecolumn
-\section{You \emph{can} have an appendix here.}
 
-You can have as much text here as you want. The main body must be at most $8$ pages long.
-For the final version, one more page can be added.
-If you want, you can use an appendix like this one.  
+\section{Linearity and efficiency of the Shapley composition}
+\label{app:properties}
+In this section, we show the linearity of the Shapley composition with respect to the model prediction, and the efficiency property.
 
-The $\mathtt{\backslash onecolumn}$ command above can be kept in place if you prefer a one-column appendix, or can be removed if you prefer a two-column appendix.  Apart from this possible change, the style (font size, spacing, margins, page numbering, etc.) should be kept the same as the main body.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Linearity}
+
+The Shapley composition is linear, within the Aitchison geometry of the simplex, with respect to linear combination of models' predictions.
+\begin{proof}
+  Let's consider the linear combination of predictions $\bm{h}(\bm{x}) = \alpha \odot \bm{f}(\bm{x}) \oplus \beta \odot \bm{g}(\bm{x})$. we want to check if:
+  \begin{equation}
+    \label{eq:linearsimplex}
+    \bm{\phi}_{\bm{h}}(i) = \alpha \odot \bm{\phi}_{\bm{f}}(i) \oplus \beta\odot \bm{\phi}_{\bm{g}}(i).
+  \end{equation}
+  We have:
+  \begin{equation}
+    \begin{aligned}
+      \mathbb{E}^{\mathcal{A}}_{\text{Pr}}[\bm{h}(\bm{x})\mid \bm{x}_S] &= \ilr^{-1} \left( \mathbb{E}_{\text{Pr}} [\ilr \left(  \alpha \odot \bm{f}(\bm{x}) \oplus \beta \odot \bm{g}(\bm{x}) \right) \mid \bm{x}_S] \right),\\
+                                                                        &= \ilr^{-1} \left( \mathbb{E}_{\text{Pr}} [\alpha \ilr \left( \bm{f}(\bm{x})\right) + \beta \ilr \left( \bm{g}(\bm{x}) \right) \mid \bm{x}_S] \right),\\
+                                                                        &= \ilr^{-1} \left( \alpha \mathbb{E}_{\text{Pr}} [ \ilr \left( \bm{f}(\bm{x})\right) \mid \bm{x}_S] + \beta \mathbb{E}_{\text{Pr}} [ \ilr \left( \bm{g}(\bm{x}) \right) \mid \bm{x}_S] \right),\\
+                                                                        &= \alpha \odot \ilr^{-1} \left( \mathbb{E}_{\text{Pr}} [ \ilr \left( \bm{f}(\bm{x})\right) \mid \bm{x}_S] \right) \oplus \beta \odot \ilr^{-1} \left( \mathbb{E}_{\text{Pr}} [ \ilr \left( \bm{g}(\bm{x}) \right) \mid \bm{x}_S] \right),\\
+                                                                        &= \alpha \odot \mathbb{E}^{\mathcal{A}}_{\text{Pr}}[\bm{f}(\bm{x})\mid \bm{x}_S] \oplus \beta \odot \mathbb{E}^{\mathcal{A}}_{\text{Pr}}[\bm{g}(\bm{x})\mid \bm{x}_S].
+    \end{aligned}
+  \end{equation}
+  Therefore, $\bm{v}_{\bm{h},\bm{x},\text{Pr}}(\bm{X}_S) = \alpha \odot \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_S) \oplus \beta \odot \bm{v}_{\bm{g},\bm{x},\text{Pr}}(\bm{X}_S)$, meaning that $\bm{v}$ is linear with respect to the learned function or model. The linearity of the contribution $\bm{c}$ naturally follows:
+  \begin{equation}
+    \begin{aligned}
+      &\bm{c}_{\bm{h},\bm{x},\text{Pr}}(i,\bm{X}_S) = \bm{v}_{\bm{h},\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) \ominus \bm{v}_{\bm{h},\bm{x},\text{Pr}}(\bm{X}_S),\\
+      &~~~~~~~= \left( \alpha \odot \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) \oplus \beta \odot \bm{v}_{\bm{g},\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) \right) \ominus \left( \alpha \odot \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_S) \oplus \beta \odot \bm{v}_{\bm{g},\bm{x},\text{Pr}}(\bm{X}_S) \right),\\
+      &~~~~~~~= \alpha \odot \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) \oplus \beta \odot \bm{v}_{\bm{g},\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) \ominus\alpha \odot \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_S) \ominus \beta \odot \bm{v}_{\bm{g},\bm{x},\text{Pr}}(\bm{X}_S),\\
+      &~~~~~~~= \alpha \odot \left( \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) \ominus \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_S) \right) \oplus \beta \odot \left( \bm{v}_{\bm{g},\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) \ominus \bm{v}_{\bm{g},\bm{x},\text{Pr}}(\bm{X}_S)\right),\\
+      &~~~~~~~= \alpha \odot \bm{c}_{\bm{f},\bm{x},\text{Pr}}(i,\bm{X}_S) \oplus \beta \odot \bm{c}_{\bm{g},\bm{x},\text{Pr}}(i,\bm{X}_S).
+    \end{aligned}
+  \end{equation}
+  And the linearity of the Shap composition:
+  \begin{equation}
+    \begin{aligned}
+      \bm{\phi}_{\bm{h}}(i) &= \frac{1}{d!}  \underset{\pi}{\bigoplus}\bm{c}_{\bm{h},\bm{x},\text{Pr}}(i,\pi^{<i}_{\bm{X}}),\\
+                            &= \frac{1}{d!}  \underset{\pi}{\bigoplus}\left( \alpha \odot \bm{c}_{\bm{f},\bm{x},\text{Pr}}(i,\bm{X}_S) \oplus \beta \odot \bm{c}_{\bm{g},\bm{x},\text{Pr}}(i,\bm{X}_S) \right),\\
+                            &= \alpha \odot \left( \frac{1}{d!}  \underset{\pi}{\bigoplus} \bm{c}_{\bm{f},\bm{x},\text{Pr}}(i,\bm{X}_S) \right) \oplus \beta \odot \left( \frac{1}{d!} \underset{\pi}{\bigoplus}    \bm{c}_{\bm{g},\bm{x},\text{Pr}}(i,\bm{X}_S) \right),\\
+                            &= \alpha \odot \bm{\phi}_{\bm{f}}(i) \oplus \beta\odot \bm{\phi}_{\bm{g}}(i).
+    \end{aligned}
+  \end{equation}
+\end{proof}
+
+\subsection{Efficiency}
+The efficiency property naturally holds for Shapley compositions within the Aitchison geometry.
+\begin{proof}
+  \begin{equation}
+    \begin{aligned}
+      \underset{i=1}{\overset{d}\bigoplus} \bm{\phi}_{\bm{f}}(i) & = \underset{i=1}{\overset{d}\bigoplus}\left( \frac{1}{d!} \odot \underset{\pi}{\bigoplus} \bm{c}(i,\pi_{\bm{X}}^{<i})\right),\\
+                                                                 &=  \frac{1}{d!} \odot \underset{i=1}{\overset{d}\bigoplus}\left( \underset{\pi}{\bigoplus} \left( \bm{v}(\pi_{\bm{X}}^{<i+1}) \ominus \bm{v}(\pi_{\bm{X}}^{<i}) \right) \right),\\
+                                                                 &=  \frac{1}{d!} \odot \underset{i=1}{\overset{d}\bigoplus}\left( \underbrace{\left(\underset{\pi}{\bigoplus} \bm{v}(\pi_{\bm{X}}^{<i+1}) \right)}_{\bm{A}_{i+1}} \ominus \underbrace{\left( \underset{\pi}{\bigoplus} \bm{v}(\pi_{\bm{X}}^{<i}) \right)}_{\bm{A}_{i}} \right),\\
+                                                                 &=  \frac{1}{d!} \odot \underset{i=1}{\overset{d}\bigoplus}\left( \bm{A}_{i+1} \ominus \bm{A}_{i} \right),\\
+                                                                 &=  \frac{1}{d!} \odot \left( \bm{A}_{d+1} \ominus \bm{A}_{1} \right), \text{~since we have a telescoping perturbation,}\\
+                                                                 &=  \frac{1}{d!} \odot \left( \left( \underset{\pi}{\bigoplus} \bm{v}(\pi_{\bm{X}}^{<d+1}) \right) \ominus \left( \underset{\pi}{\bigoplus} \bm{v}(\pi_{\bm{X}}^{<1}) \right) \right),\\
+                                                                 &=  \frac{1}{d!} \odot \left( \left( \underset{\pi}{\bigoplus} \bm{v}(\bm{X}) \right) \ominus \left( \underset{\pi}{\bigoplus} \bm{v}(\bm{X}_{\emptyset}) \right) \right),\\
+                                                                 &= \bm{v}(\bm{X}) \ominus \bm{v}(\bm{X}_{\emptyset}), \text{~since $d!$ is the number of different permutation,}\\
+                                                                 &= \bm{f}(\bm{x}) \ominus \mathbb{E}^{\mathcal{A}}_{\text{Pr}}[\bm{f}(\bm{X})].
+    \end{aligned}
+  \end{equation}
+\end{proof}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
