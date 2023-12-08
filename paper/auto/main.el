@@ -37,7 +37,9 @@
     "eq:valuefunctionsimplex"
     "sec:explain"
     "app:properties"
-    "eq:linearsimplex")
+    "eq:linearsimplex"
+    "app:algo"
+    "alg:1")
    (LaTeX-add-bibliographies
     "biblio")
    (LaTeX-add-amsthm-newtheorems

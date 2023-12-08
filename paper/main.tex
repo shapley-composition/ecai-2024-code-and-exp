@@ -148,7 +148,7 @@ Limitation,
 
 In this section, we recall the theoretical formulation of the Shapley value for measuring the contribution of each feature on a machine learning prediction.
 
-Let $f:\mathcal{X}\to\mathbb{R}$ be a learned model one want to \emph{locally} explain where $f(\bm{x})$ is the prediction on the instance $\bm{x}\in\mathcal{X}$. Let $\text{Pr}$ be the probability distribution over $\mathcal{X}$ of the data\footnote{In practice, this is usually unknown but the expectation will be replaced by empirical samplings.}. Let $S\subseteq \{1,2,\dots d\}$, where $d$ is the number of features that composes an instance $\bm{x}\in\mathcal{X}$, be a subset of indices. $\bm{x}_S$ refers to an instance $\bm{x}$ restricted to the features indicated by the indices in $S$.
+Let $f:\mathcal{X}\to\mathbb{R}$ be a learned model one want to \emph{locally} explain where $f(\bm{x})$ is the prediction on the instance $\bm{x}\in\mathcal{X}$. Let $\text{Pr}$ be the probability distribution over $\mathcal{X}$ of the data\footnote{In practice, this is usually unknown but the expectation will be replaced by empirical samplings.}. Let $S\subseteq \mathcal{I}=\{1,2,\dots d\}$, where $d$ is the number of features that composes an instance $\bm{x}\in\mathcal{X}$, be a subset of indices. $\bm{x}_S$ refers to an instance $\bm{x}$ restricted to the features indicated by the indices in $S$.
 
 When an instance $\bm{x}$ is observed, the expected value of the prediction is simply $\mathbb{E}[f(\bm{x}) \mid \bm{x}] = f(\bm{x})$. However, when only $\bm{x}_S$ is given, i.e. part of the features, there is uncertainty about the other features and we therefore compute the expected prediction given $\bm{x}_S$: $\mathbb{E}_{\text{Pr}}[f(\bm{x}) \mid \bm{x}_S] = \int_{\bm{x} \in \mathcal{X}}f(\bm{x})\text{Pr}(\bm{x} \mid \bm{x}_S)d\bm{x}$. The contribution of the feature indexed by $i \notin S$ in the prediction $f(\bm{x})$ given the known features indexed by $S$ is given by:
 \begin{equation}
@@ -159,15 +159,15 @@ where $v$ is known as the value function:
 \begin{equation}
   \label{eq:valuefunction}
   \begin{aligned}
-    v_{f,\bm{x},\text{Pr}}: 2^{\mathcal{X}} &\to \mathbb{R},\\
+    v_{f,\bm{x},\text{Pr}}: 2^{\mathcal{I}} &\to \mathbb{R},\\
     S &\mapsto \mathbb{E}_\text{Pr}[f(\bm{x})\mid \bm{x}_S],
   \end{aligned}
 \end{equation}
-where $2^{\mathcal{X}}$ is the set of all subsets of $S$. This measure the contribution of the $i$th features with a particular \emph{coalition} of features indexed by $S$. The whole contribution of the $i$th feature is computing by averaging this quantity over all possible coalitions as follow:
+where $2^{\mathcal{X}}$ is the set of all subsets of $I$. This measure the contribution of the $i$th features with a particular \emph{coalition} of features indexed by $S$. The whole contribution of the $i$th feature is computing by averaging this quantity over all possible coalitions as follow:
 \begin{equation}
   \phi_{f,\bm{x},\text{Pr}}(i) = \frac{1}{d!} \sum_{\pi}c_{f,\bm{x},\text{Pr}}(i,\pi^{<i}_{\bm{X}}),
 \end{equation}
-where $\pi$ is a permutation of the set $S$ of indexes and $\pi^{<i}_{\bm{X}}$ is the features of $\bm{X}$ coming before the $i$th feature in the ordering given by $\pi$. For better clarity, the subscript $_{f,\bm{x},\text{Pr}}$ wil be dropt from the equations.
+where $\pi$ is a permutation of the set $I$ of indexes and $\pi^{<i}_{\bm{X}}$ is the features of $\bm{X}$ coming before the $i$th feature in the ordering given by $\pi$. For better clarity, the subscript $_{f,\bm{x},\text{Pr}}$ wil be dropt from the equations.
 
 This quantity is known as the Shapley value for the $i$th feature. It comes from cooperative game theory and is known to be only quantity respecting a set of desired axiomatic properties \cite{shapley1953value}. It is linear as a function of the model ($\alpha, \beta \in \mathbb{R}$): $\phi_{\alpha f +\beta g}(i) = \alpha \phi_f(i) + \beta \phi_g(i)$, and the ``centered'' learned model is additively separable with respect to the Shapley values: $(\bm{x})-\mathbb{E}_{\text{Pr}}[f(\bm{X})] = \sum_{i=1}^{d} \phi_f(i)$, which is known as the \emph{efficiency} property.
 
@@ -247,7 +247,11 @@ Given a prediction $\bm{f}(\bm{x})$, the Shapley composition $\bm{\phi}_{\bm{f},
 
 \subsubsection{More classes}
 
-\subsection{About our plementation and experiment}
+\subsubsection{Histograms}
+
+\subsection{About our implementation}
+
+In this work, the estimation algorithm we used to compute the Shapley compositions is an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining}. Since the resulting Shapley compositions are approximations, the efficiency property does not necessarily hold without an adjustement. Each Shapley compositions are therefore adjusted following a similar method as in the SamplingExplainer of the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}}. See Appendix \ref{app:algo} for more details.
 
 \section{Discussion and conclusion}
 
@@ -335,8 +339,37 @@ The efficiency property naturally holds for Shapley compositions within the Aitc
 
 \section{Class compositions}
 
-A $k$-class compositions is defined as an unit norm composition going straight to the direction of the $k$th class. This is a discrete probability distribution with maximum probability for the $k$th class 
+A $k$-class compositions is defined as an unit norm composition going straight to the direction of the $k$th class. This is a discrete probability distribution with maximum probability for the $k$th class ...
 
+\section{Estimation of the Shapley compositions}
+\label{app:algo}
+In this work, we used an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining} we present in this section.
+
+Let $d$ be the number of features. We want to optimally distribute the $m_{\text{max}}$ drawn samples over the $d$ features. Let $\hat{\bm{\phi}_i}$ the estimation of the Shapley composition for the $i$th feature. We want to minimize the sum of squared errors or distances $\displaystyle\sum_{i=1}^{d} \| \hat{\bm{\phi}_i} \ominus \bm{\phi}_i \|_a^2$. Since $\hat{\bm{\phi}_i}$ is a (Aitchison) sample mean we have: $\tilde{\hat{\bm{\phi}_i}} \approx \mathcal{N}(\tilde{\bm{\phi}}_i, \frac{1}{m_i}\bm{\Sigma}^{(i)})$ and $\tilde{\hat{\bm{\phi}_i}} - \tilde{\bm{\phi}}_i \approx \mathcal{N}(\bm{0}, \frac{1}{m_i}\bm{\Sigma}^{(i)})$ where the tilde refers to the ILR transformation.
+Let $\bm{\Delta_i} = \tilde{\hat{\bm{\phi}_i}} - \tilde{\bm{\phi}}_i$ and $Z_i = \| \hat{\bm{\phi}_i} \ominus \bm{\phi}_i \|_a = \| \tilde{\hat{\bm{\phi}_i}} - \tilde{\bm{\phi}}_i \|_2 = \| \bm{\Delta}_i \|_2$. The expectation of the sum of squared errors is:
+\begin{equation}
+  \begin{aligned}
+    \mathbb{E}\left[ \sum_{i=1}^{d} Z_i^2 \right] &=   \sum_{i=1}^{d} \mathbb{E}\left[ Z_i^2 \right],\\
+                                                  & =\sum_{i=1}^{d} \mathbb{E}\left[ \sum_{j=1}^{d-1}\Delta_{ij}^2 \right],\\
+                                                  & =\sum_{i=1}^{d} \sum_{j=1}^{d-1} \mathbb{E}\left[\Delta_{ij}^2 \right],\\
+                                                  & =\sum_{i=1}^{d} \sum_{j=1}^{d-1} \frac{1}{m_i}\Sigma_{jj}^{(i)}, \text{ since } \Delta_{ij}\approx \mathcal{Z}(0, \frac{1}{m_i}\Sigma_{jj}^{(i)}),\\
+    &= \sum_{i=1}^d \frac{1}{m_i} \tr \bm{\Sigma}^{(i)}.
+  \end{aligned}
+\end{equation}
+
+When a sample is drawn, the feature for which the sample will be used for improving the Shapley composition estimation is chosen to maximize $\frac{\tr \bm{\Sigma}^{(i)}}{m_i} - \frac{\tr \bm{\Sigma}^{(i)}}{m_i+1}$. Like in \cite{vstrumbelj2014explaining}, this is summarized in Algorithm \ref{alg:2}.
+\begin{algorithm}[tb]
+   \caption{Adaptation of the Algorithm 1 in \cite{vstrumbelj2014explaining} for approximating the Shapley composition of the $i$th feature, with model $\bm{f}$, instance $\bm{x}\in\mathcal{X}$ and $m$ drawn samples.}
+   \label{alg:1}
+\begin{algorithmic}
+   \STATE Initialize $\bm{\phi_i}\leftarrow \ilr^{-1}(\bm{0})$
+   \FOR{$1$ {\bfseries to} $m$}
+   \STATE Randomly select a permutation $\pi$ of the set of indexes $\mathcal{I}$,
+   \STATE Randomly select a sample $\bm{w}\in\mathcal{X}$,
+   \STATE ....
+   \ENDFOR
+\end{algorithmic}
+\end{algorithm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

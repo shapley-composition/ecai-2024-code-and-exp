@@ -58,7 +58,7 @@ print(sum_shap_base)
 
 #SUMMARIZE WITH NORM, COSINE AND INNER PRODUCTS
 
-(norm_shapley, cos_shap_class, cos_shap_shap) = explainer.summarize()
+(norm_shapley, proj_shap_class, cos_shap_shap) = explainer.summarize()
 
 # %%
 

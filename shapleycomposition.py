@@ -69,7 +69,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
                     x_perturb1[k] = x_sampled[k]
                     x_perturb2[k] = x_sampled[k]
             current_phi = ilr(self.model(x_perturb1.reshape(1,-1)), basis=self.basis) - ilr(self.model(x_perturb2.reshape(1,-1)), basis=self.basis)
-            phi[j] += + current_phi
+            phi[j] += current_phi
             (new_mean, new_M2) = welford_update((mean_phi[j], M2_phi[j]), m[j], (current_phi))
             mean_phi[j] = new_mean
             M2_phi[j]   = new_M2
@@ -104,9 +104,9 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         print()
 
         class_vect  = ilr(self.class_compo)
-        cos_shap_class = np.zeros((self.n_class,self.n_feat))
+        proj_shap_class = np.zeros((self.n_class,self.n_feat))
         cos_shap_shap = np.zeros((self.n_feat,self.n_feat))
-        print("Cosine between the Shapley compositions and the class vectors:")
+        print("Projection of the Shapley compositions on the class vectors:")
         print('\t\t',end='')
         for i in range(self.n_feat):
             print('{:10s}'.format('feat. n.'+str(i+1)),end='\t')
@@ -114,8 +114,8 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         for i in range(self.n_class):
             print('{:10s}'.format("class "+str(i+1)+":"), end='\t')
             for j in range(self.n_feat):
-                cos_shap_class[i,j] = np.dot(class_vect[i,:],self.shapley[j,:])/norm_shapley[j]
-                print('{:3.7f}'.format(round(cos_shap_class[i,j], 7)),end='\t')
+                proj_shap_class[i,j] = np.dot(class_vect[i,:],self.shapley[j,:])
+                print('{:3.7f}'.format(round(proj_shap_class[i,j], 7)),end='\t')
             print()
         print()
 
@@ -132,7 +132,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
                 print('{:3.7f}'.format(round(cos_shap_shap[i,j], 7)),end='\t')
             print()
         
-        return (norm_shapley, cos_shap_class, cos_shap_shap)
+        return (norm_shapley, proj_shap_class, cos_shap_shap)
     
         
     def plot_ilr_space(self, balances=[1, 2], shapley_sum=False, lim=5, figsize=500, names_classes=None):
