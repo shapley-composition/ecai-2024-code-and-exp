@@ -339,7 +339,9 @@ The efficiency property naturally holds for Shapley compositions within the Aitc
 
 \section{Class compositions}
 
-A $k$-class compositions is defined as an unit norm composition going straight to the direction of the $k$th class. This is a discrete probability distribution with maximum probability for the $k$th class ...
+A $k$-class compositions is defined as an unit norm composition going straight to the direction of the $k$th class. This is a discrete probability distribution with maximum probability for the $k$th class ...\\
+...\\
+...
 
 \section{Estimation of the Shapley compositions}
 \label{app:algo}
@@ -366,8 +368,22 @@ When a sample is drawn, the feature for which the sample will be used for improv
    \FOR{$1$ {\bfseries to} $m$}
    \STATE Randomly select a permutation $\pi$ of the set of indexes $\mathcal{I}$,
    \STATE Randomly select a sample $\bm{w}\in\mathcal{X}$,
-   \STATE ....
+   \STATE Construct two instances:
+   \begin{itemize}
+     \item $\bm{b}_1$: which takes the values from $\bm{x}$ for the $i$th feature and the features indexed before $i$ in the order given by $\pi$, and takes the values from $\bm{w}$ otherwise,
+     \item $\bm{b}_2$: which takes the values from $\bm{x}$ the features indexed before $i$ in the order given by $\pi$, and takes the values from $\bm{w}$ otherwise.
+     \end{itemize}
+   \STATE $\bm{\phi}_i \leftarrow \bm{\phi}_i \oplus \bm{f}(\bm{b}_1) \ominus \bm{f}(\bm{b}_2) $
    \ENDFOR
+   \STATE $\bm{\phi}_i \leftarrow \frac{\bm{\phi}_i}{m}$
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[tb]
+   \caption{Adaptation of the Algorithm 2 in \cite{vstrumbelj2014explaining} for approximating all the Shapley compositions by optimally distributing a maximum number of samples $m_{\text{max}}$ over the $d$ features, with model $\bm{f}$, instance $\bm{x}\in\mathcal{X}$ and $m_{\text{min}}$ the minimum number of samples each feature estimation.}
+   \label{alg:2}
+   \begin{algorithmic}
+     \STATE Initialization: 
 \end{algorithmic}
 \end{algorithm}
 
