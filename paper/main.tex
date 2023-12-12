@@ -251,7 +251,7 @@ Given a prediction $\bm{f}(\bm{x})$, the Shapley composition $\bm{\phi}_{\bm{f},
 
 \subsection{About our implementation}
 
-In this work, the estimation algorithm we used to compute the Shapley compositions is an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining}. Since the resulting Shapley compositions are approximations, the efficiency property does not necessarily hold without an adjustement. Each Shapley compositions are therefore adjusted following a similar method as in the SamplingExplainer of the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}}. See Appendix \ref{app:algo} for more details.
+In this work, the estimation algorithm we used to compute the Shapley compositions is an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining}. Since the resulting Shapley compositions are approximations, the efficiency property does not necessarily hold without an adjustement. Each Shapley compositions are therefore adjusted following a similar method as in the sampling approximation in the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}}. See Appendix \ref{app:algo} and \ref{app:correct} for more details.
 
 \section{Discussion and conclusion}
 
@@ -339,9 +339,22 @@ The efficiency property naturally holds for Shapley compositions within the Aitc
 
 \section{Class compositions}
 
-A $k$-class compositions is defined as an unit norm composition going straight to the direction of the $k$th class. This is a discrete probability distribution with maximum probability for the $k$th class ...\\
-...\\
-...
+A $k$-class compositions $\bm{c}^{(k)}$ is defined as an unit norm composition going straight to the direction of the $k$th class. This is a discrete probability distribution with maximum probability for the $k$th class and uniform values for the others. The $i$th part of the $\bm{c}^{(k)}$ is:
+\begin{equation}
+    c_i^{(k)} = \left\lbrace
+  \begin{array}{@{}ll@{}}
+    1-(N-1)p, & \text{if}\ i=k \\
+    p, & \text{otherwise,}
+  \end{array}\right.
+\end{equation}
+where $p<\frac{1}{N}$. We want the Aitchison norm of each class composition to be one:
+\begin{equation}
+  \begin{aligned}
+    \forall k \in \{1, \dots N \},~~~~~~\lVert \bm{c}^{(k)} \rVert_a = 1 &\iff \sqrt{\frac{1}{2N} \sum_i^N \sum_j^N \left( \log \frac{c_i^{(k)}}{c_j^{(k)}} \right)^2} = 1,\\
+    \text{for clarity, we drop the $(k)$ from the equations,}\\
+    &\iff
+  \end{aligned}
+\end{equation}
 
 \section{Estimation of the Shapley compositions}
 \label{app:algo}
@@ -383,10 +396,38 @@ When a sample is drawn, the feature for which the sample will be used for improv
    \caption{Adaptation of the Algorithm 2 in \cite{vstrumbelj2014explaining} for approximating all the Shapley compositions by optimally distributing a maximum number of samples $m_{\text{max}}$ over the $d$ features, with model $\bm{f}$, instance $\bm{x}\in\mathcal{X}$ and $m_{\text{min}}$ the minimum number of samples each feature estimation.}
    \label{alg:2}
    \begin{algorithmic}
-     \STATE Initialization: 
+     \STATE Initialization: $m_{i} \leftarrow 0$, $\bm{\phi}_i \leftarrow \bm{0}$, $\forall i \in \{1, \dots d\}$,
+     \WHILE{$\displaystyle \sum_{i=1}^d m_i < m_{\text{max}}$}
+     \IF{$\forall i, m_i \leq m_{\text{min}}$}
+     \STATE $j = \underset{i}{\text{argmax}} \left( \frac{\tr \bm{\Sigma}^{(i)}}{m_i} - \frac{\tr \bm{\Sigma}^{(i)}}{m_i+1} \right)$,
+     \ELSE
+     \STATE pick a $j$ such that $m_j < m_{\text{min}}$,
+     \ENDIF
+     \STATE $\bm{\phi}_j \leftarrow \bm{\phi}_j +$result of Algorithm \ref{alg:1} for the $j$th feature and $m=1$,
+     \STATE update $\bm{\Sigma}^{(j)}$ using an incremental algorithm,
+     \STATE $m_j \leftarrow m_j+1$
+     \ENDWHILE
+     \STATE $\bm{\phi}_i \leftarrow \frac{\bm{\phi}_i}{m_i}$, $\forall i \in \{1, \dots d\}$.
 \end{algorithmic}
 \end{algorithm}
 
+
+\section{Correction for the Shapley compositions to be \emph{efficient}}
+\label{app:correct}
+
+In practice, the computation of the Shapley values has an exponential time complexity and we do not have necessarily access to the true distribution of the data. The Shapley values are therefore approximated using estimation algorithms like for instance the one presented in the previous appendix. However, since the obtained values are approximations, they do not necessarily respect the desired efficiency property. This point is often overlooked in the literature. In this section we write down an adjustment strategy of the estimated Shapley compositions for them to respect the efficiency property. This is a similar strategy as in the sampling approximation of the Shapley values in the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}}.
+
+Let $\{\hat{\bm{\phi}}_i\}_{1\leq i \leq d}$ be the estimated Shapley compositions (given by the Algorithm \ref{alg:2} in our experiments). Let $\displaystyle \bm{s}_{err} = \bm{f}(\bm{x}) \ominus \bm{f}_0 \ominus \underset{i=1}{\overset{d}\bigoplus} \hat{\bm{\phi}}_i$, where is the base $\bm{f}_0$ composition, be the error composition on the pertubation of all Shapley compositions, i.e. the error making the efficiency property unfulfilled. In order to respect the efficiency property, we want this error to be the neutral element of the perturnation, i.e. the ``zero'' in the sense of the Aitchison geometry, i.e the uniform distribution. We could simply perturb each estimated Shapley compositions by $\frac{1}{d}\odot\bm{s}_{err}$ however this would move each Shapley composition by the same amount while we want to allow the compositions with a higher estimation variance (i.e. with a precision likely to be lower) to move more than the ones with a smaller variance (i.e. with a precision likely to be higher).
+
+We therefore weight the $i$th adjustment by a scalar $w_i = w\left(\tr\left(\bm{\Sigma}^{(i)}\right)\right)$, where $w$ is an increasing function, and where $\displaystyle \sum_{i=1}^d w_i= 1$. Note that the vector of weight is actually a composition too. Similarly to the SHAP toolkit implementation, we choose $w$ as:
+\begin{equation}
+  w_i = w\left(\tr\left(\bm{\Sigma}^{(i)}\right)\right) = \frac{v_i}{\displaystyle 1+\sum_{j=1}^{d}v_j},\text{ where } v_i = \frac{\tr\left(\bm{\Sigma}^{(i)}\right)}{\displaystyle \epsilon \max_j \tr\left(\bm{\Sigma}^{(j)}\right)}.
+\end{equation}
+The $i$th estimated Shapley composition is then asjusted as follow:
+\begin{equation}
+  \hat{\bm{\phi}}_i \leftarrow \hat{\bm{\phi}}_i \oplus \left( w_i \odot \bm{s}_{err}\right).
+\end{equation}
+In this way, when $\epsilon$ goes to zero, the efficiency property is respected for the adjusted Shapley compositions and more weight is given to the adjusments of the Shapley compositions with a higher estimation variance.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

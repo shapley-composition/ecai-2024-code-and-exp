@@ -44,16 +44,16 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         self.pred       = None
         self.shapley   = None
         
-    def explain_instance(self, x, adjust_sum=True):
+    def explain_instance(self, x, adjust_sum=False):
         pi       = list(range(self.n_feat))
         phi      = np.zeros((self.n_feat,self.n_class-1))
         m        = np.zeros(self.n_feat)
-        var_phi  = np.zeros(self.n_feat)
+        tr_var_phi  = np.zeros(self.n_feat)
         mean_phi = np.zeros((self.n_feat, self.n_class-1))
         M2_phi   = np.zeros((self.n_feat, self.n_class-1, self.n_class-1))
         while m.sum() <= self.m_max:
             if (m < self.m_min).sum() == 0:
-                j = np.argmax((var_phi/m) - (var_phi/(m+1)))
+                j = np.argmax((tr_var_phi/m) - (tr_var_phi/(m+1)))
             else:
                 j = np.argwhere(m<self.m_min)[0][0]
             x_sampled = self.train_data[random.randint(0,self.len_tr_data-1),:] #Gen a random sample from the training set
@@ -74,14 +74,14 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
             mean_phi[j] = new_mean
             M2_phi[j]   = new_M2
             m[j] += 1
-            var_phi[j]  = np.trace(new_M2/m[j])
+            tr_var_phi[j]  = np.trace(new_M2/m[j])
         for i in range(self.n_feat):
             phi[i] = phi[i]/m[i]
 
         self.pred = ilr(self.model(x.reshape(1,-1)), basis=self.basis)
         if adjust_sum:
             #adjust the sum of shapley compositions as in https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py (last visit November 2023)
-            v = 1e6 *var_phi/var_phi.max()
+            v = 1e6 *tr_var_phi/tr_var_phi.max()
             sum_error = self.pred - phi.sum(axis=0) - self.base
             adj = np.ones((self.n_feat,self.n_class))/self.n_class
             for i in range(self.n_feat):
@@ -105,7 +105,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
 
         class_vect  = ilr(self.class_compo)
         proj_shap_class = np.zeros((self.n_class,self.n_feat))
-        cos_shap_shap = np.zeros((self.n_feat,self.n_feat))
+        cos_shap_shap = np.zeros((self.n_feat,self.n_feat)) 
         print("Projection of the Shapley compositions on the class vectors:")
         print('\t\t',end='')
         for i in range(self.n_feat):
