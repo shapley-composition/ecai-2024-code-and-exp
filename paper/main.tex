@@ -192,6 +192,7 @@ $\mathcal{C}(\cdot)$ is the closure operator. Since only the relative informatio
 This give to the simplex a $(N-1)$-dimensional Euclidean vector space structure called \emph{Aitchison geometry of the simplex}. In this paper, since we are interested in classifiers' outputs as discrete probability distributions, we restrict ourselves to the \emph{probability simplex} where $k=1$.
 
 \subsection{The isometric log-ratio transformation}
+\label{sec:ilr}
 
 An $(N-1)$-dimensional orthonormal basis of the simplex, refered as an \emph{Aitchison} orthonormal basis, can be built. The projection of a composition (a discrete probability distribution in our case) into this basis defined an isometric isomorphism between $\mathcal{S}^N$ and $\mathbb{R}^{N-1}$. This is known as an Isometric-Log-Ratio (ILR) transformation \cite{egozcue2003isometric} and allows to express the compositions into a Cartesian coordinates system preserving the metric of the Aitchison geometry. Within this real space, the permutation, the powering and the Aitchison inner product defined above are respectively the standard addition, multiplication by a scalar and inner product.
 
@@ -237,23 +238,63 @@ This can be seen as a multidimensional extension of the Shapley value framework 
 
 Given a prediction $\bm{f}(\bm{x})$, the Shapley composition $\bm{\phi}_{\bm{f},\bm{x},\text{Pr}}(i)$ describes the contribution of the $i$th feature on the prediction. The efficiency property shows how the probability distribution moves from the base value, i.e. the expected prediction regardless of the current input, to the prediction $\bm{f}(\bm{x})$. In the standard Shapley formulation recalled in Section \ref{sec:shapley}, the prediction is one-dimensional such that the Shapley quantity is a scalar. In application where there are more than two possible classes, the prediction is multidimensional such that the Shapley quantity is too. Both lives on the same space: the probability simplex. In this section, we discuss how the set of Shapley compositions can be analysed to better understand the contribution and influence of each features on the prediction.
 
-\subsection{Angles, norms and projections}
-
 \subsection{Visualization}
+
+The Shapley compositions can be visualized in the Euclidean space isometric to the simplex thanks to the ILR transformation presented in Section \ref{sec:ilr}. This space has the advantage of being intuitive since it is the standard real $(N-1)$-dimensional vector space we are used too.
 
 \subsubsection{Three classes}
 
+In the three classes case, the space is $2$-dimensional. We illustrate this example with the well known Iris classification dataset consisting of a set of flowers descriped by 4 features: sepal length and width and petal length and width. The aim is to predict to which of the three species, setosa, versicolor and virginica, a flower belongs to. In our example we use a Support Vector Machine (SVM) classifier with a radial basis function (rbf) kernel as a classifier. Figure \ref{fig:3classes} shows the explanation of one versicolor instance where \ref{fig:3classesshap} shows the Shapley composition in the ILR space and \ref{fig:3classesshapsum} shows how they move the base distribution to the prediction. Having the highest norm, the petal length is the feature contributing the most on the prediction, moving the base to the versicolor maximum probability decision region. Being orthogonal to the virginica class composition, this suggest that this features does not contribute on the predicted probability for this class. The Shapley composition for the petal width goes straight to the opposite direction of the setosa class vector suggesting that this feature contributes in rejecting this class. The other Shapley compositions have a low norm suggesting these features does not contribute in the prediction.
+\begin{figure}
+  \centering
+  \subfigure[Shapley compositions in the ILR space]{\label{fig:3classesshap}
+    \includegraphics[width=0.9\linewidth]{figures/3classes/ilrplot.png}
+    }
+  \subfigure[Sum of the Shapley compositions in the ILR space from the base to the prediction]{\label{fig:3classesshapsum}
+    \includegraphics[width=0.9\linewidth]{figures/3classes/ilrplotsum.png}
+  }
+  \caption{Shapley explaination in the ILR space for the classification of an Iris instance.}
+  \label{fig:3classes}
+\end{figure}
+
+
 \subsubsection{Four classes}
 
-\subsubsection{More classes}
+In a four classes examples, the simplex is $3$-dimensional. We illustrate this with a simple digit recognition task\footnote{We use the scikit-learn's digits dataset\cite{pedregosa2011scikit}.}. It consists of classifying an $8\times8$ image as representing one of the digit amoung: 0, 1, 2 and 3. Since they are 64 pixels as features which would correspond to 64 Shapley composition, we reduce the number of features to 6 using a principal component analysis for clarity. We again use a SVM classifier with an rbf kernel. The same explaintion analysis as before can be applied here but in a $3$-dimensional plot as illustrated by Figure \ref{fig:4classesshapsum}. To better understand of this space is divided in four regions each representing the maximum probabity region for one class, one can think about the shape of a methane molecule. The hydrogens correspond to the vextex and the carbon to the center of the tetrahedron i.e. a $3$-dimensional simplex. The relative position of the class compositions in the ILR space are the same as the bonds between the corbon and a hydrogen: the angles are $\approx 109.5^{\circ}$.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.9\linewidth]{figures/4classes/ilrplotsum.png}
+  \caption{Shapley explaination in the $3$-dimensional ILR space for a four classes digit recognition task. The Shapley compositions are summed in the ILR space from the base distribution to the prediction.}
+  \label{fig:4classesshapsum}
+\end{figure}
 
-\subsubsection{Histograms}
+\subsubsection{More classes}
+\label{sec:more}
+...
+
+\subsection{Summarize explaination with angles, norms and projections}
+
+Some may find the fine analysis of the features contributions in cases with more than four classes, like discussed in Section \ref{sec:more}, tricky. Indeed, this require a careful choose of the sequential binary partition (i.e. the basis) and of the subspace to visualize. However, the Shapley explaination can be summarized by sets of angles, norms and projections.
+
+Indeed the norm of a Shapley composition gives the strength of the contribution the feature in the prediction.
+
+Orthogonality can also be investigated ...
+...
+
+\subsection{Histograms}
+
+If one found hard to visualize the proposed Shapley explanation in the ILR space, the Shapley composition can be visualized as histograms like discrete probability distributions.
 
 \subsection{About our implementation}
 
-In this work, the estimation algorithm we used to compute the Shapley compositions is an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining}. Since the resulting Shapley compositions are approximations, the efficiency property does not necessarily hold without an adjustement. Each Shapley compositions are therefore adjusted following a similar method as in the sampling approximation in the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}}. See Appendix \ref{app:algo} and \ref{app:correct} for more details.
+In this work, the estimation algorithm we used to compute the Shapley compositions is an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining}. Since the resulting Shapley compositions are approximations, the efficiency property does not necessarily hold without an adjustement. Each Shapley compositions are therefore corrected following a similar method as in the sampling approximation in the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}}. See Appendix \ref{app:algo} and \ref{app:correct} for more details.
 
 \section{Discussion and conclusion}
+
+Compare with standard Shapley ??
+
+We know small expé..., sounds tricky,... first step for a theoretically founded multiclass problems explanations...
+...
 
 
 % In the unusual situation where you want a paper to appear in the
@@ -337,9 +378,10 @@ The efficiency property naturally holds for Shapley compositions within the Aitc
 \end{proof}
 
 
+\newpage
 \section{Class compositions}
 
-A $k$-class compositions $\bm{c}^{(k)}$ is defined as an unit norm composition going straight to the direction of the $k$th class. This is a discrete probability distribution with maximum probability for the $k$th class and uniform values for the others. The $i$th part of the $\bm{c}^{(k)}$ is:
+A $k$-class compositions $\bm{c}^{(k)}  \in \mathcal{S}^N$ is defined as an unit norm composition going straight to the direction of the $k$th class. This is a discrete probability distribution with maximum probability for the $k$th class and uniform values for the others. The $i$th part of the $\bm{c}^{(k)}$ is:
 \begin{equation}
     c_i^{(k)} = \left\lbrace
   \begin{array}{@{}ll@{}}
@@ -350,12 +392,26 @@ A $k$-class compositions $\bm{c}^{(k)}$ is defined as an unit norm composition g
 where $p<\frac{1}{N}$. We want the Aitchison norm of each class composition to be one:
 \begin{equation}
   \begin{aligned}
-    \forall k \in \{1, \dots N \},~~~~~~\lVert \bm{c}^{(k)} \rVert_a = 1 &\iff \sqrt{\frac{1}{2N} \sum_i^N \sum_j^N \left( \log \frac{c_i^{(k)}}{c_j^{(k)}} \right)^2} = 1,\\
-    \text{for clarity, we drop the $(k)$ from the equations,}\\
-    &\iff
+    \forall k \in \{1, \dots N \},~~~~~~\lVert \bm{c}^{(k)} \rVert_a = 1 \iff& \sqrt{\frac{1}{2N} \sum_{i=1}^N \sum_{j=1}^N \left( \log \frac{c_i^{(k)}}{c_j^{(k)}} \right)^2} = 1,\\
+    \text{for clarity,}&\\\text{we drop the $(k)$ from the equations,}&\\
+    \iff& \sqrt{\frac{1}{2N} \sum_{i=1}^{N}\left( \left(N-1 \right) \left( \log \frac{c_i}{p} \right)^2 + \left( \log \frac{c_i}{1-(N-1)p} \right)^2 \right)} = 1,\\
+    \iff& \sqrt{\frac{1}{2N} 2(N-1) \left( \log \frac{p}{1-(N-1)p} \right)^2} =1,\\
+    \text{since $p<\frac{1}{N}$ and the norm should be positive:}&\\
+    \iff& \sqrt{\frac{N-1}{N}}\log \frac{1-(N-1)p}{p} =1,\\
+    \iff& p = \frac{\exp \left( -\sqrt{\frac{N}{N-1}} \right)}{1+ (N-1)\exp \left( -\sqrt{\frac{N}{N-1}} \right )}.
   \end{aligned}
 \end{equation}
+To summarize, the $i$th part of a $k$-class compositions $\bm{c}^{(k)} \in \mathcal{S}^N$ is given by:
+\begin{equation}
+    c_i^{(k)} =
+  \frac{1}{1+ (N-1)\exp \left( -\sqrt{\frac{N}{N-1}} \right )} \left( \left\lbrace \begin{array}{@{}ll@{}}
+     1, & \text{if}\ i=k \\
+     \exp \left( -\sqrt{\frac{N}{N-1}} \right), & \text{otherwise,}
+  \end{array}\right.\right).
+\end{equation}
+In this way, $\bm{c}^{(k)}$ is going straight to the direction of class $k$ and uniformly against all the others.
 
+\newpage
 \section{Estimation of the Shapley compositions}
 \label{app:algo}
 In this work, we used an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining} we present in this section.
@@ -373,7 +429,7 @@ Let $\bm{\Delta_i} = \tilde{\hat{\bm{\phi}_i}} - \tilde{\bm{\phi}}_i$ and $Z_i =
 \end{equation}
 
 When a sample is drawn, the feature for which the sample will be used for improving the Shapley composition estimation is chosen to maximize $\frac{\tr \bm{\Sigma}^{(i)}}{m_i} - \frac{\tr \bm{\Sigma}^{(i)}}{m_i+1}$. Like in \cite{vstrumbelj2014explaining}, this is summarized in Algorithm \ref{alg:2}.
-\begin{algorithm}[tb]
+\begin{algorithm}
    \caption{Adaptation of the Algorithm 1 in \cite{vstrumbelj2014explaining} for approximating the Shapley composition of the $i$th feature, with model $\bm{f}$, instance $\bm{x}\in\mathcal{X}$ and $m$ drawn samples.}
    \label{alg:1}
 \begin{algorithmic}
@@ -392,7 +448,7 @@ When a sample is drawn, the feature for which the sample will be used for improv
 \end{algorithmic}
 \end{algorithm}
 
-\begin{algorithm}[tb]
+\begin{algorithm}
    \caption{Adaptation of the Algorithm 2 in \cite{vstrumbelj2014explaining} for approximating all the Shapley compositions by optimally distributing a maximum number of samples $m_{\text{max}}$ over the $d$ features, with model $\bm{f}$, instance $\bm{x}\in\mathcal{X}$ and $m_{\text{min}}$ the minimum number of samples each feature estimation.}
    \label{alg:2}
    \begin{algorithmic}
@@ -411,8 +467,8 @@ When a sample is drawn, the feature for which the sample will be used for improv
 \end{algorithmic}
 \end{algorithm}
 
-
-\section{Correction for the Shapley compositions to be \emph{efficient}}
+\newpage
+\section{Adjustement of the estimated Shapley compositions for efficiency}
 \label{app:correct}
 
 In practice, the computation of the Shapley values has an exponential time complexity and we do not have necessarily access to the true distribution of the data. The Shapley values are therefore approximated using estimation algorithms like for instance the one presented in the previous appendix. However, since the obtained values are approximations, they do not necessarily respect the desired efficiency property. This point is often overlooked in the literature. In this section we write down an adjustment strategy of the estimated Shapley compositions for them to respect the efficiency property. This is a similar strategy as in the sampling approximation of the Shapley values in the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}}.
