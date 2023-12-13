@@ -196,7 +196,7 @@ This give to the simplex a $(N-1)$-dimensional Euclidean vector space structure 
 
 An $(N-1)$-dimensional orthonormal basis of the simplex, refered as an \emph{Aitchison} orthonormal basis, can be built. The projection of a composition (a discrete probability distribution in our case) into this basis defined an isometric isomorphism between $\mathcal{S}^N$ and $\mathbb{R}^{N-1}$. This is known as an Isometric-Log-Ratio (ILR) transformation \cite{egozcue2003isometric} and allows to express the compositions into a Cartesian coordinates system preserving the metric of the Aitchison geometry. Within this real space, the permutation, the powering and the Aitchison inner product defined above are respectively the standard addition, multiplication by a scalar and inner product.
 
-Given a composition $\bm{p} = \left[ p_1,\dots p_N \right]^T \in \mathcal{S}^N$ we express is ILR transformation as $\tilde{\bm{p}} = \ilr \left( \bm{p} \right) = \left[ \tilde{p}_1,\dots \tilde{p}_{N-1} \right]^T \in \mathbb{R}^{N-1}$. The $i$th element $\tilde{p}_i$ of $\tilde{\bm{p}}$ is be obtained as: $\tilde{p}_i = \langle \bm{p}, \bm{e}^{(i)} \rangle_a$ where set $\{\bm{e}^{(i)} \in \mathcal{S}^N, i=1,\dots N-1\}$ forms an \emph{Aitchison} orthonormal basis of the simplex. The choice of the basis will be discussed latter in Section \ref{sec:explain}.
+Given a composition $\bm{p} = \left[ p_1,\dots p_N \right]^T \in \mathcal{S}^N$ we express is ILR transformation as $\tilde{\bm{p}} = \ilr \left( \bm{p} \right) = \left[ \tilde{p}_1,\dots \tilde{p}_{N-1} \right]^T \in \mathbb{R}^{N-1}$. The $i$th element $\tilde{p}_i$ of $\tilde{\bm{p}}$ is be obtained as: $\tilde{p}_i = \langle \bm{p}, \bm{e}^{(i)} \rangle_a$ where set $\{\bm{e}^{(i)} \in \mathcal{S}^N, i=1,\dots N-1\}$ forms an \emph{Aitchison} orthonormal basis of the simplex. The choice of the basis will be discussed in Section \ref{sec:moreclasses}.
 
 
 \section{Shapley on the simplex}
@@ -248,10 +248,10 @@ In the three classes case, the space is $2$-dimensional. We illustrate this exam
 \begin{figure}
   \centering
   \subfigure[Shapley compositions in the ILR space]{\label{fig:3classesshap}
-    \includegraphics[width=0.9\linewidth]{figures/3classes/ilrplot.png}
+    \includegraphics[width=0.8\linewidth]{figures/3classes/ilrplot.png}
     }
   \subfigure[Sum of the Shapley compositions in the ILR space from the base to the prediction]{\label{fig:3classesshapsum}
-    \includegraphics[width=0.9\linewidth]{figures/3classes/ilrplotsum.png}
+    \includegraphics[width=0.8\linewidth]{figures/3classes/ilrplotsum.png}
   }
   \caption{Shapley explaination in the ILR space for the classification of an Iris instance.}
   \label{fig:3classes}
@@ -260,7 +260,7 @@ In the three classes case, the space is $2$-dimensional. We illustrate this exam
 
 \subsubsection{Four classes}
 
-In a four classes examples, the simplex is $3$-dimensional. We illustrate this with a simple digit recognition task\footnote{We use the scikit-learn's digits dataset\cite{pedregosa2011scikit}.}. It consists of classifying an $8\times8$ image as representing one of the digit amoung: 0, 1, 2 and 3. Since they are 64 pixels as features which would correspond to 64 Shapley composition, we reduce the number of features to 6 using a principal component analysis for clarity. We again use a SVM classifier with an rbf kernel. The same explaintion analysis as before can be applied here but in a $3$-dimensional plot as illustrated by Figure \ref{fig:4classesshapsum}. To better understand of this space is divided in four regions each representing the maximum probabity region for one class, one can think about the shape of a methane molecule. The hydrogens correspond to the vextex and the carbon to the center of the tetrahedron i.e. a $3$-dimensional simplex. The relative position of the class compositions in the ILR space are the same as the bonds between the corbon and a hydrogen: the angles are $\approx 109.5^{\circ}$.
+In a four classes example, the simplex is $3$-dimensional. We illustrate this with a simple digit recognition task\footnote{We use the scikit-learn's digits dataset\cite{pedregosa2011scikit}.}. It consists of classifying an $8\times8$ image as representing one of the digit among: 0, 1, 2 and 3. Since they are 64 pixels as a set of features, which would correspond to 64 Shapley composition, we reduce the number of features to 6 using a principal component analysis for better clarity. We again use a SVM classifier with an rbf kernel. The same explanation analysis as before can be applied here but within a $3$-dimensional plot as illustrated by Figure \ref{fig:4classesshapsum}. To better understand how this space is divided into four regions each representing the maximum probabity region for one class, one can think about the shape of a methane molecule. The hydrogens correspond to the vextices and the carbon to the center of a tetrahedron i.e. a $3$-dimensional simplex. The relative position of the class compositions in the ILR space are the same as the bonds between the corbon and a hydrogen: the angles are $\approx 109.5^{\circ}$.
 \begin{figure}
   \centering
   \includegraphics[width=0.9\linewidth]{figures/4classes/ilrplotsum.png}
@@ -269,17 +269,18 @@ In a four classes examples, the simplex is $3$-dimensional. We illustrate this w
 \end{figure}
 
 \subsubsection{More classes}
-\label{sec:more}
-...
+\label{sec:moreclasses}
+When there are more classes, all the dimension of the ILR space cannot be visualized at once but $2$ or $3$-dimensional subspaces can still be visualized. However, in order to choose which ILR components to visualize, one needs to understand what they refer too. The next section provides some intuition about that in the context of the explanation of a classifier prediction with more than 4 classes.
+
+\subsection{Groups of part, balances and sequential binary partition}
+
+....
 
 \subsection{Summarize explaination with angles, norms and projections}
 
-Some may find the fine analysis of the features contributions in cases with more than four classes, like discussed in Section \ref{sec:more}, tricky. Indeed, this require a careful choose of the sequential binary partition (i.e. the basis) and of the subspace to visualize. However, the Shapley explaination can be summarized by sets of angles, norms and projections.
+Some may find the fine analysis of the features contributions in cases with more than four classes tricky. Indeed, this require a careful choose of the sequential binary partition and of the ILR composition to visualize. However, as we already had the insight from the above visualization, the Shapley explaination can be summarized by sets of angles, norms and projections. Indeed the norm of a Shapley composition gives the strength of the contribution the feature in the prediction. The angle between two Shapley compositions can informs if features are redundant, orthogonal or contradictory. The projection of a Shapley composition on the set of class composition informs in favor of, or against which, classes a feature is contribution. Appendix \ref{app:summarize}, provides some examples of summarizing a Shapley explanation providing the norm of Shapley compositions, angles between them and their projection on class compositions.
 
-Indeed the norm of a Shapley composition gives the strength of the contribution the feature in the prediction.
 
-Orthogonality can also be investigated ...
-...
 
 \subsection{Histograms}
 
@@ -410,6 +411,12 @@ To summarize, the $i$th part of a $k$-class compositions $\bm{c}^{(k)} \in \math
   \end{array}\right.\right).
 \end{equation}
 In this way, $\bm{c}^{(k)}$ is going straight to the direction of class $k$ and uniformly against all the others.
+
+
+\newpage
+\section{Summarizing the explanation with norms, angles and projections of Shapley compositions}
+
+TODO...
 
 \newpage
 \section{Estimation of the Shapley compositions}
