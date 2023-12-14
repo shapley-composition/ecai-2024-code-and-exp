@@ -12,9 +12,9 @@ import plotly.graph_objects as go
 K = 10         #index of the instance you want to test in the test set
 N_class = 3    #number of class, the dimension of the simplex is therefore N_class-1
 
-
 #load the dataset and split into a training and testing set
-X, Y = datasets.load_iris(return_X_y=True)
+data = datasets.load_iris()
+(X, Y) = (data.data, data.target)
 X_train,X_test,Y_train,Y_test = train_test_split(X, Y, test_size=0.2, random_state=0)
 
 #train an SVM classifier
@@ -56,6 +56,8 @@ print(sum_shap_base)
 #plot range [-lim, lim]
 #If shapley_sum is True, the sum of the shapley vectors are summed from the base distribution to the prediction
 
-fig = explainer.plot_ilr_space(balances=[1, 2], lim=3, figsize=750)
+fig = explainer.plot_ilr_space(balances=[1, 2], lim=3, figsize=450,
+                               names_classes=data.target_names, names_features=['sep. length','sep. width','pet. length','pet. width'])
 
-fig = explainer.plot_ilr_space(balances=[1, 2], shapley_sum=True, lim=3, figsize=750)
+fig = explainer.plot_ilr_space(balances=[1, 2], shapley_sum=True, lim=3, figsize=450, 
+                               names_classes=data.target_names, names_features=['sep. length','sep. width','pet. length','pet. width'])

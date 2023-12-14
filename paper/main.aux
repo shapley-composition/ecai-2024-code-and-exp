@@ -2,10 +2,13 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
 \HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
 \global\let\oldnewlabel\newlabel
 \gdef\newlabel#1#2{\newlabelxx{#1}#2}
 \gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
 \AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
 \let\newlabel\oldnewlabel
 \fi}
 \fi}
@@ -54,9 +57,9 @@
 \bibcite{egozcue2003isometric}{{4}{2003}{{Egozcue et~al.}}{{Egozcue, Pawlowsky-Glahn, Mateu-Figueras, and Barcelo-Vidal}}}
 \bibcite{NIPS2017_7062}{{5}{2017}{{Lundberg \& Lee}}{{Lundberg and Lee}}}
 \bibcite{pawlowskymodeling}{{6}{2015}{{Pawlowsky-Glahn et~al.}}{{Pawlowsky-Glahn, Egozcue, and Tolosana-Delgado}}}
-\bibcite{pedregosa2011scikit}{{7}{2011}{{Pedregosa et~al.}}{{Pedregosa, Varoquaux, Gramfort, Michel, Thirion, Grisel, Blondel, Prettenhofer, Weiss, Dubourg, et~al.}}}
 \newlabel{fig:4classesshapsum}{{2}{5}{Shapley explaination in the $3$-dimensional ILR space for a four classes digit recognition task. The Shapley compositions are summed in the ILR space from the base distribution to the prediction}{figure.2}{}}
 \newlabel{fig:4classesshapsum@cref}{{[figure][2][]2}{[1][4][]5}}
+\bibcite{pedregosa2011scikit}{{7}{2011}{{Pedregosa et~al.}}{{Pedregosa, Varoquaux, Gramfort, Michel, Thirion, Grisel, Blondel, Prettenhofer, Weiss, Dubourg, et~al.}}}
 \bibcite{shapley1953value}{{8}{1953}{{Shapley et~al.}}{{}}}
 \bibcite{vstrumbelj2014explaining}{{9}{2014}{{{\v {S}}trumbelj \& Kononenko}}{{{\v {S}}trumbelj and Kononenko}}}
 \bibstyle{icml2024}
@@ -64,6 +67,8 @@
 \newlabel{app:properties@cref}{{[appendix][1][2147483647]A}{[1][7][]7}}
 \newlabel{eq:linearsimplex}{{8}{7}{}{equation.A.8}{}}
 \newlabel{eq:linearsimplex@cref}{{[equation][8][2147483647]8}{[1][7][]7}}
+\newlabel{app:summarize}{{C}{10}{}{appendix.C}{}}
+\newlabel{app:summarize@cref}{{[appendix][3][2147483647]C}{[1][10][]10}}
 \citation{vstrumbelj2014explaining}
 \citation{vstrumbelj2014explaining}
 \citation{vstrumbelj2014explaining}
@@ -77,4 +82,3 @@
 \newlabel{alg:2@cref}{{[algorithm][2][2147483647]2}{[1][11][]12}}
 \newlabel{app:correct}{{E}{12}{}{appendix.E}{}}
 \newlabel{app:correct@cref}{{[appendix][5][2147483647]E}{[1][12][]12}}
-\gdef \@abspage@last{13}

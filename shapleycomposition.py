@@ -27,7 +27,7 @@ class ShapleyExplainer():
     """ Compute the Shapley for each feature with the sampling approximation (Algo 2) in "Explaining prediction models and individual predictions
 with feature contributions" by Erik Štrumbelj and Igor Kononenko.
     """    
-    def __init__(self, model, train_data, n_class, m_min=100, m_max=10000, sbpmatrix=None):
+    def __init__(self, model, train_data, n_class, m_min=100, m_max=10000, sbpmatrix=None, names_classes=None, names_features=None):
         self.model       = model
         self.train_data  = train_data
         self.len_tr_data = train_data.shape[0]
@@ -40,11 +40,32 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
             self.basis = None
         else:
             self.basis = np.flip(sbp_basis(sbpmatrix), axis=0)
-        self.base       = ilr(model(train_data), basis=self.basis).mean(axis=0)
-        self.pred       = None
+        self.base      = ilr(model(train_data), basis=self.basis).mean(axis=0)
+        self.pred      = None
         self.shapley   = None
-        
-    def explain_instance(self, x, adjust_sum=False):
+
+        #Names of the classes and features if not precised in the calling of the plotting function
+        if names_classes is None:
+            self.names_classes = ['class '+str(i+1) for i in range(self.n_class)]
+        elif (type(names_classes) is list) or (type(names_classes) is np.ndarray):
+            if len(names_classes) != self.n_class:
+                raise NameError('The number of strings in the list (or array) of class names must be the number of classes: '+str(self.n_class))
+            else:
+                self.names_classes = names_classes
+        else:
+            raise NameError('names_classes must be a list (or array) of '+str(self.n_class)+' strings.')
+                
+        if names_features is None:
+            self.names_features = ['feature n.'+str(i+1) for i in range(self.n_feat)]
+        elif (type(names_features) is list) or (type(names_features) is np.ndarray):
+            if len(names_features) != self.n_feat:
+                raise NameError('The number of strings in the list (or array) of feature names must be the number of features: '+str(self.n_feat))
+            else:
+                self.names_features = names_features
+        else:
+            raise NameError('names_features must be a list (or array) of '+str(self.n_feat)+' strings.')
+           
+    def explain_instance(self, x, adjust_sum=True):
         pi       = list(range(self.n_feat))
         phi      = np.zeros((self.n_feat,self.n_class-1))
         m        = np.zeros(self.n_feat)
@@ -99,7 +120,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         print("List of the features sorted by their Shapley strength (norm of their Shapley composition):")
         ord = np.argsort(-norm_shapley)
         for i in ord:
-            print("\t feature n."+str(i+1)+": ", end="")
+            print("\t "+self.names_features[i]+": ", end="")
             print(round(norm_shapley[i], 7))
         print()
 
@@ -109,10 +130,10 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         print("Projection of the Shapley compositions on the class vectors:")
         print('\t\t',end='')
         for i in range(self.n_feat):
-            print('{:10s}'.format('feat. n.'+str(i+1)),end='\t')
+            print('{:10s}'.format(self.names_features[i]),end='\t')
         print()
         for i in range(self.n_class):
-            print('{:10s}'.format("class "+str(i+1)+":"), end='\t')
+            print('{:10s}'.format(self.names_classes[i]+":"), end='\t')
             for j in range(self.n_feat):
                 proj_shap_class[i,j] = np.dot(class_vect[i,:],self.shapley[j,:])
                 print('{:3.7f}'.format(round(proj_shap_class[i,j], 7)),end='\t')
@@ -123,10 +144,10 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         print("Cosine between each Shapley compositions:")
         print('\t\t',end='')
         for i in range(self.n_feat):
-            print('{:10s}'.format('feat. n.'+str(i+1)),end='\t')
+            print('{:10s}'.format(self.names_features[i]),end='\t')
         print()
         for i in range(self.n_feat):
-            print('{:10s}'.format('feat. n. '+str(i+1)+':'), end='\t')
+            print('{:10s}'.format(self.names_features[i]+':'), end='\t')
             for j in range(self.n_feat):
                 cos_shap_shap[i,j] = np.dot(self.shapley[i,:],self.shapley[j,:])/(norm_shapley[i]*norm_shapley[j])
                 print('{:3.7f}'.format(round(cos_shap_shap[i,j], 7)),end='\t')
@@ -135,7 +156,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         return (norm_shapley, proj_shap_class, cos_shap_shap)
     
         
-    def plot_ilr_space(self, balances=[1, 2], shapley_sum=False, lim=5, figsize=500, names_classes=None):
+    def plot_ilr_space(self, balances=[1, 2], shapley_sum=False, lim=5, figsize=500):
         #return a plotly figure of a 2D or 3D ILR (sub)space corresponding to the chosen ILR components listed in balances.
         #plot range [-lim, lim]
         #If shapley_sum is True, the sum of the shapley vectors are summed from the base distribution to the prediction
@@ -145,11 +166,6 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         
         if self.shapley is None:
             raise NameError('You need to run explain_instance() first.')
-
-        #names_classes should be a list of n_class strings.
-        if (type(names_classes) is list) and (len(names_classes) != self.n_class):
-            raise NameError('The number of strings in the list of class names must be the number of classes: '+str(self.n_class))
-
         
         if len(balances) != 2 and len(balances) != 3:
             raise NameError('You need to choose 2 or 3 ILR components to visualize. They should be listed in the list balanced')
@@ -158,32 +174,23 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         if len(balances) == 2:
             fig.update_xaxes(range=[-lim, lim])
             fig.update_yaxes(range=[-lim, lim])
-            fig.update_layout(xaxis_title="ILR"+str(balances[0]), yaxis_title="ILR"+str(balances[1]), legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01), font=dict(size=10))
+            fig.update_layout(xaxis_title="ILR"+str(balances[0]), yaxis_title="ILR"+str(balances[1]), legend=dict(bgcolor='rgba(255,255,255,0.4)',yanchor="top", y=0.99, xanchor="right", x=1), font=dict(size=10), margin=dict(l=0, r=0, t=0, b=0))
         else:
-            fig.update_layout(legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01),
-                      font=dict(size=10),
-                      scene = dict(xaxis = dict(title="ILR"+str(balances[0]), range=[-lim,lim]),
-                                   yaxis = dict(title="ILR"+str(balances[1]), range=[-lim,lim]),
-                                   zaxis = dict(title="ILR"+str(balances[2]), range=[-lim,lim])))
+            fig.update_layout(legend=dict(bgcolor='rgba(255,255,255,0.4)', yanchor="top", y=0.99, xanchor="left", x=0.01),
+                              font=dict(size=10),
+                              margin=dict(l=0, r=0, t=0, b=0),
+                              scene = dict(xaxis = dict(title="ILR"+str(balances[0]), range=[-lim,lim]),
+                                           yaxis = dict(title="ILR"+str(balances[1]), range=[-lim,lim]),
+                                           zaxis = dict(title="ILR"+str(balances[2]), range=[-lim,lim])))
 
-        #Draw the class vectors, meaning the vectors going straight in favor of one class with a norm 1.
-        if names_classes is None: names_classes = ['class '+str(i+1) for i in range(self.n_class)]
-
-        class_vect  = ilr(self.class_compo, basis=self.basis) 
-
-        if len(balances) == 2:
-            for i in range(self.n_class):
-                fig.add_trace(go.Scatter(x=[0,class_vect[i,balances[0]-1]], y=[0,class_vect[i,balances[1]-1]], mode='lines', line={'dash': 'dot'}, name=names_classes[i], legendgroup='class '+str(i+1)))
-
-        else:
-            for i in range(self.n_class):
-                fig.add_trace(go.Scatter3d(x=[0,class_vect[i,balances[0]-1]], y=[0,class_vect[i,balances[1]-1]],z=[0,class_vect[i,balances[2]-1]], mode='lines', line={'dash': 'dash', 'width' : 5}, name=names_classes[i], legendgroup='class '+str(i+1)))
 
         #Draw maximum probability region boundaries if this is a 3 or a 4 class problem and the number of ILR components to visualize are respectively 2 and 3
+        class_vect  = ilr(self.class_compo, basis=self.basis) 
+        
         if len(balances) == 2 and self.n_class == 3:
-            fig.add_trace(go.Scatter(x=[0,-10*lim*class_vect[0,balances[0]-1]], y=[0,-10*lim*class_vect[0,balances[1]-1]], mode='lines', line={ 'color': 'black', 'dash': 'dot'}, opacity=0.4, name='Max. proba. region boundaries'))
-            fig.add_trace(go.Scatter(x=[0,-10*lim*class_vect[1,balances[0]-1]], y=[0,-10*lim*class_vect[1,balances[1]-1]], mode='lines', line={ 'color': 'black', 'dash': 'dot'}, opacity=0.4, showlegend=False, name='Max. proba. region boundaries'))
-            fig.add_trace(go.Scatter(x=[0,-10*lim*class_vect[2,balances[0]-1]], y=[0,-10*lim*class_vect[2,balances[1]-1]], mode='lines', line={ 'color': 'black', 'dash': 'dot'}, opacity=0.4, showlegend=False, name='Max. proba. region boundaries'))
+            fig.add_trace(go.Scatter(x=[0,-10*lim*class_vect[0,balances[0]-1]], y=[0,-10*lim*class_vect[0,balances[1]-1]], mode='lines', line={ 'color': 'black', 'dash': 'dot'}, opacity=0.4, name='Max. proba.<br>region boundaries'))
+            fig.add_trace(go.Scatter(x=[0,-10*lim*class_vect[1,balances[0]-1]], y=[0,-10*lim*class_vect[1,balances[1]-1]], mode='lines', line={ 'color': 'black', 'dash': 'dot'}, opacity=0.4, showlegend=False, name='Max. proba.<br>region boundaries'))
+            fig.add_trace(go.Scatter(x=[0,-10*lim*class_vect[2,balances[0]-1]], y=[0,-10*lim*class_vect[2,balances[1]-1]], mode='lines', line={ 'color': 'black', 'dash': 'dot'}, opacity=0.4, showlegend=False, name='Max. proba.<br>region boundaries'))
             
         if len(balances) == 3 and self.n_class == 4:
             for i in range(self.n_class):    
@@ -197,42 +204,50 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
                                 opacity=.15,
                                 alphahull=0))
 
+        #Draw the class vectors, meaning the vectors going straight in favor of one class with a norm 1.
+        if len(balances) == 2:
+            for i in range(self.n_class):
+                fig.add_trace(go.Scatter(x=[0,class_vect[i,balances[0]-1]], y=[0,class_vect[i,balances[1]-1]], mode='lines', line={'dash': 'dot'}, name=self.names_classes[i], legendgroup='class', legendgrouptitle_text='Class composition:'))
+
+        else:
+            for i in range(self.n_class):
+                fig.add_trace(go.Scatter3d(x=[0,class_vect[i,balances[0]-1]], y=[0,class_vect[i,balances[1]-1]],z=[0,class_vect[i,balances[2]-1]], mode='lines', line={'dash': 'dash', 'width' : 5}, name=self.names_classes[i], legendgroup='class', legendgrouptitle_text='Class composition:'))
+
 
         #PLOT THE SHAPLEY COMPOSITION IN THE ILR (SUB)SPACE
-
+        
         #If shapley_sum is True, the sum of the shapley vectors are summed fro the base distribution to the prediction
+
         if shapley_sum:
             if len(balances) == 2:
+                s = self.base.copy()
+
+                for i,p in enumerate(self.shapley):
+                    fig.add_trace(go.Scatter(x=[s[balances[0]-1],(s+p)[balances[0]-1]], y=[s[balances[1]-1],(s+p)[balances[1]-1]], mode='lines', name=self.names_features[i],
+                             legendgroup='shapley', legendgrouptitle_text='Shapley composition:'))
+                    s += p
+
                 #Draw base distribution and prediction
                 fig.add_trace(go.Scatter(x=[self.base[balances[0]-1]], y=[self.base[balances[1]-1]], mode='markers', name='base'))
                 fig.add_trace(go.Scatter(x=[self.pred[balances[0]-1]], y=[self.pred[balances[1]-1]], mode='markers', name='prediction'))
-
-                s = self.base.copy()
-
-                for i,p in enumerate(self.shapley):
-                    fig.add_trace(go.Scatter(x=[s[balances[0]-1],(s+p)[balances[0]-1]], y=[s[balances[1]-1],(s+p)[balances[1]-1]], mode='lines', name='feature n.'+str(i+1),
-                             legendgroup='shapley', legendgrouptitle_text='Shapley composition'))
-                    s += p
             else:
+                s = self.base.copy()
+                for i,p in enumerate(self.shapley):
+                    fig.add_trace(go.Scatter3d(x=[s[balances[0]-1],(s+p)[balances[0]-1]], y=[s[balances[1]-1],(s+p)[balances[1]-1]], z=[s[balances[2]-1],(s+p)[balances[2]-1]], mode='lines', line={'width' : 5}, name=self.names_features[i], legendgroup='shapley', legendgrouptitle_text='Shapley composition:'))
+                    s += p
                 #Draw base distribution and prediction
                 fig.add_trace(go.Scatter3d(x=[self.base[balances[0]-1]], y=[self.base[balances[1]-1]], z=[self.base[balances[2]-1]], mode='markers', marker={'size' : 4}, name='base'))
                 fig.add_trace(go.Scatter3d(x=[self.pred[balances[0]-1]], y=[self.pred[balances[1]-1]], z=[self.pred[balances[2]-1]], mode='markers', marker={'size' : 4}, name='prediction'))
-
-                s = self.base.copy()
-                for i,p in enumerate(self.shapley):
-                    fig.add_trace(go.Scatter3d(x=[s[balances[0]-1],(s+p)[balances[0]-1]], y=[s[balances[1]-1],(s+p)[balances[1]-1]], z=[s[balances[2]-1],(s+p)[balances[2]-1]], mode='lines', line={'width' : 5}, name='feature n.'+str(i+1), legendgroup='shapley', legendgrouptitle_text='Shapley composition'))
-                    s += p
-
             
         else:
             if len(balances) == 2:
                 for i,s in enumerate(self.shapley):
-                    fig.add_trace(go.Scatter(x=[0,s[balances[0]-1]],y=[0,s[balances[1]-1]], mode='lines', name='feature n.'+str(i+1),
-                             legendgroup='shapley', legendgrouptitle_text='Shapley composition'))
+                    fig.add_trace(go.Scatter(x=[0,s[balances[0]-1]],y=[0,s[balances[1]-1]], mode='lines', name=self.names_features[i],
+                             legendgroup='shapley', legendgrouptitle_text='Shapley composition:'))
             else:
                 for i,s in enumerate(self.shapley):
-                    fig.add_trace(go.Scatter3d(x=[0,s[balances[0]-1]],y=[0,s[balances[1]-1]], z=[0,s[balances[2]-1]], mode='lines', line={'width' : 5}, name='feature n.'+str(i+1),
-                             legendgroup='shapley', legendgrouptitle_text='Shapley composition'))
+                    fig.add_trace(go.Scatter3d(x=[0,s[balances[0]-1]],y=[0,s[balances[1]-1]], z=[0,s[balances[2]-1]], mode='lines', line={'width' : 5}, name=self.names_features[i],
+                             legendgroup='shapley', legendgrouptitle_text='Shapley composition:'))
 
         fig.show()
 
