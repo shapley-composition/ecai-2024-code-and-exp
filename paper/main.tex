@@ -273,18 +273,29 @@ In a four classes example, the simplex is $3$-dimensional. We illustrate this wi
 When there are more classes, all the dimension of the ILR space cannot be visualized at once but $2$ or $3$-dimensional subspaces can still be visualized. However, in order to choose which ILR components to visualize, one needs to understand what they refer too. The next section provides some intuition about that in the context of the explanation of a classifier prediction with more than 4 classes.
 
 \subsection{Groups of part, balances and sequential binary partition}
-
-....
+\ref{sec:balances}
+..TODO..
 
 \subsection{Angles, norms and projections}
 
 Some may find the fine analysis of the features contributions in cases with more than four classes tricky. Indeed, in this case, the ILR space cannot be visualized in a $2$ or $3$-dimensional plot and as discussed in Section \ref{sec:moreclasses}, choosing which subspaces to visualize require a careful understanding of the sequential binary partition. However, as we already had the insight from the above visualization, the Shapley explaination can be summarized by sets of angles, norms and projections. Indeed the norm of a Shapley composition gives the strength of the feature's contribution in the prediction. It gives the overall contribution of the feature on the prediction, regardless of its direction. The angle between two Shapley compositions can informs if features are redundant, orthogonal or contradictory. The projection of a Shapley composition on the set of class-compositions informs in favor of, or against, which classes a feature is contributing. Appendix \ref{app:summarize}, provides some examples of summarizing a Shapley explanation using the norm of Shapley compositions, angles between them and their projection on the class-compositions.
 
-
-
 \subsection{Histograms}
 
-If one found hard to visualize the proposed Shapley explanation in the ILR space, the Shapley composition can be visualized as histograms like discrete probability distributions.
+If one found hard to visualize the proposed Shapley explanation in the ILR space, the Shapley composition can be visualized as histograms like discrete probability distributions. Figure \ref{fig:histiris} shows the Shapley compositions of the Iris classification example. The more uniform the histogram is, like for the sepal length and width, the less the contribution of the feature is. In opposite, the histogram for the petal length as a high value for the versicolor class, relatively to the others, confirming the contribution of the feature toward this class.
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/3classes/histo}
+  \caption{Shapley compositions visualized as histograms for the Iris classification example.}
+  \label{fig:histiris}
+\end{figure}
+As another illustration, Figure \ref{fig:histmore} shows the Shapley compositions of the seven classes digit recognition example. Contrary to the visualization of the compositions within the ILR space as discussed in Section \ref{sec:balances}, here, one can analyses all parts of each compositions within a single plot.
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/moreclasses/histo}
+  \caption{Shapley compositions visualized as histograms for the seven classes digit recognition example.}
+  \label{fig:histiris}
+\end{figure}
 
 \subsection{About our implementation}
 
@@ -296,6 +307,7 @@ Compare with standard Shapley ??
 
 We know small expé..., sounds tricky,... first step for a theoretically founded multiclass problems explanations...
 ...
+
 Features INDEPENDENCE!!
 
 Axiomatic formulation
@@ -444,9 +456,9 @@ Other examples ... !!!
 \newpage
 \section{Estimation of the Shapley compositions}
 \label{app:algo}
-In this work, we used an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining} we present in this section.
+In this section, we present an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining} we used in this work for the estimation the Shapley compositions.
 
-Let $d$ be the number of features. We want to optimally distribute the $m_{\text{max}}$ drawn samples over the $d$ features. Let $\hat{\bm{\phi}_i}$ the estimation of the Shapley composition for the $i$th feature. We want to minimize the sum of squared errors or distances $\displaystyle\sum_{i=1}^{d} \| \hat{\bm{\phi}_i} \ominus \bm{\phi}_i \|_a^2$. Since $\hat{\bm{\phi}_i}$ is a (Aitchison) sample mean we have: $\tilde{\hat{\bm{\phi}_i}} \approx \mathcal{N}(\tilde{\bm{\phi}}_i, \frac{1}{m_i}\bm{\Sigma}^{(i)})$ and $\tilde{\hat{\bm{\phi}_i}} - \tilde{\bm{\phi}}_i \approx \mathcal{N}(\bm{0}, \frac{1}{m_i}\bm{\Sigma}^{(i)})$ where the tilde refers to the ILR transformation.
+Let $d$ be the number of features. We want to optimally distribute the $m_{\text{max}}$ drawn samples over the $d$ features. Let $\hat{\bm{\phi}_i}$ be the estimation of the Shapley composition for the $i$th feature. We want to minimize the sum of squared errors: $\displaystyle\sum_{i=1}^{d} \| \hat{\bm{\phi}_i} \ominus \bm{\phi}_i \|_a^2$. Since $\hat{\bm{\phi}_i}$ is a (Aitchison) sample mean we have: $\tilde{\hat{\bm{\phi}_i}} \approx \mathcal{N}(\tilde{\bm{\phi}}_i, \frac{1}{m_i}\bm{\Sigma}^{(i)})$ and $\tilde{\hat{\bm{\phi}_i}} - \tilde{\bm{\phi}}_i \approx \mathcal{N}(\bm{0}, \frac{1}{m_i}\bm{\Sigma}^{(i)})$ where the tilde refers to the ILR transformation.
 Let $\bm{\Delta_i} = \tilde{\hat{\bm{\phi}_i}} - \tilde{\bm{\phi}}_i$ and $Z_i = \| \hat{\bm{\phi}_i} \ominus \bm{\phi}_i \|_a = \| \tilde{\hat{\bm{\phi}_i}} - \tilde{\bm{\phi}}_i \|_2 = \| \bm{\Delta}_i \|_2$. The expectation of the sum of squared errors is:
 \begin{equation}
   \begin{aligned}

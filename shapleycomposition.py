@@ -213,11 +213,8 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
             for i in range(self.n_class):
                 fig.add_trace(go.Scatter3d(x=[0,class_vect[i,balances[0]-1]], y=[0,class_vect[i,balances[1]-1]],z=[0,class_vect[i,balances[2]-1]], mode='lines', line={'dash': 'dash', 'width' : 5}, name=self.names_classes[i], legendgroup='class', legendgrouptitle_text='Class composition:'))
 
-
         #PLOT THE SHAPLEY COMPOSITION IN THE ILR (SUB)SPACE
-        
         #If shapley_sum is True, the sum of the shapley vectors are summed fro the base distribution to the prediction
-
         if shapley_sum:
             if len(balances) == 2:
                 s = self.base.copy()
@@ -252,3 +249,16 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         fig.show()
 
         return fig
+
+    def shapley_histogram(self, figwidth=500, figheight=400):
+        fig = go.Figure(layout=go.Layout(autosize=False, width=figwidth, height=figheight))
+        fig.update_layout(barmode='group', legend=dict(orientation='h', bgcolor='rgba(255,255,255,0.4)',yanchor="top", y=0.99, xanchor="right", x=1, title='Classes'), margin=dict(l=0, r=0, t=0, b=0))
+        for i in range(self.n_class):
+            fig.add_trace(go.Bar(name=self.names_classes[i], x=self.names_features, y=ilr_inv(self.shapley, basis=self.basis)[:,i]))
+        fig.update_layout(bargroupgap=0)
+        fig.show()
+        
+        return fig
+
+
+    

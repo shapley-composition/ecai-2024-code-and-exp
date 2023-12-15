@@ -43,6 +43,7 @@
     "fig:3classes"
     "fig:4classesshapsum"
     "sec:moreclasses"
+    "fig:histiris"
     "app:properties"
     "eq:linearsimplex"
     "app:summarize"
