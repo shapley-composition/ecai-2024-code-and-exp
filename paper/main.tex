@@ -13,7 +13,7 @@
 % please comment out the following usepackage line and replace
 % \usepackage{icml2024} with \usepackage[nohyperref]{icml2024} above.
 \usepackage{hyperref}
-
+\usepackage{multirow}
 
 % Attempt to make hyperref and algorithmic work together better:
 \newcommand{\theHalgorithm}{\arabic{algorithm}}
@@ -278,7 +278,7 @@ When there are more classes, all the dimension of the ILR space cannot be visual
 
 \subsection{Angles, norms and projections}
 
-Some may find the fine analysis of the features contributions in cases with more than four classes tricky. Indeed, in this case, the ILR space cannot be visualized in a $2$ or $3$-dimensional plot and as discussed in Section \ref{sec:moreclasses}, choosing which subspaces to visualize require a careful understanding of the sequential binary partition. However, as we already had the insight from the above visualization, the Shapley explaination can be summarized by sets of angles, norms and projections. Indeed the norm of a Shapley composition gives the strength of the feature's contribution in the prediction. The angle between two Shapley compositions can informs if features are redundant, orthogonal or contradictory. The projection of a Shapley composition on the set of class-compositions informs in favor of, or against, which classes a feature is contributing. Appendix \ref{app:summarize}, provides some examples of summarizing a Shapley explanation using the norm of Shapley compositions, angles between them and their projection on the class-compositions.
+Some may find the fine analysis of the features contributions in cases with more than four classes tricky. Indeed, in this case, the ILR space cannot be visualized in a $2$ or $3$-dimensional plot and as discussed in Section \ref{sec:moreclasses}, choosing which subspaces to visualize require a careful understanding of the sequential binary partition. However, as we already had the insight from the above visualization, the Shapley explaination can be summarized by sets of angles, norms and projections. Indeed the norm of a Shapley composition gives the strength of the feature's contribution in the prediction. It gives the overall contribution of the feature on the prediction, regardless of its direction. The angle between two Shapley compositions can informs if features are redundant, orthogonal or contradictory. The projection of a Shapley composition on the set of class-compositions informs in favor of, or against, which classes a feature is contributing. Appendix \ref{app:summarize}, provides some examples of summarizing a Shapley explanation using the norm of Shapley compositions, angles between them and their projection on the class-compositions.
 
 
 
@@ -420,7 +420,26 @@ In this way, $\bm{c}^{(k)}$ is going straight to the direction of class $k$ and 
 \section{Summarizing the explanation with norms, angles and projections of Shapley compositions}
 \label{app:summarize}
 
-The example of Figure \ref{fig:3classes} can be summarized by computing the norms of the Shapley compositions, angles between them and their projection on the set of class-compositions.
+The Table \ref{tab:normiris} gives, for the Iris classification example of Figure \ref{fig:3classes}, the norm of each Shapley compositions, the cosine similarity between them and their projection on the set of class-compositions. Having the highest norm, this confirms that the petal length is the feature that contributed the most on the prediction. Having a close to zero inner product with the virginica class-composition, shows that this feature did not contribute to the value of the probability of of this class. It contributes neither in favor, nor in the reject of this class. Having a positive inner product with the versicolor class-composition and a negative one with the setosa class-composition, this suggest that this feature is going in favor of the class versicolor and against setosa.
+\begin{table}
+  \centering
+  \caption{Norm of the Shapley compositions, projection on the class-compositions and cosine similarity betweeen the Shapley compositions for the Iris classification example.}
+  \begin{tabular}{c|c|ccc|cccc|}
+    \cline{2-9}
+    & \multirow{2}{*}{norm} & \multicolumn{3}{c|}{projection on the class-compositions} & \multicolumn{4}{c|}{cosine similarity between each Shapley composition} \\
+    \cline{3-9}
+     & & setosa & versicolor & virginica & pet. length & pet. width & sep. length & sep. width \\
+    \hline
+    pet. length & 2.20  & -1.91 & 1.90 & 0.02 & 1 &$\cdot$ &$\cdot$ &$\cdot$ \\
+    pet. width & 0.51 & -0.51 & 0.29 & 0.22 & 0.90 & 1 &$\cdot$ &$\cdot$ \\
+    sep. length & 0.13 & -0.08 & 0.13 & -0.05 & 0.93 & 0.69 & 1 &$\cdot$ \\
+    sep. width & 0.11 & -0.11 & 0.04 & 0.07 & 0.77 & 0.97 & 0.49 &1 \\
+    \hline
+  \end{tabular}
+  \label{tab:normiris}
+\end{table}
+
+Other examples ... !!!
 
 \newpage
 \section{Estimation of the Shapley compositions}
