@@ -2,10 +2,13 @@
 \providecommand\hyper@newdestlabel[2]{}
 \providecommand\HyperFirstAtBeginDocument{\AtBeginDocument}
 \HyperFirstAtBeginDocument{\ifx\hyper@anchor\@undefined
+\global\let\oldcontentsline\contentsline
+\gdef\contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
 \global\let\oldnewlabel\newlabel
 \gdef\newlabel#1#2{\newlabelxx{#1}#2}
 \gdef\newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
 \AtEndDocument{\ifx\hyper@anchor\@undefined
+\let\contentsline\oldcontentsline
 \let\newlabel\oldnewlabel
 \fi}
 \fi}
@@ -34,9 +37,11 @@
 \newlabel{sec:explain}{{5}{3}{}{section.5}{}}
 \newlabel{sec:explain@cref}{{[section][5][]5}{[1][3][]3}}
 \citation{pedregosa2011scikit}
-\citation{egozcue2005groups}
-\newlabel{sec:moreclasses}{{5.1.3}{4}{}{subsubsection.5.1.3}{}}
-\newlabel{sec:moreclasses@cref}{{[subsubsection][3][5,1]5.1.3}{[1][4][]4}}
+\citation{egozcue2003isometric,egozcue2005groups,pawlowskymodeling}
+\citation{egozcue2003isometric}
+\citation{egozcue2003isometric}
+\newlabel{sec:balances}{{5.2}{4}{}{subsection.5.2}{}}
+\newlabel{sec:balances@cref}{{[subsection][2][5]5.2}{[1][4][]4}}
 \newlabel{fig:3classesshap}{{1(a)}{4}{Subfigure 1(a)}{subfigure.1.1}{}}
 \newlabel{fig:3classesshap@cref}{{[subfigure][1][1]1(a)}{[1][3][]4}}
 \newlabel{sub@fig:3classesshap}{{(a)}{4}{Subfigure 1(a)\relax }{subfigure.1.1}{}}
@@ -45,14 +50,22 @@
 \newlabel{sub@fig:3classesshapsum}{{(b)}{4}{Subfigure 1(b)\relax }{subfigure.1.2}{}}
 \newlabel{fig:3classes}{{1}{4}{Shapley explaination in the ILR space for the classification of an Iris instance}{figure.1}{}}
 \newlabel{fig:3classes@cref}{{[figure][1][]1}{[1][3][]4}}
-\citation{vstrumbelj2014explaining}
-\citation{NIPS2017_7062}
+\citation{egozcue2005groups}
+\citation{pawlowskymodeling}
 \newlabel{fig:4classesshapsum}{{2}{5}{Shapley explaination in the $3$-dimensional ILR space for a four classes digit recognition task. The Shapley compositions are summed in the ILR space from the base distribution to the prediction}{figure.2}{}}
 \newlabel{fig:4classesshapsum@cref}{{[figure][2][]2}{[1][4][]5}}
-\newlabel{fig:histiris}{{3}{5}{Shapley compositions visualized as histograms for the Iris classification example}{figure.3}{}}
-\newlabel{fig:histiris@cref}{{[figure][3][]3}{[1][5][]5}}
-\newlabel{fig:histiris}{{4}{5}{Shapley compositions visualized as histograms for the seven classes digit recognition example}{figure.4}{}}
+\newlabel{fig:bifurc1}{{3(a)}{5}{Subfigure 3(a)}{subfigure.3.1}{}}
+\newlabel{fig:bifurc1@cref}{{[subfigure][1][3]3(a)}{[1][4][]5}}
+\newlabel{sub@fig:bifurc1}{{(a)}{5}{Subfigure 3(a)\relax }{subfigure.3.1}{}}
+\newlabel{fig:bifurc2}{{3(b)}{5}{Subfigure 3(b)}{subfigure.3.2}{}}
+\newlabel{fig:bifurc2@cref}{{[subfigure][2][3]3(b)}{[1][4][]5}}
+\newlabel{sub@fig:bifurc2}{{(b)}{5}{Subfigure 3(b)\relax }{subfigure.3.2}{}}
+\newlabel{fig:trees}{{3}{5}{Two examples of bifurcation tree. \ref {fig:bifurc1} is the one corresponding to the basis obtained by with the Gram-Schmidt procedure as in \cite {egozcue2003isometric} which is the one used in the examples of Figures \ref {fig:3classes} and \ref {fig:4classesshapsum}..}{figure.3}{}}
+\newlabel{fig:trees@cref}{{[figure][3][]3}{[1][4][]5}}
+\newlabel{fig:histiris}{{4}{5}{Shapley compositions visualized as histograms for the Iris classification example}{figure.4}{}}
 \newlabel{fig:histiris@cref}{{[figure][4][]4}{[1][5][]5}}
+\citation{vstrumbelj2014explaining}
+\citation{NIPS2017_7062}
 \citation{langley00}
 \bibdata{biblio}
 \bibcite{aitchison1982}{{1}{1982}{{Aitchison}}{{}}}
@@ -66,6 +79,8 @@
 \bibcite{shapley1953value}{{9}{1953}{{Shapley et~al.}}{{}}}
 \bibcite{vstrumbelj2014explaining}{{10}{2014}{{{\v {S}}trumbelj \& Kononenko}}{{{\v {S}}trumbelj and Kononenko}}}
 \bibstyle{icml2024}
+\newlabel{fig:histiris}{{5}{6}{Shapley compositions visualized as histograms for the seven classes digit recognition example}{figure.5}{}}
+\newlabel{fig:histiris@cref}{{[figure][5][]5}{[1][5][]6}}
 \newlabel{app:properties}{{A}{7}{}{appendix.A}{}}
 \newlabel{app:properties@cref}{{[appendix][1][2147483647]A}{[1][7][]7}}
 \newlabel{eq:linearsimplex}{{8}{7}{}{equation.A.8}{}}
@@ -87,4 +102,3 @@
 \newlabel{alg:2@cref}{{[algorithm][2][2147483647]2}{[1][11][]12}}
 \newlabel{app:correct}{{E}{12}{}{appendix.E}{}}
 \newlabel{app:correct@cref}{{[appendix][5][2147483647]E}{[1][12][]12}}
-\gdef \@abspage@last{13}

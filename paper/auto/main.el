@@ -5,18 +5,21 @@
          "--synctex=1 -shell-escape")
    (TeX-add-to-alist 'LaTeX-provided-package-options
                      '(("cleveref" "capitalize" "noabbrev")))
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "href")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
-   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
    (add-to-list 'LaTeX-verbatim-macros-with-braces-local "path")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "url")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "nolinkurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperbaseurl")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "hyperimage")
+   (add-to-list 'LaTeX-verbatim-macros-with-braces-local "href")
    (add-to-list 'LaTeX-verbatim-macros-with-delims-local "path")
    (TeX-run-style-hooks
     "latex2e"
+    "bifurctree"
     "article"
     "art10"
     "microtype"
+    "tikz"
+    "pgfplots"
     "graphicx"
     "subfigure"
     "booktabs"
@@ -42,7 +45,10 @@
     "fig:3classesshapsum"
     "fig:3classes"
     "fig:4classesshapsum"
-    "sec:moreclasses"
+    "sec:balances"
+    "fig:bifurc1"
+    "fig:bifurc2"
+    "fig:trees"
     "fig:histiris"
     "app:properties"
     "eq:linearsimplex"
