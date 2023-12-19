@@ -174,10 +174,9 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         if len(balances) == 2:
             fig.update_xaxes(range=[-lim, lim])
             fig.update_yaxes(range=[-lim, lim])
-            fig.update_layout(xaxis_title="ILR"+str(balances[0]), yaxis_title="ILR"+str(balances[1]), legend=dict(bgcolor='rgba(255,255,255,0.4)',yanchor="top", y=0.99, xanchor="right", x=1), font=dict(size=10), margin=dict(l=0, r=0, t=0, b=0))
+            fig.update_layout(xaxis_title="ILR"+str(balances[0]), yaxis_title="ILR"+str(balances[1]), legend=dict(bgcolor='rgba(255,255,255,0.4)',yanchor="top", y=0.99, xanchor="right", x=1), margin=dict(l=0, r=0, t=0, b=0))
         else:
             fig.update_layout(legend=dict(bgcolor='rgba(255,255,255,0.4)', yanchor="top", y=0.99, xanchor="left", x=0.01),
-                              font=dict(size=10),
                               margin=dict(l=0, r=0, t=0, b=0),
                               scene = dict(xaxis = dict(title="ILR"+str(balances[0]), range=[-lim,lim]),
                                            yaxis = dict(title="ILR"+str(balances[1]), range=[-lim,lim]),
