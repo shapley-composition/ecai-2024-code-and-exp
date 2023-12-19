@@ -12,6 +12,7 @@
     "aitchison1982"
     "aitchison2001"
     "egozcue2003isometric"
+    "egozcue2005groups"
     "pedregosa2011scikit"))
  '(or :bibtex :latex))
 

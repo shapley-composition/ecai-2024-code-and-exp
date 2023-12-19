@@ -203,7 +203,6 @@ Given a composition $\bm{p} = \left[ p_1,\dots p_N \right]^T \in \mathcal{S}^N$ 
 
 In Section \ref{sec:shapley} we have briefly presented the standard formulation of Shapley value designed for one-dimensional prediction. In this Section, we will see how the Aitchison geometry can be used to extend this concept to the multidimensional simplex for explaning probabilistic predictions.
 
-
 Let $\bm{f}:\mathcal{X}\to\mathcal{S}^N$ be a learned model, like a $N$-classes probabilistic classifier for instance, which outputs a probabilistic prediction on the $(N-1)$-dimensional probability simplex $S^N$. To properly consider the relative information between the probabilities, The outputs of the model must be treated as compositional data using the operators and metric defined by the Aitchison geometry of the simplex. We therefore rewrite the contribution and the value function of Equations \ref{eq:contrib} and \ref{eq:valuefunction} as follow:
 \begin{equation}
   \bm{c}_{\bm{f},\bm{x},\text{Pr}}(i,\bm{X}_S) = \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) \ominus \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_S),
@@ -274,7 +273,10 @@ When there are more classes, all the dimension of the ILR space cannot be visual
 
 \subsection{Groups of part, balances and sequential binary partition}
 \ref{sec:balances}
-..TODO..
+..TODO..\\
+Geometric orthogonality (not statistical uncorrelation), balances provide nonredundant information about the composition.\\
+Balancing elements\\
+\cite{egozcue2005groups}
 
 \subsection{Angles, norms and projections}
 
