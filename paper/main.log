@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2023.5.31)  19 DEC 2023 17:04
+This is XeTeX, Version 3.14159265-2.6-0.99998 (TeX Live 2017/Debian) (preloaded format=xelatex 2023.5.31)  20 DEC 2023 14:45
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -1024,7 +1024,7 @@ LaTeX Font Warning: Font shape `TU/ptm/m/sl' undefined
 [3]
 File: figures/4classes/ilrplotsum.png Graphic file (type bmp)
 <figures/4classes/ilrplotsum.png>
- (./bifurctree.tex) (./bifurctree.tex)
+ (./bifurctree.tex) (./bifurctree1.tex)
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [4]
@@ -1037,22 +1037,13 @@ Underfull \hbox (badness 1360) in paragraph at lines 290--293
 \TU/ptm/m/sc/10 tion), balances provide nonredundant information
  []
 
-
-LaTeX Warning: Reference `sec:moreclasses' on page 5 undefined on input line 29
-6.
-
-
-Underfull \vbox (badness 1735) has occurred while \output is active []
-
 File: figures/3classes/histo.png Graphic file (type bmp)
 <figures/3classes/histo.png>
-
 
 LaTeX Warning: Reference `fig:histmore' on page 5 undefined on input line 307.
 
 File: figures/moreclasses/histo.png Graphic file (type bmp)
 <figures/moreclasses/histo.png>
-[5]
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: TU).
 (microtype)             For optimal results, create family-specific settings.
@@ -1064,9 +1055,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 317--317
  []
 
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5]
+
 Package natbib Warning: Citation `langley00' undefined on input line 333.
 
-(./main.bbl) [6] [7
+(./main.bbl
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+) [6]
+[7
 
 ] [8] [9]
 Overfull \hbox (15.4875pt too wide) in paragraph at lines 454--467
@@ -1097,11 +1096,11 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 548.
  ) 
 Here is how much of TeX's memory you used:
  33606 strings out of 494933
- 759619 string characters out of 6176237
- 960965 words of memory out of 5000000
- 36915 multiletter control sequences out of 15000+600000
+ 759615 string characters out of 6176237
+ 962965 words of memory out of 5000000
+ 36914 multiletter control sequences out of 15000+600000
  13460 words of font info for 57 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 62i,18n,96p,1485b,720s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 62i,18n,96p,1482b,749s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on main.pdf (13 pages).

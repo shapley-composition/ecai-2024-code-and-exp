@@ -42,9 +42,11 @@ def create_tree_from_sbp(S, Np, depth=1, p=None):
     else:
         if S[1,colr][0] == 0:
             root = Node("ilr", Np-depth, list(r)+list(s), create_tree_from_sbp(S[len(cols):,colr], Np, depth=depth+len(cols),p=r), create_tree_from_sbp(S[1:len(cols),cols], Np, depth=depth+1,p=s))
-        else:    
+        else:
             root = Node("ilr", Np-depth, list(r)+list(s), create_tree_from_sbp(S[1:len(colr),colr], Np, depth=depth+1,p=r), create_tree_from_sbp(S[len(colr):,cols], Np, depth=depth+len(colr),p=s))
     return root
+
+
 
 def init_graph():
     return graphviz.Digraph(strict=True)
