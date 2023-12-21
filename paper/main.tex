@@ -67,7 +67,7 @@
 \begin{document}
 
 \twocolumn[
-\icmltitle{Explaining probabilistic prediction on the simplex with Shapley compositions}
+\icmltitle{Explaining probabilistic predictions on the simplex with Shapley compositions}
 
 % It is OKAY to include author information, even for blind
 % submissions: the style file will automatically remove it for you
@@ -126,7 +126,7 @@
 \printAffiliationsAndNotice{\icmlEqualContribution} % otherwise use the standard text.
 
 \begin{abstract}
-  The concept of Shapley value has been widely use for measuring the contribution of each feature on a machine learning model's prediction. However, this has been designed for one-dimensional function's codomain. For multiclass probabilistic classifier, where the output is a discrete probability distribution over the set of more than two possible classes, the output lives on a multidimensional simplex. In this case, people have been applying the concept of Shapley value on each output dimension one-by-one, in an implicit one-vs-rest setting, ignoring the compositional nature of the output distribution where the relative information between probabilities matter. Using the Aitchison geometry of the simplex, coming from the field of compositional data analysis, this paper present a first initiative for a multidimensional extention of the concept of Shapley value, named Shapley composition, for explaining probabilistic predictions on the simplex in machine learning.
+  The Shapley value has been widely used for measuring the contribution of each feature to a model's prediction. However, coming from game theory, this has been designed for a one-dimensional function's codomain. For a multiclass probabilistic classifier, the output is a discrete probability distribution, over a set of more than two possible classes, and lives on a multidimensional simplex. In this case, the Shapley values are sometimes computed on each output dimension one-by-one, in an implicit one-vs-rest setting, ignoring the compositional nature of the output distribution. Indeed, elements of the simplex are known as compositional data and a discrete probability distribution can therefore be treated as such taking into account the relative information between probabilities. Using the Aitchison geometry of the simplex, this paper presents a first initiative for a multidimensional extension of the concept of Shapley value, named Shapley composition, for explaining probabilistic predictions on the simplex in machine learning.
 \end{abstract}
 
 \section{Introduction}
