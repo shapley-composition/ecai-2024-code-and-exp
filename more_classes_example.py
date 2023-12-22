@@ -10,13 +10,13 @@ import numpy as np
 from math import sqrt
 from shapleycomposition import ShapleyExplainer
 from composition_stats import ilr, sbp_basis
-from bifurc_tree import create_tree_from_sbp, init_graph, build_graph
+from bifurc_tree import create_tree_from_sbp, init_graph, build_graph, sbp_from_aggloclustchildren
 import plotly.graph_objects as go
 from mahalanobis_matrix import mahalanobis_matrix
 
 # %%
 K = 10         #Index of the instance you want to test in the test set
-N_class = 10    #Number of class, the dimension of the simplex is therefore N_class-1
+N_class = 10   #Number of class, the dimension of the simplex is therefore N_class-1
 N_feat  = 6    #In this example, since the number of feature of the digit dataset is quite large (64), we propose to reduce it with a PCA
 
 #load the dataset, take a subset of N_class classes, scale it and split into a training and testing set
@@ -39,25 +39,14 @@ svc_linear.fit(X_train, Y_train)
 
 # %%
 
-M = mahalanobis_matrix(svc_linear.predict_proba, X_test, Y_test)
-hie_clust = AgglomerativeClustering(affinity='precomputed', linkage='average').fit(M)
-child = hie_clust.children_
-
-
-# %%
-
 #Choose a sequential binary partition matrix and plot the corresponding bifurcation tree
-sbpmatrix = np.array([[1,1,-1,-1,1,1,1],[1,-1,0,0,-1,-1,-1],[0,1,0,0,-1,-1,-1],[0,0,0,0,1,-1,-1],[0,0,0,0,0,1,-1],[0,0,1,-1,0,0,0]])
+# sbpmatrix = np.array([[1,1,-1,-1,1,1,1],[1,-1,0,0,-1,-1,-1],[0,1,0,0,-1,-1,-1],[0,0,0,0,1,-1,-1],[0,0,0,0,0,1,-1],[0,0,1,-1,0,0,0]])
 #sbpmatrix = np.array([[1,-1,1,-1,1,-1,1],[1,0,1,0,-1,0,-1],[0,0,0,0,1,0,-1],[1,0,-1,0,1,0,0],[0,1,0,1,0,-1,0],[0,1,0,-1,0,0,0]])
-sbpmatrix = np.array([[0,0,0,0,0,0,0,1,-1,0],
-                      [0,0,0,1,0,0,0,0,0,-1],
-                      [0,0,1,-1,0,0,0,0,0,-1],
-                      [0,1,0,0,0,0,0,-1,-1,0],
-                      [0,0,-1,-1,0,1,0,0,0,-1],
-                      [0,1,-1,-1,0,-1,0,1,1,-1],
-                      [0,-1,-1,-1,1,-1,0,-1,-1,-1],
-                      [1,0,0,0,0,0,-1,0,0,0],
-                      [-1,1,1,1,1,1,-1,1,1,1]])
+
+#Get a sequential binary parition from the agglomeration of classes from a distance matrix between classes. Distance matrix is here made of the mahalanobis distance between a pair of classes in the ILR space output by the classifier (assuming normal distribution with same covariance matrix between a pair of classes).
+M = mahalanobis_matrix(svc_linear.predict_proba, X_test, Y_test)
+sbpmatrix = sbp_from_aggloclustchildren(AgglomerativeClustering(affinity='precomputed', linkage='average').fit(M).children_)
+
 basis = np.flip(sbp_basis(sbpmatrix), axis=0)
 root = create_tree_from_sbp(sbpmatrix, N_class)
 
