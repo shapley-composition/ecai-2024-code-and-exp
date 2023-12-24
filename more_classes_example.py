@@ -45,7 +45,7 @@ svc_linear.fit(X_train, Y_train)
 
 #Get a sequential binary parition from the agglomeration of classes from a distance matrix between classes. Distance matrix is here made of the mahalanobis distance between a pair of classes in the ILR space output by the classifier (assuming normal distribution with same covariance matrix between a pair of classes).
 M = mahalanobis_matrix(svc_linear.predict_proba, X_test, Y_test)
-sbpmatrix = sbp_from_aggloclustchildren(AgglomerativeClustering(affinity='precomputed', linkage='average').fit(M).children_)
+sbpmatrix = sbp_from_aggloclustchildren(AgglomerativeClustering(metric='precomputed', linkage='average').fit(M).children_)
 
 basis = np.flip(sbp_basis(sbpmatrix), axis=0)
 root = create_tree_from_sbp(sbpmatrix, N_class)

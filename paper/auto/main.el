@@ -22,7 +22,7 @@
     "tikz"
     "pgfplots"
     "graphicx"
-    "subfigure"
+    "subcaption"
     "booktabs"
     "hyperref"
     "multirow"

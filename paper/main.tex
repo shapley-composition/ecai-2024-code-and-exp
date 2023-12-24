@@ -7,7 +7,7 @@
 \usepackage{tikz}
 \usepackage{pgfplots}
 \usepackage{graphicx}
-\usepackage{subfigure}
+\usepackage{subcaption}
 \usepackage{booktabs} % for professional tables
 
 % hyperref makes hyperlinks in the resulting PDF.
@@ -247,13 +247,22 @@ The Shapley compositions can be visualized in the Euclidean space isometric to t
 
 In the three classes case, the space is $2$-dimensional. We illustrate this example with the well known Iris classification dataset consisting of a set of flowers descriped by 4 features: sepal length and width and petal length and width. The aim is to predict to which of the three species, setosa, versicolor and virginica, a flower belongs to. In our example we use a Support Vector Machine (SVM) classifier with a radial basis function (rbf) kernel as a classifier. Figure \ref{fig:3classes} shows the explanation of one versicolor instance where \ref{fig:3classesshap} shows the Shapley composition in the ILR space and \ref{fig:3classesshapsum} shows how they move the base distribution to the prediction. Having the highest norm, the petal length is the feature contributing the most on the prediction, moving the base to the versicolor maximum probability decision region. Being orthogonal to the virginica class-composition, this suggest that this features does not contribute on the predicted probability for this class. The Shapley composition for the petal width goes straight to the opposite direction of the setosa class vector suggesting that this feature contributes in rejecting this class. The other Shapley compositions have a low norm suggesting these features does not contribute in the prediction.
 \begin{figure}
-  \centering
-  \subfigure[Shapley compositions in the ILR space]{\label{fig:3classesshap}
+
+  \begin{subfigure}{0.5\textwidth}
+    \centering
     \includegraphics[width=0.8\linewidth]{figures/3classes/ilrplot.png}
-    }
-  \subfigure[Sum of the Shapley compositions in the ILR space from the base to the prediction]{\label{fig:3classesshapsum}
+    \caption{Shapley compositions in the ILR space.}
+    \label{fig:3classesshap}
+  \end{subfigure}
+  
+\vspace{0.5cm}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
     \includegraphics[width=0.8\linewidth]{figures/3classes/ilrplotsum.png}
-  }
+    \caption{Sum of the Shapley compositions in the ILR space from the base to the prediction.}
+    \label{fig:3classesshapsum}
+  \end{subfigure}
+  
   \caption{Shapley explaination in the ILR space for the classification of an Iris instance.}
   \label{fig:3classes}
 \end{figure}
@@ -276,14 +285,21 @@ When there are more classes, all the dimension of the ILR space cannot be visual
 
 A component of the ILR space  can be interpreted as a \emph{balance}, i.e. a logratio of two geometrical means of parts \cite{egozcue2003isometric,egozcue2005groups,pawlowskymodeling}: one giving the central values of the probabilities in one group of classes and one for another group of classes. Therefore, a balance is here comparing the weight of two group of classes. This can be illustrated by a sequential binary partition or bifurcation tree. Figure \ref{fig:trees} gives two examples. \ref{fig:bifurc1} shows the bifurcation tree corresponds to the basis obtained with the Gram-Schmidt procedure as in \cite{egozcue2003isometric} which is the one used in the examples of Figures \ref{fig:3classes} and \ref{fig:4classesshapsum}  with respectively $N=3$ and $N=4$. The first balance $\tilde{p}_1$ first compare the probabilities of class $1$ and $2$. Each next balance then recursively compares the probability for the next classe with the probabilities for the previous ones. \ref{fig:bifurc2} shows another bifurcation tree....
 \begin{figure}
-  \centering
-  \subfigure[]{\label{fig:bifurc1}
+  \begin{subfigure}{0.5\textwidth}
+    \centering
     \input{bifurctree.tex}
-    }
-  \subfigure[]{\label{fig:bifurc2}
-    \input{bifurctree1.tex}
-  }
-  \caption{Two examples of bifurcation tree. \ref{fig:bifurc1} corresponds to the basis obtained with the Gram-Schmidt procedure as in \cite{egozcue2003isometric} which is the one used in the examples of Figures \ref{fig:3classes} and \ref{fig:4classesshapsum} is another example corresponding to the basis used in the example...}
+    \caption{Bifurcation tree corresponding to the basis obtained with the Gram-Schmidt procedure as in \cite{egozcue2003isometric} and used in the examples of Figures \ref{fig:3classes} and \ref{fig:4classesshapsum}.}
+    \label{fig:bifurc1}
+  \end{subfigure}
+
+  \vspace{0.5cm}
+  \begin{subfigure}{0.5\textwidth}
+      \centering
+      \input{bifurctree1.tex}
+      \caption{Bifurcation tree used for our $10$-class recognition task}
+      \label{fig:bifurc2}
+    \end{subfigure}
+  \caption{Two examples of bifurcation tree. \ref{fig:bifurc1}.}
   \label{fig:trees}
 \end{figure}
 
