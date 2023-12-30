@@ -50,6 +50,7 @@
     "fig:bifurc1"
     "fig:bifurc2"
     "fig:trees"
+    "fig:moreclasses35"
     "fig:histiris"
     "app:properties"
     "eq:linearsimplex"

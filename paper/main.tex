@@ -287,9 +287,7 @@ A component of the ILR space  can be interpreted as a \emph{balance}, i.e. a log
 
 This can be illustrated by a sequential binary partition or bifurcation tree. Figure \ref{fig:trees} gives two examples. \ref{fig:bifurc1} shows the bifurcation tree corresponding to the basis obtained with the Gram-Schmidt procedure as in \cite{egozcue2003isometric} which is the one used in the examples of Figures \ref{fig:3classes} and \ref{fig:4classesshapsum}  with respectively $N=3$ and $N=4$. The first balance $\tilde{p}_1$ first compare the probabilities of class $1$ and $2$. Each next balance then recursively compares the probability for the next class with the probabilities for the previous ones independently of all the others.
 
-In some applications, one may be interested in particular comparisons of groups of classes. For instance, like in an example presented in \cite{egozcue2005groups}, if one wants to compare political parties or groups, it may be pertinent to have a balance comparing left and right-wing groups. But sometimes, there are no obvious relevant comparisons to study. For instance, in the handwritten digit recognition problem, it may first seem natural to compare odd with even numbers or prime with non-prime. However, being basically a shape recognition problem and the shape of the numbers being independent of their arithmetic properties, these comparisons are not pertinent. Be that as it may, the choice of the basis must be left open, whether or not it is based on a relevant strategy. Let's use the basis of Figure \ref{fig:bifurc2} for explaining the contribution of the features in a 10-classes digit recognition classification\footnote{In this example, the bifurcation tree is obtained with agglomerative clustering of classes by recursively merging pair of classes based on the mahalanobis distance in the classifier's output space, assuming that within a pair of classes, the class-conditional densities are logistic-normal \cite{aitchison1980} with same covariance matrix.}. Let say for conciseness that we are only interested in comparing the output probability for class 0 and for class 6, and in comparing the probability for class 1 with the group of probabilities for classes 7 and 8. We therefore only look at the the third and fifth ILR dimensions ($\tilde{p}_3$ and $\tilde{p}_5$) as in Figure \ref{fig:moreclasses35}.
-
-
+In some applications, one may be interested in particular comparisons of groups of classes. For instance, like in an example presented in \cite{egozcue2005groups}, if one wants to compare political parties or groups, it may be pertinent to have a balance comparing left and right-wing groups. But sometimes, there are no obvious relevant comparisons to study. For instance, in the handwritten digit recognition problem, it may first seem natural to compare odd with even numbers or prime with non-prime. However, being basically a shape recognition problem and the shape of the numbers being independent of their arithmetic properties, these comparisons are not pertinent. Be that as it may, the choice of the basis must be left open, whether or not it is based on a relevant strategy. Let's use the basis of Figure \ref{fig:bifurc2} for a 10-classes digit recognition classification\footnote{In this example, the bifurcation tree is obtained with agglomerative clustering of classes by recursively merging pair of classes based on the mahalanobis distance in the classifier's output space, assuming that within a pair of classes, the class-conditional densities are logistic-normal \cite{aitchison1980} with same covariance matrix.}. We comment, for conciseness, a single $2$-dimensional subspace. More visualisation can be found in Appendix \ref{app:...}. Let's have a look at the the third and fifth ILR dimensions ($\tilde{p}_3$ and $\tilde{p}_5$) as in Figure \ref{fig:moreclasses35}. It is like saying we are only interested in comparing the output probability for class 0 and for class 6, and in comparing the probability for class 1 with the group of probabilities for classes 7 and 8. $\tilde{p}_3$ depends only on the probability for the digits 0 and 6 and $\tilde{p}_5$ depends only on the probabilities for the digits 1, 7 and 8. Therefore, the class-composition for the others digits have a zero projection within this subspace and are not drawn in Figure \ref{fig:moreclasses35}. The projection of the class-compositions for 0 and 6 are orthogonal to the ones for class 1, 7 and 8. Indeed, the groups of digits making the balance $\tilde{p}_3$ and the groups of classes making $\tilde{p}_5$ have no intersection contrary to the example of Figure \ref{fig:3classes} where $\tilde{p}_1$ is comparing the probabilities for the class setosa with the probability for the class versicolor and $\tilde{p}_2$ is comparing the probabilities for the class virginica with the group of probabilities for setosa and versicolor. In this case, none of the class-compositions are orthogonal. In Figure \ref{fig:moreclasses35}, since $\tilde{p}_5$ is comparing 1 with the group of digits 7 and 8, the projection of the class-compositions on this line for 1 goes in an opposite direction than the one for the class-compositions for 7 and 8. The two latters, are equal and are half as long as the former. In this way, $\tilde{p}_5$ compares the probability for 1 with the group of probabilities for 7 and 8 with the same weight.
 \begin{figure}
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -302,13 +300,18 @@ In some applications, one may be interested in particular comparisons of groups 
   \begin{subfigure}{0.5\textwidth}
       \centering
       \input{bifurctree1.tex}
-      \caption{Bifurcation tree used for our $10$-classes digit recognition task}
+      \caption{Bifurcation tree used in our $10$-classes digit recognition task}
       \label{fig:bifurc2}
     \end{subfigure}
-  \caption{Two examples of bifurcation tree. \ref{fig:bifurc1}.}
+  \caption{Two examples of bifurcation tree.}
   \label{fig:trees}
 \end{figure}
-
+\begin{figure}
+  \centering
+  \includegraphics[width=0.8\linewidth]{figures/moreclasses/ilrplot35.png}
+  \caption{Sum of the Shapley compositions from the base to the prediction in the ILR subspace made of $\tilde{p}_3$ and $\tilde{p}_5$.}
+  \label{fig:moreclasses35}
+\end{figure}
 \subsection{Angles, norms and projections}
 
 Some may find the fine analysis of the features contributions in cases with more than four classes tricky. Indeed, in this case, the ILR space cannot be visualized in a $2$ or $3$-dimensional plot and as discussed in Section \ref{sec:balances}, choosing which subspaces to visualize require a careful understanding of the sequential binary partition. However, as we already had the insight from the above visualization, the Shapley explaination can be summarized by sets of angles, norms and projections. Indeed the norm of a Shapley composition gives the strength of the feature's contribution in the prediction. It gives the overall contribution of the feature on the prediction, regardless of its direction. The angle between two Shapley compositions can informs about their orthogonality. If two Shapley composition are orthogonal\footnote{We refer here to geometric orthogonality, not to be confused with statistical uncorrelation \cite{pawlowskymodeling}.}, this suggest the features are nonredundant. A negative angle would suggest that the features have an opposite influence on the prediction. The projection of a Shapley composition on the set of class-compositions informs in favor of, or against, which classes a feature is contributing. Appendix \ref{app:summarize}, provides some examples of summarizing a Shapley explanation using the norm of Shapley compositions, angles between them and their projection on the class-compositions.
@@ -318,14 +321,14 @@ Some may find the fine analysis of the features contributions in cases with more
 If one found hard to visualize the proposed Shapley explanation in the ILR space, the Shapley composition can be visualized as histograms like discrete probability distributions. Figure \ref{fig:histiris} shows the Shapley compositions of the Iris classification example. The more uniform the histogram is, like for the sepal length and width, the less the contribution of the feature is. In opposite, the histogram for the petal length as a high value for the versicolor class, relatively to the others, confirming the contribution of the feature toward this class.
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/3classes/histo}
+  \includegraphics[width=0.9\linewidth]{figures/3classes/histo}
   \caption{Shapley compositions visualized as histograms for the Iris classification example.}
   \label{fig:histiris}
 \end{figure}
 As another illustration, Figure \ref{fig:histmore} shows the Shapley compositions of the seven classes digit recognition example. Contrary to the visualization of the compositions within the ILR space as discussed in Section \ref{sec:balances}, here, one can analyses all parts of each compositions within a single plot.
 \begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{figures/moreclasses/histo}
+  \includegraphics[width=0.9\linewidth]{figures/moreclasses/histo}
   \caption{Shapley compositions visualized as histograms for the seven classes digit recognition example.}
   \label{fig:histiris}
 \end{figure}
@@ -465,7 +468,6 @@ In this way, $\bm{c}^{(k)}$ is going straight to the direction of class $k$ and 
 \section{Summarizing the explanation with norms, angles and projections of Shapley compositions}
 \label{app:summarize}
 
-The Table \ref{tab:normiris} gives, for the Iris classification example of Figure \ref{fig:3classes}, the norm of each Shapley compositions, the cosine similarity between them and their projection on the set of class-compositions. Having the highest norm, this confirms that the petal length is the feature that contributed the most on the prediction. Having a close to zero inner product with the virginica class-composition, shows that this feature did not contribute to the value of the probability of of this class. It contributes neither in favor, nor in the reject of this class. Having a positive inner product with the versicolor class-composition and a negative one with the setosa class-composition, this suggest that this feature is going in favor of the class versicolor and against setosa.
 \begin{table}
   \centering
   \caption{Norm of the Shapley compositions, projection on the class-compositions and cosine similarity betweeen the Shapley compositions for the Iris classification example.}
@@ -483,7 +485,47 @@ The Table \ref{tab:normiris} gives, for the Iris classification example of Figur
   \end{tabular}
   \label{tab:normiris}
 \end{table}
+The Table \ref{tab:normiris} gives, for the Iris classification example of Figure \ref{fig:3classes}, the norm of each Shapley compositions, the cosine similarity between them and their projection on the set of class-compositions. Having the highest norm, this confirms that the petal length is the feature that contributed the most on the prediction. Having a close to zero inner product with the virginica class-composition, shows that this feature did not contribute to the value of the probability of of this class. It contributes neither in favor, nor in the reject of this class. Having a positive inner product with the versicolor class-composition and a negative one with the setosa class-composition, this suggest that this feature is going in favor of the class versicolor and against setosa.
 
+\begin{table}
+  \centering
+  \caption{Norm of the Shapley compositions and Cosine similarity betweeen the Shapley compositions for the $10$-classes digit recognition example.}
+  \begin{tabular}{c|c|cccccc|}
+    \cline{2-8}
+    & \multirow{2}{*}{norm} & \multicolumn{6}{c|}{cosine similarity between Shapley compositions} \\
+    \cline{3-8}
+     & & \small feature n.1 & \small feature n.2 & \small feature n.3 & \small feature n.4 & \small feature n.5 & \small feature n.6 \\
+    \hline
+    \small feature n.1 & 4.00 & 1 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+    \small feature n.2 & 1.15 & -0.17 & 1 & $\cdot$ & $\cdot$ & $\cdot$ & $\cdot$ \\
+    \small feature n.3 & 2.25 & 0.24 & 0.23 & 1 & $\cdot$ & $\cdot$ &$\cdot$ \\
+    \small feature n.4 & 1.26 & -0.23 & 0.23 & 0.09 & 1 & $\cdot$ & $\cdot$ \\
+    \small feature n.5 & 0.60 & 0.18  & -0.17 & -0.01 & -0.56 & 1 & $\cdot$ \\
+    \small feature n.6 & 1.11 & 0.14 & 0.35 &	-0.19 & -0.03 & -0.48 & 1 \\
+    \hline
+  \end{tabular}
+  \label{tab:normiris}
+\end{table}
+
+\begin{table}
+  \centering
+  \caption{Projection of the Shapley compositions on the class-compositions for the $10$-classes digit recognition example.}
+  \begin{tabular}{c|cccccccccc|}
+    \cline{2-11}
+    & \multicolumn{10}{c|}{projection on the class-compositions} \\
+    \cline{2-11}
+    & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
+    \hline
+    \small feature n.1 & 1.65 & -0.85 & 0.09 & -0.57 & -1.92 & -0.34 & 1.74 & 1.96 & 0.22 & -1.81 \\
+    \small feature n.2 & -0.50 & 0.35 & 0.11 & 0.08 & -0.57 & -0.29 & -0.10 & 0.33 & -0.14 & 0.74\\
+    \small feature n.3 & 0.36 & 0.45 & 0.23 & 1.20 & -1.37 & -0.56 & 0.91 & -0.83 & -0.31 & -0.09 \\
+    \small feature n.4 & 0.19 & 0.02 & 0.61 & 0.18 & -0.53 & 0.46 & -0.86 & -0.17 & -0.12 & 0.22 \\
+    \small feature n.5 & -0.03 & -0.02 & -0.22 & -0.31 & -0.02 & 0.13 & 0.42 & -0.16& 0.14 & 0.07 \\
+    \small feature n.6 & -0.17 & 0.34 & -0.22 & 0.17 & -0.12 & -0.43 &-0.50  & 0.75 & 0.34 & -0.18 \\
+    \hline
+  \end{tabular}
+  \label{tab:normiris}
+\end{table}
 Other examples ... !!!
 
 \newpage
