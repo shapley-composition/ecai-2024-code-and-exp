@@ -281,9 +281,15 @@ In a four classes example, the simplex is $3$-dimensional. We illustrate this wi
 \subsection{More classes: groups of parts and balances}
 \label{sec:balances}
 
-When there are more classes, all the dimension of the ILR space cannot be visualized at once. However, $2$ or $3$-dimensional subspaces can still be visualized. In order to choose which ILR components to visualize, one needs to understand what they refer to. In this section, we briefly discuss the interpretation of the ILR components in the context of the explanation of a classifier prediction with more than 4 classes.
+When more than three classes are involved, all the dimensions of the ILR space cannot be visualized at once, but $2$ or $3$-dimensional subspaces can still be visualized. In order to select the ILR components to visualize, one needs to understand what they refer to. In this section, we briefly discuss the interpretation of the ILR components in our context.% of the explanation of a classifier prediction with more than three classes.
 
-A component of the ILR space  can be interpreted as a \emph{balance}, i.e. a logratio of two geometrical means of parts \cite{egozcue2003isometric,egozcue2005groups,pawlowskymodeling}: one giving the central values of the probabilities in one group of classes and one for another group of classes. Therefore, a balance is here comparing the weight of two group of classes. This can be illustrated by a sequential binary partition or bifurcation tree. Figure \ref{fig:trees} gives two examples. \ref{fig:bifurc1} shows the bifurcation tree corresponds to the basis obtained with the Gram-Schmidt procedure as in \cite{egozcue2003isometric} which is the one used in the examples of Figures \ref{fig:3classes} and \ref{fig:4classesshapsum}  with respectively $N=3$ and $N=4$. The first balance $\tilde{p}_1$ first compare the probabilities of class $1$ and $2$. Each next balance then recursively compares the probability for the next classe with the probabilities for the previous ones. \ref{fig:bifurc2} shows another bifurcation tree....
+A component of the ILR space  can be interpreted as a \emph{balance}, i.e. a log-ratio of two geometrical means of parts \cite{egozcue2003isometric,egozcue2005groups,pawlowskymodeling}: one giving the central values of the probabilities in one group of classes and one for another group of classes. Therefore, a balance is here comparing the weight of two groups of classes. The set of balances is built such that they are geometrically orthogonal meaning they provide nonredundant information\footnote{Not to be confused with statistical uncorrelation \cite{pawlowskymodeling}.}.
+
+This can be illustrated by a sequential binary partition or bifurcation tree. Figure \ref{fig:trees} gives two examples. \ref{fig:bifurc1} shows the bifurcation tree corresponding to the basis obtained with the Gram-Schmidt procedure as in \cite{egozcue2003isometric} which is the one used in the examples of Figures \ref{fig:3classes} and \ref{fig:4classesshapsum}  with respectively $N=3$ and $N=4$. The first balance $\tilde{p}_1$ first compare the probabilities of class $1$ and $2$. Each next balance then recursively compares the probability for the next class with the probabilities for the previous ones independently of all the others.
+
+In some applications, one may be interested in particular comparisons of groups of classes. For instance, like in an example presented in \cite{egozcue2005groups}, if one wants to compare political parties or groups, it may be pertinent to have a balance comparing left and right-wing groups. But sometimes, there are no obvious relevant comparisons to study. For instance, in the handwritten digit recognition problem, it may first seem natural to compare odd with even numbers or prime with non-prime. However, being basically a shape recognition problem and the shape of the numbers being independent of their arithmetic properties, these comparisons are not pertinent. Be that as it may, the choice of the basis must be left open, whether or not it is based on a relevant strategy. Let's use the basis of Figure \ref{fig:bifurc2} for explaining the contribution of the features in a 10-classes digit recognition classification\footnote{In this example, the bifurcation tree is obtained with agglomerative clustering of classes by recursively merging pair of classes based on the mahalanobis distance in the classifier's output space, assuming that within a pair of classes, the class-conditional densities are logistic-normal \cite{aitchison1980} with same covariance matrix.}. Let say for conciseness that we are only interested in comparing the output probability for class 0 and for class 6, and in comparing the probability for class 1 with the group of probabilities for classes 7 and 8. We therefore only look at the the third and fifth ILR dimensions ($\tilde{p}_3$ and $\tilde{p}_5$) as in Figure \ref{fig:moreclasses35}.
+
+
 \begin{figure}
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -296,16 +302,12 @@ A component of the ILR space  can be interpreted as a \emph{balance}, i.e. a log
   \begin{subfigure}{0.5\textwidth}
       \centering
       \input{bifurctree1.tex}
-      \caption{Bifurcation tree used for our $10$-class recognition task}
+      \caption{Bifurcation tree used for our $10$-classes digit recognition task}
       \label{fig:bifurc2}
     \end{subfigure}
   \caption{Two examples of bifurcation tree. \ref{fig:bifurc1}.}
   \label{fig:trees}
 \end{figure}
-
-Geometric orthogonality (not statistical uncorrelation), balances provide nonredundant information about the composition.\\
-Balancing elements\\
-\cite{egozcue2005groups}
 
 \subsection{Angles, norms and projections}
 
@@ -469,14 +471,14 @@ The Table \ref{tab:normiris} gives, for the Iris classification example of Figur
   \caption{Norm of the Shapley compositions, projection on the class-compositions and cosine similarity betweeen the Shapley compositions for the Iris classification example.}
   \begin{tabular}{c|c|ccc|cccc|}
     \cline{2-9}
-    & \multirow{2}{*}{norm} & \multicolumn{3}{c|}{projection on the class-compositions} & \multicolumn{4}{c|}{cosine similarity between each Shapley composition} \\
+    & \multirow{2}{*}{norm} & \multicolumn{3}{c|}{projection on the class-compositions} & \multicolumn{4}{c|}{cosine similarity between Shapley compositions} \\
     \cline{3-9}
-     & & setosa & versicolor & virginica & pet. length & pet. width & sep. length & sep. width \\
+     & & \small setosa & \small versicolor & \small virginica & \small pet. length & \small pet. width & \small sep. length & \small sep. width \\
     \hline
-    pet. length & 2.20  & -1.91 & 1.90 & 0.02 & 1 &$\cdot$ &$\cdot$ &$\cdot$ \\
-    pet. width & 0.51 & -0.51 & 0.29 & 0.22 & 0.90 & 1 &$\cdot$ &$\cdot$ \\
-    sep. length & 0.13 & -0.08 & 0.13 & -0.05 & 0.93 & 0.69 & 1 &$\cdot$ \\
-    sep. width & 0.11 & -0.11 & 0.04 & 0.07 & 0.77 & 0.97 & 0.49 &1 \\
+    \small pet. length & 2.20  & -1.91 & 1.90 & 0.02 & 1 &$\cdot$ &$\cdot$ &$\cdot$ \\
+    \small pet. width & 0.51 & -0.51 & 0.29 & 0.22 & 0.90 & 1 &$\cdot$ &$\cdot$ \\
+    \small sep. length & 0.13 & -0.08 & 0.13 & -0.05 & 0.93 & 0.69 & 1 &$\cdot$ \\
+    \small sep. width & 0.11 & -0.11 & 0.04 & 0.07 & 0.77 & 0.97 & 0.49 &1 \\
     \hline
   \end{tabular}
   \label{tab:normiris}
@@ -546,7 +548,7 @@ When a sample is drawn, the feature for which the sample will be used for improv
 
 In practice, the computation of the Shapley values has an exponential time complexity and we do not have necessarily access to the true distribution of the data. The Shapley values are therefore approximated using estimation algorithms like for instance the one presented in the previous appendix. However, since the obtained values are approximations, they do not necessarily respect the desired efficiency property. This point is often overlooked in the literature. In this section we write down an adjustment strategy of the estimated Shapley compositions for them to respect the efficiency property. This is a similar strategy as in the sampling approximation of the Shapley values in the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}}.
 
-Let $\{\hat{\bm{\phi}}_i\}_{1\leq i \leq d}$ be the estimated Shapley compositions (given by the Algorithm \ref{alg:2} in our experiments). Let $\displaystyle \bm{s}_{err} = \bm{f}(\bm{x}) \ominus \bm{f}_0 \ominus \underset{i=1}{\overset{d}\bigoplus} \hat{\bm{\phi}}_i$, where is the base $\bm{f}_0$ composition, be the error composition on the pertubation of all Shapley compositions, i.e. the error making the efficiency property unfulfilled. In order to respect the efficiency property, we want this error to be the neutral element of the perturnation, i.e. the ``zero'' in the sense of the Aitchison geometry, i.e the uniform distribution. We could simply perturb each estimated Shapley compositions by $\frac{1}{d}\odot\bm{s}_{err}$ however this would move each Shapley composition by the same amount while we want to allow the compositions with a higher estimation variance (i.e. with a precision likely to be lower) to move more than the ones with a smaller variance (i.e. with a precision likely to be higher).
+Let $\{\hat{\bm{\phi}}_i\}_{1\leq i \leq d}$ be the estimated Shapley compositions (given by the Algorithm \ref{alg:2} in our experiments). Let $\displaystyle \bm{s}_{err} = \bm{f}(\bm{x}) \ominus \bm{f}_0 \ominus \underset{i=1}{\overset{d}\bigoplus} \hat{\bm{\phi}}_i$, where is the base $\bm{f}_0$ composition, be the error composition on the pertubation of all Shapley compositions, i.e. the error making the efficiency property unfulfilled. In order to respect the efficiency property, we want this error to be the neutral element of the perturnation, i.e. the ``zero'' in the sense of the Aitchison geometry: the uniform distribution. We could simply perturb each estimated Shapley compositions by $\frac{1}{d}\odot\bm{s}_{err}$ however this would move each Shapley composition by the same amount while we want to allow the compositions with a higher estimation variance (i.e. with a precision likely to be lower) to move more than the ones with a smaller variance (i.e. with a precision likely to be higher).
 
 We therefore weight the $i$th adjustment by a scalar $w_i = w\left(\tr\left(\bm{\Sigma}^{(i)}\right)\right)$, where $w$ is an increasing function, and where $\displaystyle \sum_{i=1}^d w_i= 1$. Note that the vector of weight is actually a composition too. Similarly to the SHAP toolkit implementation, we choose $w$ as:
 \begin{equation}
@@ -556,7 +558,7 @@ The $i$th estimated Shapley composition is then asjusted as follow:
 \begin{equation}
   \hat{\bm{\phi}}_i \leftarrow \hat{\bm{\phi}}_i \oplus \left( w_i \odot \bm{s}_{err}\right).
 \end{equation}
-In this way, when $\epsilon$ goes to zero, the efficiency property is respected for the adjusted Shapley compositions and more weight is given to the adjusments of the Shapley compositions with a higher estimation variance.
+In this way, when $\epsilon$ goes to zero\footnote{In our experiments, $\epsilon = 10^{-6}$.}, the efficiency property is respected for the adjusted Shapley compositions and more weight is given to the adjusments of the Shapley compositions with a higher estimation variance.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -1,4 +1,4 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{11}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -17,6 +17,11 @@ Aitchison, J.
 \newblock In Marlos A. G.~Viana, D. S. P. R. e. A. S. S. o. A. M. i.~S. (ed.),
   \emph{Algebraic Methods in Statistics and Probability}, Contemporary
   Mathematics 287. American Mathematical Society, 2001.
+
+\bibitem[Aitchison \& Shen(1980)Aitchison and Shen]{aitchison1980}
+Aitchison, J. and Shen, S.~M.
+\newblock Logistic-normal distributions: Some properties and uses.
+\newblock \emph{Biometrika}, 67\penalty0 (2):\penalty0 261--272, 1980.
 
 \bibitem[Datta et~al.(2016)Datta, Sen, and Zick]{datta2016}
 Datta, A., Sen, S., and Zick, Y.

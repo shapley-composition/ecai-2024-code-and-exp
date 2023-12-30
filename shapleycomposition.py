@@ -38,8 +38,15 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         self.class_compo = class_compositions(n_class)   #class_compo[k,:] is the kth class composition meaning a distribution going straigth in favor of class k with an unit norm.
         if sbpmatrix is None:
             self.basis = None
+            self.sbpmatrix = np.zeros((n_class-1, n_class))
+            for i in range(n_class-1):
+                self.sbpmatrix[i,[j for j in range(i+1)]] = 1
+                self.sbpmatrix[i,i+1] = -1
+            print(self.sbpmatrix)
         else:
-            self.basis = np.flip(sbp_basis(sbpmatrix), axis=0)
+            #self.basis = np.flip(sbp_basis(sbpmatrix), axis=0)
+            self.basis = sbp_basis(sbpmatrix)
+            self.sbpmatrix = sbpmatrix
         self.base      = ilr(model(train_data), basis=self.basis).mean(axis=0)
         self.pred      = None
         self.shapley   = None
@@ -174,7 +181,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         if len(balances) == 2:
             fig.update_xaxes(range=[-lim, lim])
             fig.update_yaxes(range=[-lim, lim])
-            fig.update_layout(xaxis_title="ILR"+str(balances[0]), yaxis_title="ILR"+str(balances[1]), legend=dict(bgcolor='rgba(255,255,255,0.4)',yanchor="top", y=0.99, xanchor="right", x=1), margin=dict(l=0, r=0, t=0, b=0))
+            fig.update_layout(xaxis_title="ILR"+str(balances[0]), yaxis_title="ILR"+str(balances[1]), legend=dict(bgcolor='rgba(255,255,255,0.4)',yanchor="top", y=0.99, xanchor="left", x=0.01), margin=dict(l=0, r=0, t=0, b=0))
         else:
             fig.update_layout(legend=dict(bgcolor='rgba(255,255,255,0.4)', yanchor="top", y=0.99, xanchor="right", x=1),
                               margin=dict(l=0, r=0, t=0, b=0),
@@ -184,7 +191,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
 
 
         #Draw maximum probability region boundaries if this is a 3 or a 4 class problem and the number of ILR components to visualize are respectively 2 and 3
-        class_vect  = ilr(self.class_compo, basis=self.basis) 
+        class_vect  = ilr(self.class_compo, basis=self.basis)
         
         if len(balances) == 2 and self.n_class == 3:
             fig.add_trace(go.Scatter(x=[0,-10*lim*class_vect[0,balances[0]-1]], y=[0,-10*lim*class_vect[0,balances[1]-1]], mode='lines', line={ 'color': 'black', 'dash': 'dot'}, opacity=0.4, name='Max. proba.<br>region boundaries'))
@@ -204,12 +211,15 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
                                 alphahull=0))
 
         #Draw the class vectors, meaning the vectors going straight in favor of one class with a norm 1.
+        #(Only those with non zero projection)
         if len(balances) == 2:
-            for i in range(self.n_class):
-                fig.add_trace(go.Scatter(x=[0,class_vect[i,balances[0]-1]], y=[0,class_vect[i,balances[1]-1]], mode='lines', line={'dash': 'dot'}, name=self.names_classes[i], legendgroup='class', legendgrouptitle_text='Class composition:'))
+            for i in np.unique(np.concatenate((np.argwhere(self.sbpmatrix[balances[0]-1,:]!=0), np.argwhere(self.sbpmatrix[balances[1]-1,:]!=0))).squeeze()):
+                #fig.add_trace(go.Scatter(x=[0,class_vect[i,balances[0]-1]], y=[0,class_vect[i,balances[1]-1]], mode='lines', line={'dash': 'dot'}, name=self.names_classes[i], legendgroup='class', legendgrouptitle_text='Class composition:'))
+                fig.add_trace(go.Scatter(x=[0,class_vect[i,balances[0]-1]], y=[0,class_vect[i,balances[1]-1]], mode='lines', line={'dash': 'dot'}, name=self.names_classes[i], legendgroup='class'+str(i)))
 
         else:
-            for i in range(self.n_class):
+            #for i in range(self.n_class):
+            for i in np.unique(np.concatenate((np.argwhere(self.sbpmatrix[balances[0]-1,:]!=0), np.argwhere(self.sbpmatrix[balances[1]-1,:]!=0), np.argwhere(self.sbpmatrix[balances[2]-1,:]!=0))).squeeze()):
                 fig.add_trace(go.Scatter3d(x=[0,class_vect[i,balances[0]-1]], y=[0,class_vect[i,balances[1]-1]],z=[0,class_vect[i,balances[2]-1]], mode='lines', line={'dash': 'dash', 'width' : 5}, name=self.names_classes[i], legendgroup='class', legendgrouptitle_text='Class composition:'))
 
         #PLOT THE SHAPLEY COMPOSITION IN THE ILR (SUB)SPACE
@@ -249,9 +259,9 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
 
         return fig
 
-    def shapley_histogram(self, figwidth=500, figheight=400):
+    def shapley_histogram(self, figwidth=500, figheight=400, fontsize=14):
         fig = go.Figure(layout=go.Layout(autosize=False, width=figwidth, height=figheight))
-        fig.update_layout(barmode='group', legend=dict(orientation='h', bgcolor='rgba(255,255,255,0.4)',yanchor="top", y=0.99, xanchor="right", x=1, title='Classes'), margin=dict(l=0, r=0, t=0, b=0))
+        fig.update_layout(barmode='group', font=dict(size=fontsize), legend=dict(orientation='h', font=dict(size=12), bgcolor='rgba(255,255,255,0.4)',yanchor="top", y=0.99, xanchor="right", x=1), margin=dict(l=0, r=0, t=0, b=0))
         for i in range(self.n_class):
             fig.add_trace(go.Bar(name=self.names_classes[i], x=self.names_features, y=ilr_inv(self.shapley, basis=self.basis)[:,i]))
         fig.update_layout(bargroupgap=0)

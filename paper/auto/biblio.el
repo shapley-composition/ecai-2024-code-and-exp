@@ -5,6 +5,7 @@
          "--synctex=1 -shell-escape")
    (LaTeX-add-bibitems
     "NIPS2017_7062"
+    "aitchison1980"
     "vstrumbelj2014explaining"
     "datta2016"
     "shapley1953value"

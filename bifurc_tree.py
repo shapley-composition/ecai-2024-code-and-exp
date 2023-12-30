@@ -97,6 +97,7 @@ def sbp_from_aggloclustchildren(children):
         else:
             S[i,M[children[i,1]-children.shape[0]-1]] = -1
             M[i] = M[i]+M[children[i,1]-children.shape[0]-1]
+    S = S[np.argsort((S!=0).sum(axis=1)),:]
     return S
         
 # S = np.array([[1,1,-1,-1,1,1],[1,-1,0,0,-1,-1],[0,1,0,0,-1,-1],[0,0,0,0,1,-1],[0,0,1,-1,0,0]])

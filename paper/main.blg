@@ -5,45 +5,45 @@ The style file: icml2024.bst
 Database file #1: biblio.bib
 Warning--I didn't find a database entry for "langley00"
 Warning--empty journal in shapley1953value
-You've used 10 entries,
+You've used 11 entries,
             2773 wiz_defined-function locations,
-            668 strings with 7048 characters,
-and the built_in function-call counts, 5456 in all, are:
-= -- 484
-> -- 330
-< -- 9
-+ -- 111
-- -- 101
-* -- 438
-:= -- 832
-add.period$ -- 33
-call.type$ -- 10
-change.case$ -- 58
-chr.to.int$ -- 10
-cite$ -- 21
-duplicate$ -- 244
-empty$ -- 433
-format.name$ -- 118
-if$ -- 1159
+            676 strings with 7212 characters,
+and the built_in function-call counts, 5912 in all, are:
+= -- 528
+> -- 351
+< -- 10
++ -- 118
+- -- 107
+* -- 476
+:= -- 900
+add.period$ -- 36
+call.type$ -- 11
+change.case$ -- 63
+chr.to.int$ -- 11
+cite$ -- 23
+duplicate$ -- 264
+empty$ -- 473
+format.name$ -- 127
+if$ -- 1255
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 11
-newline$ -- 59
-num.names$ -- 44
-pop$ -- 120
+missing$ -- 12
+newline$ -- 64
+num.names$ -- 48
+pop$ -- 127
 preamble$ -- 1
-purify$ -- 49
+purify$ -- 53
 quote$ -- 0
-skip$ -- 196
+skip$ -- 212
 stack$ -- 0
-substring$ -- 247
-swap$ -- 39
+substring$ -- 274
+swap$ -- 40
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 105
+type$ -- 116
 warning$ -- 1
-while$ -- 49
+while$ -- 54
 width$ -- 0
-write$ -- 139
+write$ -- 152
 (There were 2 warnings)
