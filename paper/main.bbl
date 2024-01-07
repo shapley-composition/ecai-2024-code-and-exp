@@ -1,4 +1,4 @@
-\begin{thebibliography}{11}
+\begin{thebibliography}{15}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -23,6 +23,13 @@ Aitchison, J. and Shen, S.~M.
 \newblock Logistic-normal distributions: Some properties and uses.
 \newblock \emph{Biometrika}, 67\penalty0 (2):\penalty0 261--272, 1980.
 
+\bibitem[Angelov et~al.(2021)Angelov, Soares, Jiang, Arnold, and
+  Atkinson]{angelov2021explainable}
+Angelov, P.~P., Soares, E.~A., Jiang, R., Arnold, N.~I., and Atkinson, P.~M.
+\newblock Explainable artificial intelligence: an analytical review.
+\newblock \emph{Wiley Interdisciplinary Reviews: Data Mining and Knowledge
+  Discovery}, 11\penalty0 (5):\penalty0 e1424, 2021.
+
 \bibitem[Datta et~al.(2016)Datta, Sen, and Zick]{datta2016}
 Datta, A., Sen, S., and Zick, Y.
 \newblock Algorithmic transparency via quantitative input influence: Theory and
@@ -38,6 +45,19 @@ Egozcue, J.~J. and Pawlowsky-Glahn, V.
 \newblock \emph{Mathematical Geology}, 37\penalty0 (7):\penalty0 795--828,
   2005.
 
+\bibitem[Egozcue \& Pawlowsky-Glahn(2011)Egozcue and
+  Pawlowsky-Glahn]{egozcue2011evidence}
+Egozcue, J.~J. and Pawlowsky-Glahn, V.
+\newblock Evidence information in bayesian updating.
+\newblock \emph{Proc. International Workshop on Compositional Data Analysis},
+  05 2011.
+
+\bibitem[Egozcue \& Vera(2018)Egozcue and Vera]{egozcue2018evidence}
+Egozcue, J.~J. and Vera, P.-G.
+\newblock Evidence functions: a compositional approach to information.
+\newblock \emph{SORT-Statistics and Operations Research Transactions},
+  1\penalty0 (2):\penalty0 101--124, Dec. 2018.
+
 \bibitem[Egozcue et~al.(2003)Egozcue, Pawlowsky-Glahn, Mateu-Figueras, and
   Barcelo-Vidal]{egozcue2003isometric}
 Egozcue, J.~J., Pawlowsky-Glahn, V., Mateu-Figueras, G., and Barcelo-Vidal, C.
@@ -52,6 +72,12 @@ Lundberg, S.~M. and Lee, S.-I.
   Vishwanathan, S., and Garnett, R. (eds.), \emph{Advances in Neural
   Information Processing Systems 30}, pp.\  4765--4774. Curran Associates,
   Inc., 2017.
+
+\bibitem[No{\'e}(2023)]{noe2023representing}
+No{\'e}, P.-G.
+\newblock \emph{Representing evidence for attribute privacy: bayesian updating,
+  compositional evidence and calibration}.
+\newblock PhD thesis, Universit{\'e} d'Avignon, 2023.
 
 \bibitem[Pawlowsky-Glahn et~al.(2015)Pawlowsky-Glahn, Egozcue, and
   Tolosana-Delgado]{pawlowskymodeling}

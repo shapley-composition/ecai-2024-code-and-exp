@@ -126,33 +126,27 @@
 \printAffiliationsAndNotice{\icmlEqualContribution} % otherwise use the standard text.
 
 \begin{abstract}
-  The Shapley value has been widely used for measuring the contribution of each feature to a model's prediction. However, coming from game theory, this has been designed for a one-dimensional function's codomain. For a multiclass probabilistic classifier, the output is a discrete probability distribution, over a set of more than two possible classes, and lives on a multidimensional simplex. In this case, the Shapley values are sometimes computed on each output dimension one-by-one, in an implicit one-vs-rest setting, ignoring the compositional nature of the output distribution. Indeed, elements of the simplex are known as compositional data and a discrete probability distribution can therefore be treated as such taking into account the relative information between probabilities. Using the Aitchison geometry of the simplex, this paper presents a first initiative for a multidimensional extension of the concept of Shapley value, named Shapley composition, for explaining probabilistic predictions on the simplex in machine learning.
+  Shapley values have been widely used for explaining a machine learning model's prediction by measuring the contribution of each feature to the prediction. Coming from game theory, the Shapley value has been designed for a one-dimensional function's codomain. However, for a multiclass probabilistic classifier, the output is a discrete probability distribution, over a set of more than two possible classes, and lives on a multidimensional simplex. In this case, the Shapley values are sometimes computed on each output dimension one-by-one, in an implicit one-vs-rest setting, ignoring the compositional nature of the output distribution. Indeed, elements of the simplex are known as compositional data and a discrete probability distribution can therefore be treated as such taking into account the relative information between probabilities. Using the Aitchison geometry of the simplex, this paper presents an initiative for a multidimensional extension on the simplex of the concept of Shapley value, named Shapley composition, for explaining probabilistic predictions in machine learning.
 \end{abstract}
 
 \section{Introduction}
 
-Modern machine learning approaches like the one based on deep learning are often regarded as black-boxes making them not reliable for real-life application where the machine learnbing prediction has to be understood. These last years, the number of contribution to make models more explainable has therefore increased in the machine learning literature. One way to better understand a prediction would be to measure the contribution of each input features on the computation of the model output. The concept of Shapley value is now widely used for this purpose \cite{vstrumbelj2014explaining,datta2016} especially since the release of the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap}}. The Shapley value came from cooperative game theory...
+Many machine learning approaches---like the one based on deep learning or random forests---are often regarded as black-boxes making them unreliable for real-life applications where the model's predictions have to be understood or explainable. These recent years, the interest in more explainable models and explainability methods has therefore increased in the machine learning literature \cite{angelov2021explainable}. One group of approaches, known as \emph{local explanation}, aims to measure the contribution of each input feature to the computation of the model's output. Shapley values are widely used for this purpose \cite{vstrumbelj2014explaining,datta2016}, especially since the release of the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap}}. The Shapley values come from cooperative game theory where a group of players work together to maximize a payoff. A set of Shapley values uniquely distributes the payoff over all the players according to their individual contribution to the total. Shapley value is known for respecting a set of desired axiomatic properties \cite{shapley1953value}. For explaining a machine learning model's prediction, a player becomes a feature and the total payoff is the scalar output of the model.
 
-explain shapley in game theory,
+The concept of Shapley value is designed for a one-dimensional function's codomain. In game theory, the function takes a coalition of players and gives a gain or payoff. In machine learning, the function takes a group of features from an instance and gives a one-dimensional output or prediction. For two-classes classification models, the output is one-dimensional and usually given by a sigmoid transformation. The Shapley value framework can therefore simply be applied to the logit transformation of the model output. The logit transformation maps the sigmoid codomain $]0,1[$ to the real line $\mathbb{R}$. However, for classification tasks with more than two possible classes, the output of the model is multidimensional. This can be a discrete probability distribution or the output of a softmax layer commonly used in neural-networks. For a $N$-classes problem, these outputs live on a $(N-1)$-dimensional simplex. In this case, the Shapley value framework cannot be directly applied. Some apply the framework on each output probability one-by-one ignoring the structure of the simplex and the relative information between the probabilities.
 
-How it is applied to ML,
+Compositional data analysis \cite{aitchison1982,pawlowskymodeling} aims at treating data---known as compositions---living on a simplex. Compositional data analysis tools have been applied for instance on geological, and chemical data but also to discrete probability distributions \cite{egozcue2011evidence,egozcue2018evidence,noe2023representing}. This paper presents the use of the Aitchison geometry of the simplex, coming from the field of compositional data analysis, for extending the concept of Shapley value to the probability simplex, i.e. the space of discrete probability distributions. This can be used to properly explain multiclass probabilistic prediction.
 
-Limitation,
+The next section of the paper, Section \ref{sec:shapley}, recalls the standard definition of the Shapley values, as applied to one-dimensional predictions in machine learning. Section \ref{sec:compo} presents the necessary tools from compositional data analysis, in particular, the Aitchison geometry of the simplex. Section \ref{sec:shapcompo} is the main contribution of the paper which is mostly theoretical. It defines, using the Aitchison geometry, the concept of Shapley composition for extending the Shapley value framework to the multidimensional simplex. Section \ref{sec:explain} shows, with simple examples and visualizations, how Shapley compositions can be used for explaining multidimensional probabilistic predictions in machine learning. Section \ref{sec:conclud} provides additional remarks and concludes the work.
 
-...
-
-\subsection{Contributions}
-
-...
-
-\section{The Shapley value in machine learning}
+\section{The Shapley values in machine learning}
 \label{sec:shapley}
 
-In this section, we recall the theoretical formulation of the Shapley value for measuring the contribution of each feature on a machine learning prediction.
+This section recalls the theoretical formulation of the Shapley values for measuring the contribution of each feature on a machine learning prediction.
 
-Let $f:\mathcal{X}\to\mathbb{R}$ be a learned model one want to \emph{locally} explain where $f(\bm{x})$ is the prediction on the instance $\bm{x}\in\mathcal{X}\subset\mathbb{R}^d$. Let $\text{Pr}$ be the probability distribution over $\mathcal{X}$ of the data\footnote{Usually, this is unknown but expectations will be replaced by empirical averagings.}. Let $S\subseteq \mathcal{I}=\{1,2,\dots d\}$, where $d$ is the number of features that composes an instance $\bm{x}\in\mathcal{X}$, be a subset of indices. $\bm{x}_S$ refers to an instance $\bm{x}$ restricted to the features indicated by the indices in $S$.
+Let $f:\mathcal{X}\to\mathbb{R}$ be a learned model one wants to \emph{locally} explain where $f(\bm{x})$ is the prediction on the instance $\bm{x}\in\mathcal{X}\subset\mathbb{R}^d$. Let $\text{Pr}$ be the probability distribution over $\mathcal{X}$ of the data\footnote{Usually, this is unknown but expectations will be replaced by empirical averagings.}. Let $S\subseteq \mathcal{I}=\{1,2,\dots d\}$ be a subset of indices where $d$ is the number of features. $\bm{x}_S$ refers to an instance $\bm{x}$ restricted to the features indicated by the indices in $S$.
 
-When an instance $\bm{x}$ is observed, the expected value of the prediction is simply $\mathbb{E}[f(\bm{x}) \mid \bm{x}] = f(\bm{x})$. However, when only $\bm{x}_S$ is given with $\mathcal{S} \neq \mathcal{I}$, there is uncertainty about the other features and we therefore compute the expected prediction given $\bm{x}_S$: $\mathbb{E}_{\text{Pr}}[f(\bm{x}) \mid \bm{x}_S] = \int_{\bm{x} \in \mathcal{X}}f(\bm{x})\text{Pr}(\bm{x} \mid \bm{x}_S)d\bm{x}$. The contribution of the feature indexed by $i \notin S$ in the prediction $f(\bm{x})$ given the known features indexed by $S$ is given by:
+When an instance $\bm{x}$ is observed, the expected value of the prediction is simply $\mathbb{E}[f(\bm{x}) \mid \bm{x}] = f(\bm{x})$. However, when only $\bm{x}_S$ is given with $\mathcal{S} \neq \mathcal{I}$, there is uncertainty about the non-observed features and we therefore compute the expected prediction given $\bm{x}_S$: $\mathbb{E}_{\text{Pr}}[f(\bm{x}) \mid \bm{x}_S] = \int_{\bm{x} \in \mathcal{X}}f(\bm{x})\text{Pr}(\bm{x} \mid \bm{x}_S)d\bm{x}$. The contribution of the feature indexed by $i \notin S$ in the prediction $f(\bm{x})$ given the known features indexed by $S$ is given by:
 \begin{equation}
   \label{eq:contrib}
   c_{f,\bm{x},\text{Pr}}(i,\bm{X}_S) = v_{f,\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) - v_{f,\bm{x},\text{Pr}}(\bm{X}_S),
@@ -165,11 +159,11 @@ where $v$ is known as the value function:
     S &\mapsto \mathbb{E}_\text{Pr}[f(\bm{x})\mid \bm{x}_S],
   \end{aligned}
 \end{equation}
-where $2^{\mathcal{I}}$ is the set of all subsets of $\mathcal{I}$. This measure the contribution of the $i$th features with a particular \emph{coalition} of features indexed by $S$. The whole contribution of the $i$th feature is computing by averaging this quantity over all possible coalitions as follow:
+where $2^{\mathcal{I}}$ is the set of all subsets of $\mathcal{I}$. This measures the contribution of the $i$th features with a particular \emph{coalition} of features indexed by $S$. The whole contribution of the $i$th feature is computed by averaging this quantity over all possible coalitions as follows:
 \begin{equation}
   \phi_{f,\bm{x},\text{Pr}}(i) = \frac{1}{d!} \sum_{\pi}c_{f,\bm{x},\text{Pr}}(i,\pi^{<i}_{\bm{X}}),
 \end{equation}
-where $\pi$ is a permutation of the set $\mathcal{I}$ of indexes and $\pi^{<i}_{\bm{X}}$ is the features of $\bm{X}$ coming before the $i$th feature in the ordering given by $\pi$. For better clarity, the subscript $_{f,\bm{x},\text{Pr}}$ wil be dropt from the equations.
+where $\pi$ is a permutation of the set $\mathcal{I}$ of indexes and $\pi^{<i}_{\bm{X}}$ is the features of $\bm{X}$ coming before the $i$th feature in the ordering given by $\pi$. For better clarity, the subscript $_{f,\bm{x},\text{Pr}}$ will be dropped from the equations.
 
 This quantity is known as the Shapley value for the $i$th feature. It comes from cooperative game theory and is known to be the only quantity respecting a set of desired axiomatic properties \cite{shapley1953value}. It is linear as a function of the model ($\alpha, \beta \in \mathbb{R}$): $\phi_{\alpha f +\beta g}(i) = \alpha \phi_f(i) + \beta \phi_g(i)$, and the ``centered'' learned model is additively separable with respect to the Shapley values:
 \begin{equation}
@@ -177,39 +171,48 @@ This quantity is known as the Shapley value for the $i$th feature. It comes from
 \end{equation}
 which is known as the \emph{efficiency} property.
 
-The Shapley value is designed for one-dimensinal codomain of the function $f$. For explaining machine learning models which output multidimensional discrete probability distribution, like in multiclass classification, people have been explaining each output dimension one-by-one, applying a logit transformation to the probabilities, resulting in a one-vs-rest comparison. However, this approach ignores the relative information between each probability and ignores the compositional nature of probability distributions. Indeed, the probabilistic output of a classifier lives on a multidimensional simplex. The latter is the sample space of data refered as \emph{compositional data} we briefly review in the next section.
+The Shapley value is designed for a one-dimensional codomain of the function $f$. For explaining machine learning models which output multidimensional discrete probability distributions, like in multiclass classification, some people have been explaining each output dimension one-by-one, applying a logit transformation to the probabilities, resulting in a one-vs-rest comparison. However, this approach ignores the relative information between each probability and ignores the compositional nature of the discrete probability distributions. Indeed, the probabilistic output of a classifier lives on a multidimensional simplex. The latter is the sample space of \emph{compositional data} briefly reviewed in the next section.
 
 \section{Compositional data}
+\label{sec:compo}
 
-Compositional data carries relative information. Each element of a composition \emph{describes a part of some whole} \cite{pawlowskymodeling} like vectors of proportions, concentrations, and discrete probability distributions. A $N$-part composition is a vector of $N$ non-zero positive real numbers that sum to a constant $k$. Each element of the vector is a part of the \emph{whole} $k$. The sample space of compositional data is the simplex: $\mathcal{S}^N = \left\{ \bm{x} = [x_1, x_2,\dots x_{N}]^T \in \mathbb{R}^{*N}_{+} \big| \sum_{i=1}^{N} x_i = k \right\}$. In a composition, only the relative information between parts matters and John Aitchison introduced the use of log-ratios of components to handle this \cite{aitchison1982}. He defined several operations on the simplex which leads to what is called the \emph{Aitchison geometry of the simplex}.
+Compositional data carries relative information. Each element of a composition \emph{describes a part of some whole} \cite{pawlowskymodeling} like vectors of proportions, concentrations, and discrete probability distributions. A $N$-part composition is a vector of $N$ non-zero positive real numbers that sum to a constant $k$. Each element of the vector is a part of the \emph{whole} $k$. The sample space of compositional data is the simplex: $\mathcal{S}^N = \left\{ \bm{x} = [x_1, x_2,\dots x_{N}]^T \in \mathbb{R}^{*N}_{+} \big| \sum_{i=1}^{N} x_i = k \right\}$. In a composition, only the relative information between parts matters and John Aitchison introduced the use of log-ratios of parts to handle this \cite{aitchison1982}. He defined several operations on the simplex which leads to what is called the \emph{Aitchison geometry of the simplex}.
 
 \subsection{The Aitchison geometry of the simplex}
 John Aitchison defined an internal operation called \emph{perturbation}, an external one called \emph{powering} and an inner product \cite{aitchison2001}:
 \begin{itemize}
-\item a \emph{perturbation}:
-  $\bm{x}\oplus \bm{y} = \mathcal{C}\left([x_1y_1,\dots x_{N}y_{N}]\right)$ seen as an addition between two compositions $\bm{x},\bm{y}\in \mathcal{S}^N$,
-\item a \emph{powering}:
-  $\alpha \odot \bm{x} = \mathcal{C}\left([x_{1}^{\alpha},\dots x_{N}^{\alpha}]\right)$ seen as a multiplication by a scalar $\alpha \in \mathbb{R}$,
-\item an inner product:\\
-  $\displaystyle \langle \bm{x},\bm{y} \rangle_a = \frac{1}{2N}\sum_{i=1}^{N} \sum_{j=1}^{N} \log \frac{x_i}{x_j}\log \frac{y_i}{y_j}$,
+\item \emph{perturbation}:
+  \begin{equation*}
+    \bm{x}\oplus \bm{y} = \mathcal{C}\left([x_1y_1,\dots x_{N}y_{N}]\right),
+  \end{equation*}
+  seen as an addition between two compositions $\bm{x},\bm{y}\in \mathcal{S}^N$,
+\item \emph{powering}:
+  \begin{equation*}
+    \alpha \odot \bm{x} = \mathcal{C}\left([x_{1}^{\alpha},\dots x_{N}^{\alpha}]\right),
+  \end{equation*}
+  seen as a multiplication by a scalar $\alpha \in \mathbb{R}$,
+\item inner product:
+  \begin{equation*}
+    \langle \bm{x},\bm{y} \rangle_a = \frac{1}{2N}\sum_{i=1}^{N} \sum_{j=1}^{N} \log \frac{x_i}{x_j}\log \frac{y_i}{y_j},
+  \end{equation*}
 \end{itemize}
 where $\mathcal{C}(\cdot)$ is the closure operator. Since only the relative information matter, scaling factors are irrelevant and a composition $\bm{x}$ is equivalent to $\lambda \bm{x} = [\lambda x_1,\lambda x_2,\dots\lambda x_N]$ for all $\lambda>0$. This equivalence is materialized by the closure operator defined for $k>0$ as: $\mathcal{C}\left(\bm{x} \right) = \left[ \frac{k x_1}{\lVert \bm{x} \rVert_1}, \frac{k x_2}{\lVert \bm{x} \rVert_1} ,\dots \frac{k x_N}{\lVert \bm{x} \rVert_1} \right]^T$, where $\bm{x} \in \mathbb{R}_+^{*N}$ and $\displaystyle \lVert \bm{x} \rVert_1 = \sum_{i=1}^N \lvert x_i \rvert$.%Therefore, any vector of positive real numbers can be projected onto the simplex using the closure.
 
-This give to the simplex a $(N-1)$-dimensional Euclidean vector space structure called \emph{Aitchison geometry of the simplex}. In this paper, since we are interested in classifiers' outputs as discrete probability distributions, we restrict ourselves to the \emph{probability simplex} where $k=1$.
+This gives to the simplex a $(N-1)$-dimensional Euclidean vector space structure called \emph{Aitchison geometry of the simplex}. In this paper, since we are interested in classifiers' outputs as discrete probability distributions, we restrict ourselves to the \emph{probability simplex} where $k=1$.
 
 \subsection{The isometric log-ratio transformation}
 \label{sec:ilr}
 
-An $(N-1)$-dimensional orthonormal basis of the simplex, refered as an \emph{Aitchison} orthonormal basis, can be built. The projection of a composition (like a discrete probability distribution) into this basis defines an isometric isomorphism between $\mathcal{S}^N$ and $\mathbb{R}^{N-1}$. This is known as an Isometric-Log-Ratio (ILR) transformation \cite{egozcue2003isometric} and allows to express the compositions into a Cartesian coordinates system preserving the metric of the Aitchison geometry. Within this real space, the permutation, the powering and the Aitchison inner product defined above are respectively the standard addition, multiplication by a scalar and inner product.
+An $(N-1)$-dimensional orthonormal basis of the simplex, referred to as an \emph{Aitchison} orthonormal basis, can be built. The projection of a composition into this basis defines an isometric isomorphism between $\mathcal{S}^N$ and $\mathbb{R}^{N-1}$. This is known as an Isometric-Log-Ratio (ILR) transformation \cite{egozcue2003isometric} and allows to express a composition into a Cartesian coordinates system preserving the metric of the Aitchison geometry. Within this real space, the permutation, the powering and the Aitchison inner product defined above are respectively the standard addition between two vectors, the multiplication of a vector by a scalar, and the standard inner product.
 
-Given a composition $\bm{p} = \left[ p_1,\dots p_N \right]^T \in \mathcal{S}^N$ we express its ILR transformation as $\tilde{\bm{p}} = \ilr \left( \bm{p} \right) = \left[ \tilde{p}_1,\dots \tilde{p}_{N-1} \right]^T \in \mathbb{R}^{N-1}$. The $i$th element $\tilde{p}_i$ of $\tilde{\bm{p}}$ is be obtained as: $\tilde{p}_i = \langle \bm{p}, \bm{e}^{(i)} \rangle_a$ where the set $\{\bm{e}^{(i)} \in \mathcal{S}^N, i=1,\dots N-1\}$ forms an \emph{Aitchison} orthonormal basis of the simplex. The choice of the basis will be discussed in Section \ref{sec:balances}.
+Given a composition $\bm{p} = \left[ p_1,\dots p_N \right]^T \in \mathcal{S}^N$ we write its ILR transformation as $\tilde{\bm{p}} = \ilr \left( \bm{p} \right) = \left[ \tilde{p}_1,\dots \tilde{p}_{N-1} \right]^T \in \mathbb{R}^{N-1}$. The $i$th element $\tilde{p}_i$ of $\tilde{\bm{p}}$ is obtained as: $\tilde{p}_i = \langle \bm{p}, \bm{e}^{(i)} \rangle_a$ where the set $\{\bm{e}^{(i)} \in \mathcal{S}^N, i=1,\dots N-1\}$ forms an \emph{Aitchison} orthonormal basis of the simplex. The choice of the basis will be discussed in Section \ref{sec:balances}.
 
+\section{Shapley composition on the simplex}
+\label{sec:shapcompo}
 
-\section{Shapley on the simplex}
+In Section \ref{sec:shapley} we have briefly presented the standard definition of the Shapley values in the context of machine learning one-dimensional predictions explanation. In this Section, we will see how the Aitchison geometry can be used to extend the concept of Shapley value to the simplex for explaining multidimensional probabilistic predictions.
 
-In Section \ref{sec:shapley} we have briefly presented the standard use of Shapley value designed for explaining one-dimensional predictions. In this Section, we will see how the Aitchison geometry can be used to extend the concept of Shapley value to the simplex for explaning multidimensional probabilistic predictions.
-
-Let $\bm{f}:\mathcal{X}\to\mathcal{S}^N$ be a learned model, like a $N$-classes probabilistic classifier for instance, which outputs a probabilistic prediction on the $(N-1)$-dimensional probability simplex $S^N$. To properly consider the relative information between the probabilities, the output of the model must be treated as compositional data using the operators and metric defined by the Aitchison geometry of the simplex. We therefore rewrite the contribution and the value function of Equations \ref{eq:contrib} and \ref{eq:valuefunction} as follow:
+Let $\bm{f}:\mathcal{X}\to\mathcal{S}^N$ be a learned model, like a $N$-classes probabilistic classifier for instance, which outputs a probabilistic prediction on the $(N-1)$-dimensional probability simplex $S^N$. In order to properly consider the structure of the simplex and the relative information between the probabilities, the output of the model must be treated as compositional data using the operators and metrics defined by the Aitchison geometry of the simplex. We therefore rewrite the contribution and the value function of Equations \ref{eq:contrib} and \ref{eq:valuefunction} as follows:
 \begin{equation}
   \bm{c}_{\bm{f},\bm{x},\text{Pr}}(i,\bm{X}_S) = \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) \ominus \bm{v}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_S),
 \end{equation}
@@ -217,29 +220,28 @@ where $\bm{a}\ominus\bm{b}$ is the perturbation $\bm{a} \oplus \left( (-1)\odot 
 \begin{equation}
   \label{eq:valuefunctionsimplex}
   \begin{aligned}
-    \bm{v}_{\bm{f},\bm{x},\text{Pr}}: 2^{\mathcal{X}} &\to \mathcal{S}^N,\\
-    \bm{X}_S &\mapsto \mathbb{E}^{\mathcal{A}}_\text{Pr}[\bm{f}(\bm{x})\mid \bm{x}_S].
+    \bm{v}_{\bm{f},\bm{x},\text{Pr}}: 2^{\mathcal{I}} &\to \mathcal{S}^N,\\
+    S &\mapsto \mathbb{E}^{\mathcal{A}}_\text{Pr}[\bm{f}(\bm{x})\mid \bm{x}_S].
   \end{aligned}
 \end{equation}
-The $\mathcal{A}$ in superscript highlight the fact that the expectation is done with respect to the Aitchison measure, rather than the Lebesgue measure, which can simply be computed as: $\mathbb{E}^{\mathcal{A}}[\bm{Y}] = \ilr^{-1}\left( \mathbb{E} \left[ \ilr\left( \bm{Y} \right) \right] \right)$,
+The $\mathcal{A}$ in superscript highlights the fact that the expectation is done with respect to the Aitchison measure, rather than the Lebesgue measure, which can simply be computed as: $\mathbb{E}^{\mathcal{A}}[\bm{Y}] = \ilr^{-1}\left( \mathbb{E} \left[ \ilr\left( \bm{Y} \right) \right] \right)$,
 where $\mathbb{E}^{\mathcal{A}}$ refers to the expectation with respect to the Aitchison measure while $\mathbb{E}$ refers to the expectation with respect to the Lebesgue measure \cite{pawlowskymodeling}.
 
-The Shapley quantity expressing the contribution of the $i$th feature on a prediction can simply be expressed on the simplex as the \emph{Shapley composition} $\bm{\phi}(i)$ given by:
+The Shapley quantity expressing the contribution of the $i$th feature on a prediction can simply be expressed on the simplex as the composition $\bm{\phi}(i)$ given by:
 \begin{equation}
   \bm{\phi}_{\bm{f},\bm{x},\text{Pr}}(i) = \frac{1}{d!} \odot \underset{\pi}{\bigoplus}\bm{c}_{\bm{f},\bm{x},\text{Pr}}(i,\pi^{<i}_{\bm{X}}).
 \end{equation}
-It can be shown (in Appendix \ref{app:properties}) that the linearity and the efficiency properties naturally hold for the Shapley composition:
+We call this quantity \emph{Shapley composition}. It can be shown (in Appendix \ref{app:properties}) that the linearity and the efficiency properties naturally hold for the Shapley composition:
 \begin{equation}
   \begin{aligned}
     \bm{\phi}_{\alpha \odot \bm{f}(\bm{x}) \oplus \beta \odot \bm{g}(\bm{x})}(i) &= \alpha \odot \bm{\phi}_{\bm{f}}(i) \oplus \beta\odot \bm{\phi}_{\bm{g}}(i),\\
     \underset{i=1}{\overset{d}\bigoplus} \bm{\phi}_{\bm{f}}(i) &= \bm{f}(\bm{x}) \ominus \mathbb{E}^{\mathcal{A}}_{\text{Pr}}[\bm{f}(\bm{X})].
   \end{aligned}
 \end{equation}
-This can be seen as a multidimensional extension of the Shapley value framework on the simplex. Here, the Shapley quantity is not a scalar anymore, this is a composition living on the probability simplex. In the next section, we will see in more details how this can be used to explain the contribution of the features on a multidimensional probabilistic prediction.
+This can be seen as a multidimensional extension of the Shapley value framework on the simplex. Here, the Shapley quantity is not a scalar anymore, this is a composition living on the probability simplex. In the next section, we will see in more detail how this can be used to explain the contribution of each feature to a multidimensional probabilistic prediction.
 
 \section{Explaining probabilistic prediction with Shapley compositions}
 \label{sec:explain}
-
 
 Given a prediction $\bm{f}(\bm{x})$, the Shapley composition $\bm{\phi}_{\bm{f},\bm{x},\text{Pr}}(i)$ describes the contribution of the $i$th feature on the prediction. The efficiency property shows how the probability distribution moves from the base value, i.e. the expected prediction regardless of the current input, to the prediction $\bm{f}(\bm{x})$. In the standard Shapley formulation recalled in Section \ref{sec:shapley}, the prediction is one-dimensional such that the Shapley quantity is a scalar. In application where there are more than two possible classes, the prediction is multidimensional such that the Shapley quantity is too. Both lives on the same space: the probability simplex. In this section, we discuss how the set of Shapley compositions can be analysed to better understand the contribution and influence of each features on the prediction.
 
@@ -343,27 +345,18 @@ As another illustration, Figure \ref{fig:histmore} shows the Shapley composition
 
 \subsection{About our implementation}
 
-In this work, the estimation algorithm we used to compute the Shapley compositions is an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining}. Since the resulting Shapley compositions are approximations, the efficiency property does not necessarily hold. Each Shapley composition is therefore corrected following a similar method as in the sampling approximation in the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}} to respect the efficiency propery. See Appendix \ref{app:algo} and \ref{app:correct} for more details.
+In this work, the estimation algorithm we used to compute the Shapley compositions is an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining}. Since the resulting Shapley compositions are approximations, the efficiency property does not necessarily hold. Each Shapley composition is therefore corrected following a similar method as in the sampling approximation in the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}} to respect the efficiency propery. See Appendix \ref{app:algo} and \ref{app:correct} for more details\footnote{The estimation algorithm we use assumes that the features are independent. We leave the exploration of estimation algorithms with no features-independence assumption for future work.}.
 
-\section{Shapley values versus Shapley composition}
-
-We just proposed a theoretically well founded extension of the concept of Shapley value for the explaining multidimensional prediction in machine learning. The use of standard Shapley value in this context has been rarely discuss in the literature. However, some compute a Shapley value on each output dimension one-by-one. We here briefly discuss and compare this approach with the Shapley composition framework.
-
-A Shapley value can be computed on the logit of the probability for each classes resuilting in $N$-dimensional vector of the Shapley values for a $N$-classes problem. Such vector will be refered here as \emph{Shapley vector}. Even if the efficiency property holds, i.e. the sum of the part-wise logit of the base distribution with the Shapley vectors for each feature is equal to the part-wise logit of the prediction, the path from the base to the prediction may go out of the simplex which is conterintuitive.
-
+% \section{Shapley values versus Shapley composition}
 
 \section{Discussion and conclusion}
+\label{sec:conclud}
 
+The use of standard Shapley value for explaining machine learning model with multidimensional probabilistic output has been rarely discussed in the literature. However, people computing a Shapley value on each output dimension one-by-one can be encounter. To be more precise, one may first found natural to compute a Shapley value on the logit of the probability for each classes resuilting in a $N$-dimensional vector of the Shapley values for a $N$-classes problem. Such vector will be refered here as \emph{Shapley vector}. Even if the efficiency property holds, i.e. the sum of the element-wise logit of the base distribution with the Shapley vectors for each feature is equal to the element-wise logit of the prediction, the path from the base to the prediction may go out of the simplex which is conterintuitive. Indeed, this approach ignore the compositional nature of discrete probability distribution output by a classifier. Moreover, such strategy would require to run $N$ \emph{explanation model} contrary to our approach wich require a single explanation model.
 
-Compare with standard Shapley ??
+As far as we know, this paper is the first work proposing an extension of the Shapley value framework to the multidimensional simplex for explaining probabilistic predictions in machine learning. We saw how the formalization of the standard Shapley value naturally extend to the simplex using the Aitchison geometry. The Shapley value therefore becomes a Shapley composition or distribution, i.e. a vector living on the probability simplex. Such Shapley composition informs on the contribution of a feature on the prediction. It tells how the feature moves the distribution from the base one to the predicted one on the simplex. The Aitchison geometry defines on the simplex an Euclidean vector space structure such that the Shapley compositions can be analysed through angles, norms and projections.
 
-We know small expé..., sounds tricky,... first step for a theoretically founded multiclass problems explanations...
-...
-
-Features INDEPENDENCE!!
-
-Axiomatic formulation
-
+The machine learning literature about the use of Shapley value is prolific. Many estimation algorithms have been developped, many applications of the Shapley value have emerged, and large scales experiments have been conducted. In contrast, our paper presents limited experimental results as simple proofs of concept and illustrations. However, we believe this work lies down proper theoretical foundations to foster researches in explainable machine learning especially for multiclass classification.
 
 % In the unusual situation where you want a paper to appear in the
 % references without citing it in the main text, use \nocite
