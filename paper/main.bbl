@@ -1,9 +1,19 @@
-\begin{thebibliography}{16}
+\begin{thebibliography}{17}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Aas et~al.(2021)Aas, Jullum, and Løland]{AAS2021103502}
+Aas, K., Jullum, M., and Løland, A.
+\newblock Explaining individual predictions when features are dependent: More
+  accurate approximations to shapley values.
+\newblock \emph{Artificial Intelligence}, 298:\penalty0 103502, 2021.
+\newblock ISSN 0004-3702.
+\newblock \doi{https://doi.org/10.1016/j.artint.2021.103502}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S0004370221000539}.
 
 \bibitem[Aitchison(1982)]{aitchison1982}
 Aitchison, J.

@@ -9,45 +9,45 @@ I was expecting a `,' or a `}'---line 117 of file biblio.bib
 I'm skipping whatever remains of this entry
 Warning--I didn't find a database entry for "langley00"
 Warning--empty journal in shapley1953value
-You've used 16 entries,
+You've used 17 entries,
             2773 wiz_defined-function locations,
-            706 strings with 8162 characters,
-and the built_in function-call counts, 7994 in all, are:
-= -- 709
-> -- 481
+            716 strings with 8497 characters,
+and the built_in function-call counts, 8514 in all, are:
+= -- 759
+> -- 511
 < -- 13
-+ -- 162
-- -- 146
-* -- 649
-:= -- 1235
-add.period$ -- 51
-call.type$ -- 16
-change.case$ -- 90
-chr.to.int$ -- 16
-cite$ -- 33
-duplicate$ -- 360
-empty$ -- 635
-format.name$ -- 175
-if$ -- 1682
++ -- 172
+- -- 155
+* -- 697
+:= -- 1319
+add.period$ -- 57
+call.type$ -- 17
+change.case$ -- 96
+chr.to.int$ -- 17
+cite$ -- 35
+duplicate$ -- 381
+empty$ -- 674
+format.name$ -- 185
+if$ -- 1790
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 16
-newline$ -- 89
-num.names$ -- 68
-pop$ -- 173
+missing$ -- 17
+newline$ -- 97
+num.names$ -- 72
+pop$ -- 180
 preamble$ -- 1
-purify$ -- 76
+purify$ -- 81
 quote$ -- 0
-skip$ -- 287
+skip$ -- 302
 stack$ -- 0
-substring$ -- 320
-swap$ -- 47
+substring$ -- 340
+swap$ -- 48
 text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 171
+type$ -- 182
 warning$ -- 1
-while$ -- 71
+while$ -- 75
 width$ -- 0
-write$ -- 216
+write$ -- 235
 (There was 1 error message)

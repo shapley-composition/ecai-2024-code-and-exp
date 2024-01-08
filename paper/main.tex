@@ -251,7 +251,7 @@ The Shapley compositions can be visualized in the Euclidean space isometric to t
 
 \subsubsection{Three classes}
 
-In a three-classes case, the space of the predictions is $2$-dimensional. We illustrate this example with the well-known Iris classification dataset consisting of a set of flowers described by 4 features: sepal length and width, and petal length and width. The aim of the classification task is to predict to which of the three species (setosa, versicolor and virginica) a flower belongs. In the present example, a Support Vector Machine (SVM) with a radial basis function (rbf) kernel and with pairwise coupling \cite{wu2003probability} is used as a probabilistic classifier. Figure \ref{fig:3classes} shows the explanation of the classifier prediction with one versicolor instance as input. Figure \ref{fig:3classesshap} shows the Shapley compositions in the ILR space and Figure \ref{fig:3classesshapsum} shows how they move the base distribution to the prediction. Having the highest norm, the petal length is the feature contributing the most to the prediction and moves the base distribution to the versicolor maximum probability decision region (maximum probability decision region boundaries are the dashed gray lines). Class-compositions are represented by color dashed vectors. A class-composition is defined as an unit norm composition going straight to the direction of one class and against all the others (see Appendix \ref{app:classcompo} for a formal definition). The Shapley composition for the petal length is orthogonal to the virginica class-composition, this suggests that this feature does not contribute to the predicted probability for this class. The Shapley composition for the petal width goes straight to the opposite direction of the setosa class-composition suggesting that this feature contributes to rejecting this class. The other Shapley compositions have a low norm suggesting that these features do not contribute to the prediction.
+In a three-classes case, the space of the predictions is $2$-dimensional. We illustrate this example with the well-known Iris classification dataset consisting of a set of flowers described by 4 features: sepal length and width, and petal length and width. The aim of the classification task is to predict to which of the three species (setosa, versicolor and virginica) a flower belongs. In the present example, a Support Vector Machine (SVM) with a radial basis function (rbf) kernel and with pairwise coupling \cite{wu2003probability} is used as a probabilistic classifier. Figure \ref{fig:3classes} shows the explanation of the classifier prediction with one versicolor instance as input. Figure \ref{fig:3classesshap} shows the Shapley compositions in the ILR space and Figure \ref{fig:3classesshapsum} shows how they move the base distribution to the prediction. Having the highest norm, the petal length is the feature contributing the most to the prediction and moves the base distribution to the versicolor maximum probability decision region (maximum probability decision region boundaries are the dashed gray lines). Class-compositions are represented by color dashed vectors. A class-composition is defined as an unit norm composition going straight to the direction of one class and uniformly against all the others (see Appendix \ref{app:classcompo} for a formal definition). The Shapley composition for the petal length is orthogonal to the virginica class-composition, this suggests that this feature does not contribute to the predicted probability for this class. The Shapley composition for the petal width goes straight to the opposite direction of the setosa class-composition suggesting that this feature contributes to rejecting this class. The other Shapley compositions have a low norm suggesting that these features do not contribute to the prediction.
 \begin{figure}
   \begin{subfigure}{0.5\textwidth}
     \centering
@@ -321,20 +321,26 @@ Within this space, Shapley compositions can be explored like in the examples of 
 \end{figure}
 \subsection{Angles, norms and projections}
 
-Some may find the analysis of the features contributions in cases with more than four classes tricky. Indeed, in this case, the ILR space cannot be visualized in a $2$ or $3$-dimensional plot and as discussed in Section \ref{sec:balances}, choosing which subspaces to visualize require a careful understanding of the balances and a careful building of the bifurcation tree. However, the Shapley explaination can be summarized by sets of angles, norms and projections. The norm of a Shapley composition gives the strength of the feature's contribution in the prediction. It gives the overall contribution of the feature on the prediction, regardless of its direction. The angle between two Shapley compositions can informs about their orthogonality. If two Shapley composition are orthogonal%\footnote{We refer here to geometric orthogonality, not to be confused with statistical uncorrelation \cite{pawlowskymodeling}.}
-, this suggest the features are nonredundant. A negative angle would suggest that the features have an opposite influence on the prediction. The projection of a Shapley composition on the set of class-compositions informs in favor of, or against, which classes a feature is contributing. Appendix \ref{app:summarize}, provides some examples of summarizing a Shapley explanation using the norm of Shapley compositions, angles between them and their projection on the class-compositions.
+Some may find the analysis of the contribution of each feature using Shapley compositions in cases with more than four classes tricky. Indeed, in this case, the ILR space cannot be visualized in a $2$ or $3$-dimensional plot and as discussed in Section \ref{sec:balances}, choosing which subspaces to visualize requires a careful understanding of the balances, the Aitchison basis and the bifurcation tree. However, the Shapley explanation can be summarized by sets of angles, norms and projections:
+\begin{itemize}
+\item The norm of a Shapley composition gives the strength of the feature's contribution to the prediction. The measures the overall contribution of the feature on the prediction, regardless of its direction.
+\item The angle between two Shapley compositions can inform about their orthogonality. If two Shapley compositions are orthogonal%\footnote{We refer here to geometric orthogonality, not to be confused with statistical uncorrelation \cite{pawlowskymodeling}.}
+, this suggests that the features are nonredundant. A negative angle would suggest that the features have an opposite influence on the prediction.
+\item The projections of a Shapley composition on the set of class-compositions inform in favor of, or against, which classes a feature is contributing.
+\end{itemize}
+
+  Appendix \ref{app:summarize}, provides some examples of summarizing a Shapley explanation using the norm of Shapley compositions, the angles between them and their projections on the class-compositions.
 
 \subsection{Histograms}
 
-If one found hard to visualize the proposed Shapley explanation in the ILR space, the Shapley composition can be visualized as histograms like discrete probability distributions. Figure \ref{fig:histiris} shows the Shapley compositions of the Iris classification example. The more uniform the histogram is, like for the sepal length and width, the less the contribution of the feature is. In opposite, the histogram for the petal length as a high value for the versicolor class, relatively to the others, confirming the contribution of the feature toward this class. For the petal width, the value for the class setosa is low relatively to the others which confirms the constribution of this feature against the class setosa.
+If one found hard to visualize the proposed Shapley explanation in the ILR space, the Shapley composition can be visualized using a bar plot like discrete probability distributions. Figure \ref{fig:histiris} shows, as histograms, the Shapley compositions of the Iris classification example. The more uniform a histogram is, like for the sepal length and width, the less the contribution of the feature is. In contrast, the histogram for the petal length has a high value for the versicolor class, in comparison to the others. This confirms the contribution of the feature toward this class. For the petal width, the value for the class setosa is low in comparison to the others which confirms the contribution of this feature against the class setosa.
 \begin{figure}
   \centering
   \includegraphics[width=0.9\linewidth]{figures/3classes/histo}
   \caption{Shapley compositions visualized as histograms for the Iris classification example.}
   \label{fig:histiris}
 \end{figure}
-
-As another illustration, Figure \ref{fig:histmore} shows the Shapley compositions of the $10$-classes digit recognition example. Contrary to the visualization of the compositions within the ILR space as discussed in Section \ref{sec:balances}, here, one can analyses all parts of each compositions within a single plot. In this example, the high of the class 2 for the first principal component confirms the contribution of this features toward this class.
+As another illustration, Figure \ref{fig:histmore} shows the Shapley compositions of the $10$-classes digit recognition example. Here, and contrary to the visualization of the compositions within the ILR space as discussed in Section \ref{sec:balances}, one can analyze all parts of each composition within a single plot. In this example, the high value for class 2 for the first principal component confirms the contribution of this feature toward this class.
 \begin{figure}
   \centering
   \includegraphics[width=0.9\linewidth]{figures/moreclasses/histo}
@@ -344,18 +350,16 @@ As another illustration, Figure \ref{fig:histmore} shows the Shapley composition
 
 \subsection{About our implementation}
 
-In this work, the estimation algorithm we used to compute the Shapley compositions is an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining}. Since the resulting Shapley compositions are approximations, the efficiency property does not necessarily hold. Each Shapley composition is therefore corrected following a similar method as in the sampling approximation in the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}} to respect the efficiency propery. See Appendix \ref{app:algo} and \ref{app:correct} for more details\footnote{The estimation algorithm we use assumes that the features are independent. We leave the exploration of estimation algorithms with no features-independence assumption for future work.}.
-
-% \section{Shapley values versus Shapley composition}
+The estimation algorithm used in this work for computing the Shapley compositions is an adaptation of Algorithm 2 in \cite{vstrumbelj2014explaining}. Since the resulting Shapley compositions are approximations, the efficiency property does not necessarily hold. In order for the set of estimated Shapley compositions to respect the efficiency property, each Shapley composition is adjusted following a similar method as in the sampling approximation in the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}}. See Appendix \ref{app:algo} and \ref{app:correct} for more details\footnote{The estimation algorithm assumes that the features are independent. The estimation of the Shapley values without such assumption has been discussed in the literature \cite{AAS2021103502}. We leave the exploration of estimation algorithms of the Shapley compositions without features-independence assumption for future work.}.
 
 \section{Discussion and conclusion}
 \label{sec:conclud}
 
-The use of standard Shapley value for explaining machine learning model with multidimensional probabilistic output has been rarely discussed in the literature. However, people computing a Shapley value on each output dimension one-by-one can be encounter. To be more precise, one may first found natural to compute a Shapley value on the logit of the probability for each classes resuilting in a $N$-dimensional vector of the Shapley values for a $N$-classes problem. Such vector will be refered here as \emph{Shapley vector}. Even if the efficiency property holds, i.e.~the sum of the element-wise logit of the base distribution with the Shapley vectors for each feature is equal to the element-wise logit of the prediction, the path from the base to the prediction may go out of the simplex which is conterintuitive. Indeed, this approach ignore the compositional nature of discrete probability distribution output by a classifier. Moreover, such strategy would require to run $N$ \emph{explanation model} contrary to our approach wich require a single explanation model.
+The use of standard Shapley value for explaining machine learning models with multidimensional probabilistic output has been rarely discussed in the literature. However, people computing a Shapley value on each output dimension one-by-one can be encountered. To be more precise, for a $N$-classes problem ($N>2$), one may first found natural to compute a Shapley value on the logit of the probability for each class resulting in a $N$-dimensional vector of the Shapley values we call \emph{Shapley vector}. Even if the efficiency property holds with the standard addition, i.e.~the sum of the element-wise logit of the base distribution with the Shapley vectors for each feature is equal to the element-wise logit of the prediction, the path from the base to the prediction may go out of the simplex which is counterintuitive. Indeed, this is because this approach ignores the compositional nature of discrete probability distribution output by a probabilistic classifier. Moreover, such a strategy would require running $N$ \emph{explanation models} contrary to the Shapley composition approach which requires a single explanation model.
 
-As far as we know, this paper is the first work proposing an extension of the Shapley value framework to the multidimensional simplex for explaining probabilistic predictions in machine learning. We saw how the formalization of the standard Shapley value naturally extend to the simplex using the Aitchison geometry. The Shapley value therefore becomes a Shapley composition or distribution, i.e.~a vector living on the probability simplex. Such Shapley composition informs on the contribution of a feature on the prediction. It tells how the feature moves the distribution from the base one to the predicted one on the simplex. The Aitchison geometry defines on the simplex an Euclidean vector space structure such that the Shapley compositions can be analysed through angles, norms and projections.
+As far as we know, this paper is the first work proposing an extension of the Shapley value framework to the multidimensional simplex for explaining probabilistic predictions in machine learning. We saw how the formalization of the standard Shapley value naturally extends to the simplex using the Aitchison geometry coming from compositional data analysis. The Shapley quantity therefore becomes a composition or distribution, i.e.~a vector living on the probability simplex. Such Shapley composition informs on the contribution of a feature on the prediction. It tells how the feature moves the distribution from the base one to the predicted one on the simplex. The Aitchison geometry gives to the simplex an Euclidean vector space structure such that the Shapley compositions can be analysed through angles, norms and projections.
 
-The machine learning literature about the use of Shapley value is prolific. Many estimation algorithms have been developped, many applications of the Shapley value have emerged, and large scales experiments have been conducted. In contrast, our paper presents limited experimental results as simple proofs of concept and illustrations. However, we believe this work lies down proper theoretical foundations to foster researches in explainable machine learning especially for multiclass classification.
+The machine learning literature about the use of Shapley value is prolific. Many estimation algorithms have been developed, many applications of the Shapley value have emerged, and large-scale experiments have been conducted. In contrast, our paper presents limited experimental results as simple proofs of concepts and illustrations. However, we believe this work lies down proper theoretical foundations to foster the research in explainable machine learning, especially for multiclass recognition problems.
 
 % In the unusual situation where you want a paper to appear in the
 % references without citing it in the main text, use \nocite
@@ -380,9 +384,9 @@ In this section, we show the linearity of the Shapley composition with respect t
 
 \subsection{Linearity}
 
-The Shapley composition is linear, within the Aitchison geometry of the simplex, with respect to linear combination of models' predictions.
+The Shapley composition is linear, within the Aitchison geometry of the simplex, with respect to linear combinations of models' prediction.
 \begin{proof}
-  Let's consider the linear combination of predictions $\bm{h}(\bm{x}) = \alpha \odot \bm{f}(\bm{x}) \oplus \beta \odot \bm{g}(\bm{x})$. we want to check if:
+  Let's consider the linear combination of predictions $\bm{h}(\bm{x}) = \alpha \odot \bm{f}(\bm{x}) \oplus \beta \odot \bm{g}(\bm{x})$. We want to check if:
   \begin{equation}
     \label{eq:linearsimplex}
     \bm{\phi}_{\bm{h}}(i) = \alpha \odot \bm{\phi}_{\bm{f}}(i) \oplus \beta\odot \bm{\phi}_{\bm{g}}(i).
@@ -407,7 +411,7 @@ The Shapley composition is linear, within the Aitchison geometry of the simplex,
       &~~~~~~~= \alpha \odot \bm{c}_{\bm{f},\bm{x},\text{Pr}}(i,\bm{X}_S) \oplus \beta \odot \bm{c}_{\bm{g},\bm{x},\text{Pr}}(i,\bm{X}_S).
     \end{aligned}
   \end{equation}
-  And the linearity of the Shap composition:
+  And the linearity of the Shapley composition:
   \begin{equation}
     \begin{aligned}
       \bm{\phi}_{\bm{h}}(i) &= \frac{1}{d!}  \underset{\pi}{\bigoplus}\bm{c}_{\bm{h},\bm{x},\text{Pr}}(i,\pi^{<i}_{\bm{X}}),\\
@@ -441,7 +445,7 @@ The efficiency property naturally holds for Shapley compositions within the Aitc
 \newpage
 \section{Class-compositions}
 \label{app:classcompo}
-A $k$-class-compositions $\bm{c}^{(k)}  \in \mathcal{S}^N$ is defined as an unit norm composition going straight to the direction of the $k$th class. This is a discrete probability distribution with maximum probability for the $k$th class and uniform values for the others. The $i$th part of the $\bm{c}^{(k)}$ is:
+A $k$-class-composition $\bm{c}^{(k)}  \in \mathcal{S}^N$ is defined as an unit norm composition going straight to the direction of the $k$th class. This is a discrete probability distribution with maximum probability for the $k$th class and uniform values for the others. The $i$th part of $\bm{c}^{(k)}$ is:
 \begin{equation}
     c_i^{(k)} = \left\lbrace
   \begin{array}{@{}ll@{}}
@@ -449,19 +453,19 @@ A $k$-class-compositions $\bm{c}^{(k)}  \in \mathcal{S}^N$ is defined as an unit
     p, & \text{otherwise,}
   \end{array}\right.
 \end{equation}
-where $p<\frac{1}{N}$. We want the Aitchison norm of each class-composition to be one:
+where $0<p<\frac{1}{N}$. We want the Aitchison norm of each class-composition to be one:
 \begin{equation}
   \begin{aligned}
     \forall k \in \{1, \dots N \},~~~~~~\lVert \bm{c}^{(k)} \rVert_a = 1 \iff& \sqrt{\frac{1}{2N} \sum_{i=1}^N \sum_{j=1}^N \left( \log \frac{c_i^{(k)}}{c_j^{(k)}} \right)^2} = 1,\\
     \text{for clarity,}&\\\text{we drop the $(k)$ from the equations,}&\\
     \iff& \sqrt{\frac{1}{2N} \sum_{i=1}^{N}\left( \left(N-1 \right) \left( \log \frac{c_i}{p} \right)^2 + \left( \log \frac{c_i}{1-(N-1)p} \right)^2 \right)} = 1,\\
     \iff& \sqrt{\frac{1}{2N} 2(N-1) \left( \log \frac{p}{1-(N-1)p} \right)^2} =1,\\
-    \text{since $p<\frac{1}{N}$ and the norm should be positive:}&\\
+    \text{since $p<\frac{1}{N}$ and the norm is positive:}&\\
     \iff& \sqrt{\frac{N-1}{N}}\log \frac{1-(N-1)p}{p} =1,\\
     \iff& p = \frac{\exp \left( -\sqrt{\frac{N}{N-1}} \right)}{1+ (N-1)\exp \left( -\sqrt{\frac{N}{N-1}} \right )}.
   \end{aligned}
 \end{equation}
-To summarize, the $i$th part of a $k$-class-compositions $\bm{c}^{(k)} \in \mathcal{S}^N$ is given by:
+To summarize, the $i$th part of a $k$-class-composition $\bm{c}^{(k)} \in \mathcal{S}^N$ is given by:
 \begin{equation}
     c_i^{(k)} =
   \frac{1}{1+ (N-1)\exp \left( -\sqrt{\frac{N}{N-1}} \right )} \left( \left\lbrace \begin{array}{@{}ll@{}}
@@ -471,14 +475,13 @@ To summarize, the $i$th part of a $k$-class-compositions $\bm{c}^{(k)} \in \math
 \end{equation}
 In this way, $\bm{c}^{(k)}$ is going straight to the direction of class $k$ and uniformly against all the others.
 
-
 \newpage
 \section{Summarizing the explanation with norms, angles and projections of Shapley compositions}
 \label{app:summarize}
 
 \begin{table}
   \centering
-  \caption{Norm of the Shapley compositions, projection on the class-compositions and cosine similarity betweeen the Shapley compositions for the Iris classification example.}
+  \caption{Norm of the Shapley compositions, projections of the Shapley compositions on the class-compositions, and cosine similarity betweeen the Shapley compositions for the Iris classification example.}
   \begin{tabular}{c|c|ccc|cccc|}
     \cline{2-9}
     & \multirow{2}{*}{norm} & \multicolumn{3}{c|}{projection on the class-compositions} & \multicolumn{4}{c|}{cosine similarity between Shapley compositions} \\
@@ -493,11 +496,9 @@ In this way, $\bm{c}^{(k)}$ is going straight to the direction of class $k$ and 
   \end{tabular}
   \label{tab:normiris}
 \end{table}
-The Table \ref{tab:normiris} gives, for the Iris classification example of Figure \ref{fig:3classes}, the norm of each Shapley compositions, the cosine similarity between them and their projection on the set of class-compositions. Having the highest norm, this confirms that the petal length is the feature that contributed the most on the prediction. Having a close to zero inner product with the virginica class-composition, shows that this feature did not contribute to the value of the probability of of this class. It contributes neither in favor, nor in the reject of this class. Having a positive inner product with the versicolor class-composition and a negative one with the setosa class-composition, this suggest that this feature is going in favor of the class versicolor and against setosa.
-
 \begin{table}
   \centering
-  \caption{Norm of the Shapley compositions and Cosine similarity betweeen the Shapley composition for the $10$-classes digit recognition example.}
+  \caption{Norm of the Shapley compositions and Cosine similarity betweeen the Shapley compositions for the $10$-classes digit recognition example.}
   \begin{tabular}{c|c|cccccc|}
     \cline{2-8}
     & \multirow{2}{*}{norm} & \multicolumn{6}{c|}{cosine similarity between Shapley compositions} \\
@@ -514,7 +515,6 @@ The Table \ref{tab:normiris} gives, for the Iris classification example of Figur
   \end{tabular}
   \label{tab:normdigit}
 \end{table}
-
 \begin{table}
   \centering
   \caption{Projection of the Shapley compositions on the class-compositions for the $10$-classes digit recognition example.}
@@ -534,13 +534,14 @@ The Table \ref{tab:normiris} gives, for the Iris classification example of Figur
   \end{tabular}
   \label{tab:projdigit}
 \end{table}
-Table \ref{tab:normdigit} shows, for the $10$-classes digit recognition example, the norm of each Shapley composition and the cosine similarity between the, and Table \ref{tab:projdigit} shows their projection of the set of class-compositions.\\
-Add details...
+The Table \ref{tab:normiris} gives, for the Iris classification example of Figure \ref{fig:3classes}, the norm of each Shapley composition, the cosine similarity between them and their projections on the set of class-compositions. With the highest norm, this confirms that the petal length is the feature that contributes the most to the prediction. Having a close to zero inner product with the virginica class-composition, shows that this feature does not contribute to the value of the probability assigned for this class. This feature contributes neither in favor, nor in the rejection of this class. With a positive inner product with the versicolor class-composition and a negative one with the setosa class-composition, this suggests that this feature is going in favor of the class versicolor and against the class setosa.
+
+Table \ref{tab:normdigit} shows, for the $10$-classes digit recognition example, the norm of each Shapley composition and the cosine similarity between them. Table \ref{tab:projdigit} shows their projections on the set of class-compositions.
 
 \newpage
 \section{Estimation of the Shapley compositions}
 \label{app:algo}
-In this section, we present an adaptation of Algorithm 2 from \cite{vstrumbelj2014explaining} we used for the estimation the Shapley compositions.
+This section presents an adaptation of Algorithm 2 from \cite{vstrumbelj2014explaining} we used for the estimation the Shapley compositions.
 
 Let $d$ be the number of features. We want to optimally distribute the $m_{\text{max}}$ drawn samples over the $d$ features. Let $\hat{\bm{\phi}_i}$ be the estimation of the Shapley composition for the $i$th feature. We want to minimize the sum of squared errors: $\displaystyle\sum_{i=1}^{d} \| \hat{\bm{\phi}_i} \ominus \bm{\phi}_i \|_a^2$. Since $\hat{\bm{\phi}_i}$ is a (Aitchison) sample mean we have: $\tilde{\hat{\bm{\phi}_i}} \approx \mathcal{N}(\tilde{\bm{\phi}}_i, \frac{1}{m_i}\bm{\Sigma}^{(i)})$ and $\tilde{\hat{\bm{\phi}_i}} - \tilde{\bm{\phi}}_i \approx \mathcal{N}(\bm{0}, \frac{1}{m_i}\bm{\Sigma}^{(i)})$ where the tilde refers to the ILR transformation.
 Let $\bm{\Delta_i} = \tilde{\hat{\bm{\phi}_i}} - \tilde{\bm{\phi}}_i$ and $Z_i = \| \hat{\bm{\phi}_i} \ominus \bm{\phi}_i \|_a = \| \tilde{\hat{\bm{\phi}_i}} - \tilde{\bm{\phi}}_i \|_2 = \| \bm{\Delta}_i \|_2$. The expectation of the sum of squared errors is:
@@ -566,7 +567,7 @@ When a sample is drawn, the feature for which the sample will be used for improv
    \STATE Construct two instances:
    \begin{itemize}
      \item $\bm{b}_1$: which takes the values from $\bm{x}$ for the $i$th feature and the features indexed before $i$ in the order given by $\pi$, and takes the values from $\bm{w}$ otherwise,
-     \item $\bm{b}_2$: which takes the values from $\bm{x}$ the features indexed before $i$ in the order given by $\pi$, and takes the values from $\bm{w}$ otherwise.
+     \item $\bm{b}_2$: which takes the values from $\bm{x}$ for the features indexed before $i$ in the order given by $\pi$, and takes the values from $\bm{w}$ otherwise.
      \end{itemize}
    \STATE $\bm{\phi}_i \leftarrow \bm{\phi}_i \oplus \bm{f}(\bm{b}_1) \ominus \bm{f}(\bm{b}_2) $
    \ENDFOR
@@ -575,7 +576,7 @@ When a sample is drawn, the feature for which the sample will be used for improv
 \end{algorithm}
 
 \begin{algorithm}
-   \caption{Adaptation of the Algorithm 2 from \cite{vstrumbelj2014explaining} for approximating all the Shapley compositions by optimally distributing a maximum number of samples $m_{\text{max}}$ over the $d$ features, with model $\bm{f}$, instance $\bm{x}\in\mathcal{X}$ and $m_{\text{min}}$ the minimum number of samples each feature estimation.}
+   \caption{Adaptation of the Algorithm 2 from \cite{vstrumbelj2014explaining} for approximating all the Shapley compositions by optimally distributing a maximum number of samples $m_{\text{max}}$ over the $d$ features, with model $\bm{f}$, instance $\bm{x}\in\mathcal{X}$ and $m_{\text{min}}$ the minimum number of samples for each feature estimation.}
    \label{alg:2}
    \begin{algorithmic}
      \STATE Initialization: $m_{i} \leftarrow 0$, $\bm{\phi}_i \leftarrow \bm{0}$, $\forall i \in \{1, \dots d\}$,
@@ -597,11 +598,11 @@ When a sample is drawn, the feature for which the sample will be used for improv
 \section{Adjustement of the estimated Shapley compositions for efficiency}
 \label{app:correct}
 
-In practice, the computation of the Shapley values has an exponential time complexity and we do not have necessarily access to the true distribution of the data. The Shapley values are therefore approximated using estimation algorithms like for instance the one presented in the previous appendix. However, since the obtained values are approximations, they do not necessarily respect the desired efficiency property. This point is often overlooked in the literature. In this section we write down an adjustment strategy of the estimated Shapley compositions for them to respect the efficiency property. This is a similar strategy as in the sampling approximation of the Shapley values in the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}}.
+In practice, the computation of the Shapley values has an exponential time complexity and we do not have necessarily access to the true distribution of the data. The Shapley values are therefore approximated using estimation algorithms like for instance the one presented in the previous appendix. However, since the obtained values are approximations, they do not necessarily respect the desired efficiency property. This point is often overlooked in the literature. In this section, we write down an adjustment strategy of the estimated Shapley compositions for them to respect the efficiency property. This is a similar strategy as in the sampling approximation of the Shapley values in the SHAP toolkit \cite{NIPS2017_7062}\footnote{\url{https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py}}.
 
-Let $\{\hat{\bm{\phi}}_i\}_{1\leq i \leq d}$ be the estimated Shapley compositions (given by the Algorithm \ref{alg:2} in our experiments). Let $\displaystyle \bm{s}_{err} = \bm{f}(\bm{x}) \ominus \bm{f}_0 \ominus \underset{i=1}{\overset{d}\bigoplus} \hat{\bm{\phi}}_i$, where $\bm{f}_0$ is the base distribution, be the error composition on the pertubation of all Shapley compositions, i.e.~the error making the efficiency property unfulfilled. In order to respect the efficiency property, we want this error to be the neutral element of the perturbation, i.e.~the ``zero'' in the sense of the Aitchison geometry: the uniform distribution. We could simply perturb each estimated Shapley compositions by $\frac{1}{d}\odot\bm{s}_{err}$ however this would move each Shapley composition by the same amount while we want to allow the compositions with a higher estimation variance (i.e.~with a precision likely to be lower) to move more than the ones with a smaller variance (i.e.~with a precision likely to be higher).
+Let $\{\hat{\bm{\phi}}_i\}_{1\leq i \leq d}$ be the estimated Shapley compositions (given by the Algorithm \ref{alg:2} in our experiments). Let $\displaystyle \bm{s}_{err} = \bm{f}(\bm{x}) \ominus \bm{f}_0 \ominus \underset{i=1}{\overset{d}\bigoplus} \hat{\bm{\phi}}_i$, where $\bm{f}_0$ is the base distribution, be the error composition on the pertubation of all Shapley compositions, i.e.~the error that makes the efficiency property unfulfilled. In order to respect the efficiency property, we want this error to be the neutral element of the perturbation, i.e.~the ``zero'' in the sense of the Aitchison geometry: the uniform distribution. We could simply perturb each estimated Shapley compositions by $\frac{1}{d}\odot\bm{s}_{err}$ however this would move each Shapley composition by the same amount while we want to allow the Shapley compositions with a higher estimation variance (i.e.~with a precision likely to be lower) to move more than the Shapley compositions with a smaller estimation variance (i.e.~with a precision likely to be higher).
 
-We therefore weight the $i$th adjustment by a scalar $w_i = w\left(\tr\left(\bm{\Sigma}^{(i)}\right)\right)$, where $w$ is an increasing function, and where $\displaystyle \sum_{i=1}^d w_i= 1$. Note that the vector of weight is actually a composition too. Similarly to the SHAP toolkit implementation, we choose $w$ as:
+The $i$th adjustment is therefore weighted by a scalar $w_i = w\left(\tr\left(\bm{\Sigma}^{(i)}\right)\right)$, where $w$ is an increasing function, and where $\displaystyle \sum_{i=1}^d w_i= 1$ (note that the vector of weight is actually a composition too). Similarly to the SHAP toolkit implementation, we choose $w$ as:
 \begin{equation}
   w_i = w\left(\tr\left(\bm{\Sigma}^{(i)}\right)\right) = \frac{v_i}{\displaystyle 1+\sum_{j=1}^{d}v_j},\text{ where } v_i = \frac{\tr\left(\bm{\Sigma}^{(i)}\right)}{\displaystyle \epsilon \max_j \tr\left(\bm{\Sigma}^{(j)}\right)}.
 \end{equation}
@@ -609,10 +610,9 @@ The $i$th estimated Shapley composition is then asjusted as follow:
 \begin{equation}
   \hat{\bm{\phi}}_i \leftarrow \hat{\bm{\phi}}_i \oplus \left( w_i \odot \bm{s}_{err}\right).
 \end{equation}
-In this way, when $\epsilon$ goes to zero\footnote{In our experiments, $\epsilon = 10^{-6}$.}, the efficiency property is respected for the adjusted Shapley compositions and more weight is given to the adjusments of the Shapley compositions with a higher estimation variance.
+In this way, when $\epsilon$ goes to zero\footnote{In our experiments, $\epsilon = 10^{-6}$.}, the efficiency property is respected for the adjusted Shapley compositions and more weight is given to the adjustments of the Shapley compositions with a higher estimation variance.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 \end{document}
 

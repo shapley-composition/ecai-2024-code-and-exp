@@ -20,6 +20,7 @@
     "egozcue2018evidence"
     "noe2023representing"
     "angelov2021explainable"
-    "wu2003probability"))
+    "wu2003probability"
+    "AAS2021103502"))
  '(or :bibtex :latex))
 
