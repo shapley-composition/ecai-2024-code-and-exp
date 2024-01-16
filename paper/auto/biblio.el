@@ -21,6 +21,11 @@
     "noe2023representing"
     "angelov2021explainable"
     "wu2003probability"
-    "AAS2021103502"))
+    "AAS2021103502"
+    "ribeiro2016should")
+   (LaTeX-add-environments
+    '("consoletext" LaTeX-env-args ["argument"] 0)
+    '("filetext" LaTeX-env-args ["argument"] 0)
+    '("algorithm2e" LaTeX-env-args ["argument"] 0)))
  '(or :bibtex :latex))
 

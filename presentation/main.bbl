@@ -1,0 +1,256 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{aitchison1982}{article}{}
+      \name{author}{1}{}{%
+        {{hash=99d6b648680092d4025ae63425c37f97}{%
+           family={Aitchison},
+           familyi={A\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {[Royal Statistical Society, Wiley]}%
+      }
+      \strng{namehash}{99d6b648680092d4025ae63425c37f97}
+      \strng{fullhash}{99d6b648680092d4025ae63425c37f97}
+      \strng{bibnamehash}{99d6b648680092d4025ae63425c37f97}
+      \strng{authorbibnamehash}{99d6b648680092d4025ae63425c37f97}
+      \strng{authornamehash}{99d6b648680092d4025ae63425c37f97}
+      \strng{authorfullhash}{99d6b648680092d4025ae63425c37f97}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the Royal Statistical Society. Series B (Methodological)}
+      \field{number}{2}
+      \field{title}{The Statistical Analysis of Compositional Data}
+      \field{volume}{44}
+      \field{year}{1982}
+      \field{pages}{139\bibrangedash 177}
+      \range{pages}{39}
+    \endentry
+    \entry{NIPS2017_7062}{incollection}{}
+      \name{author}{2}{}{%
+        {{hash=2a1075150e1e1dad8127b019f7ca9031}{%
+           family={Lundberg},
+           familyi={L\bibinitperiod},
+           given={Scott\bibnamedelima M},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=ee964079d93879aaef2382a5fff343d3}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Su-In},
+           giveni={S\bibinithyphendelim I\bibinitperiod}}}%
+      }
+      \name{editor}{7}{}{%
+        {{hash=e7e74de725116358b68a6e890c026145}{%
+           family={Guyon},
+           familyi={G\bibinitperiod},
+           given={I.},
+           giveni={I\bibinitperiod}}}%
+        {{hash=56e73897155d476124481b099f125669}{%
+           family={Luxburg},
+           familyi={L\bibinitperiod},
+           given={U.\bibnamedelimi V.},
+           giveni={U\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=9b411b6c9cefdde16ffea77ecf612142}{%
+           family={Bengio},
+           familyi={B\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=1444141e07dd9549dbb4b8530fe4ec15}{%
+           family={Wallach},
+           familyi={W\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+        {{hash=f3857e15544199442f3d4fb2cf6645b4}{%
+           family={Fergus},
+           familyi={F\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=c73f06e2fc98c9b0bf52eb5fdce61943}{%
+           family={Vishwanathan},
+           familyi={V\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=36b98b7ab533936cf1b5716148de704f}{%
+           family={Garnett},
+           familyi={G\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Curran Associates, Inc.}%
+      }
+      \strng{namehash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{fullhash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{bibnamehash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{authorbibnamehash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{authornamehash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{authorfullhash}{9cd6e49767b1dfa9f5df9a46216a8739}
+      \strng{editorbibnamehash}{7cffda9a379be8eb9063eee4eb0f58b3}
+      \strng{editornamehash}{7cffda9a379be8eb9063eee4eb0f58b3}
+      \strng{editorfullhash}{d19b63f60b76ff116a8eb515123b5698}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Advances in Neural Information Processing Systems 30}
+      \field{title}{A Unified Approach to Interpreting Model Predictions}
+      \field{year}{2017}
+      \field{pages}{4765\bibrangedash 4774}
+      \range{pages}{10}
+    \endentry
+    \entry{pawlowskymodeling}{book}{}
+      \name{author}{3}{}{%
+        {{hash=2eea4c7d7a1051871715333c665f5c27}{%
+           family={Pawlowsky-Glahn},
+           familyi={P\bibinithyphendelim G\bibinitperiod},
+           given={Vera},
+           giveni={V\bibinitperiod}}}%
+        {{hash=1808dc536401361cdab1718ff08e7bd5}{%
+           family={Egozcue},
+           familyi={E\bibinitperiod},
+           given={Juan\bibnamedelima José},
+           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=2205b3f8beec4ceabad24dbd18d66766}{%
+           family={Tolosana-Delgado},
+           familyi={T\bibinithyphendelim D\bibinitperiod},
+           given={Raimon},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {John Wiley \& Sons}%
+      }
+      \strng{namehash}{28f4ad3cfdc6b7915ece67324585781b}
+      \strng{fullhash}{28f4ad3cfdc6b7915ece67324585781b}
+      \strng{bibnamehash}{28f4ad3cfdc6b7915ece67324585781b}
+      \strng{authorbibnamehash}{28f4ad3cfdc6b7915ece67324585781b}
+      \strng{authornamehash}{28f4ad3cfdc6b7915ece67324585781b}
+      \strng{authorfullhash}{28f4ad3cfdc6b7915ece67324585781b}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Modeling and Analysis of Compositional Data}
+      \field{year}{2015}
+    \endentry
+    \entry{ribeiro2016should}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=9203dc724f298030e81ba470feb309af}{%
+           family={Ribeiro},
+           familyi={R\bibinitperiod},
+           given={Marco\bibnamedelima Tulio},
+           giveni={M\bibinitperiod\bibinitdelim T\bibinitperiod}}}%
+        {{hash=0b9694812f0dc77974d99bb875a76d48}{%
+           family={Singh},
+           familyi={S\bibinitperiod},
+           given={Sameer},
+           giveni={S\bibinitperiod}}}%
+        {{hash=c9ab8ac486d7f85ac914b1a8e51e512b}{%
+           family={Guestrin},
+           familyi={G\bibinitperiod},
+           given={Carlos},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{fullhash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{bibnamehash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{authorbibnamehash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{authornamehash}{70906198418f30a779bc9bda0f6ae1f1}
+      \strng{authorfullhash}{70906198418f30a779bc9bda0f6ae1f1}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 22nd ACM SIGKDD international conference on knowledge discovery and data mining}
+      \field{title}{" Why should i trust you?" Explaining the predictions of any classifier}
+      \field{year}{2016}
+      \field{pages}{1135\bibrangedash 1144}
+      \range{pages}{10}
+    \endentry
+    \entry{shapley1953value}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=aa2b96ffd25f090ad898c0022f7efa12}{%
+           family={Shapley},
+           familyi={S\bibinitperiod},
+           given={Lloyd\bibnamedelima S},
+           giveni={L\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Princeton University Press Princeton}%
+      }
+      \strng{namehash}{fd334072218b6154a6559933fc6b0f7c}
+      \strng{fullhash}{fd334072218b6154a6559933fc6b0f7c}
+      \strng{bibnamehash}{fd334072218b6154a6559933fc6b0f7c}
+      \strng{authorbibnamehash}{fd334072218b6154a6559933fc6b0f7c}
+      \strng{authornamehash}{fd334072218b6154a6559933fc6b0f7c}
+      \strng{authorfullhash}{fd334072218b6154a6559933fc6b0f7c}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Contributions to the Theory of Games II}
+      \field{title}{A value for n-person games}
+      \field{year}{1953}
+      \field{pages}{307\bibrangedash 317}
+      \range{pages}{11}
+    \endentry
+    \entry{vstrumbelj2014explaining}{article}{}
+      \name{author}{2}{}{%
+        {{hash=6902ad3351da5ca1fd2f9b8826c53339}{%
+           family={Štrumbelj},
+           familyi={Š\bibinitperiod},
+           given={Erik},
+           giveni={E\bibinitperiod}}}%
+        {{hash=398d8e9b11dc3ac0d8be10cc7eda4e86}{%
+           family={Kononenko},
+           familyi={K\bibinitperiod},
+           given={Igor},
+           giveni={I\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{a48d882c46b7deced3952129785aa86b}
+      \strng{fullhash}{a48d882c46b7deced3952129785aa86b}
+      \strng{bibnamehash}{a48d882c46b7deced3952129785aa86b}
+      \strng{authorbibnamehash}{a48d882c46b7deced3952129785aa86b}
+      \strng{authornamehash}{a48d882c46b7deced3952129785aa86b}
+      \strng{authorfullhash}{a48d882c46b7deced3952129785aa86b}
+      \field{sortinit}{Š}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Knowledge and information systems}
+      \field{title}{Explaining prediction models and individual predictions with feature contributions}
+      \field{volume}{41}
+      \field{year}{2014}
+      \field{pages}{647\bibrangedash 665}
+      \range{pages}{19}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
