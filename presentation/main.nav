@@ -17,56 +17,82 @@
 \headcommand {\beamer@framepages {11}{11}}
 \headcommand {\slideentry {1}{0}{7}{12/12}{}{0}}
 \headcommand {\beamer@framepages {12}{12}}
-\headcommand {\beamer@sectionpages {2}{12}}
-\headcommand {\beamer@subsectionpages {2}{12}}
-\headcommand {\sectionentry {2}{The Shapley values in machine learning}{13}{The Shapley values in machine learning}{0}}
-\headcommand {\slideentry {2}{0}{1}{13/16}{}{0}}
-\headcommand {\beamer@framepages {13}{16}}
-\headcommand {\slideentry {2}{0}{2}{17/17}{}{0}}
-\headcommand {\beamer@framepages {17}{17}}
-\headcommand {\slideentry {2}{0}{3}{18/18}{}{0}}
-\headcommand {\beamer@framepages {18}{18}}
-\headcommand {\slideentry {2}{0}{4}{19/20}{}{0}}
-\headcommand {\beamer@framepages {19}{20}}
-\headcommand {\slideentry {2}{0}{5}{21/24}{}{0}}
-\headcommand {\beamer@framepages {21}{24}}
-\headcommand {\slideentry {2}{0}{6}{25/25}{}{0}}
-\headcommand {\beamer@framepages {25}{25}}
-\headcommand {\slideentry {2}{0}{7}{26/26}{}{0}}
-\headcommand {\beamer@framepages {26}{26}}
-\headcommand {\slideentry {2}{0}{8}{27/27}{}{0}}
-\headcommand {\beamer@framepages {27}{27}}
-\headcommand {\beamer@sectionpages {13}{27}}
-\headcommand {\beamer@subsectionpages {13}{27}}
-\headcommand {\sectionentry {3}{Compositional data analysis}{28}{Compositional data analysis}{0}}
-\headcommand {\slideentry {3}{0}{1}{28/28}{}{0}}
+\headcommand {\slideentry {1}{0}{8}{13/13}{}{0}}
+\headcommand {\beamer@framepages {13}{13}}
+\headcommand {\slideentry {1}{0}{9}{14/14}{}{0}}
+\headcommand {\beamer@framepages {14}{14}}
+\headcommand {\slideentry {1}{0}{10}{15/15}{}{0}}
+\headcommand {\beamer@framepages {15}{15}}
+\headcommand {\beamer@sectionpages {2}{15}}
+\headcommand {\beamer@subsectionpages {2}{15}}
+\headcommand {\sectionentry {2}{The Shapley values in machine learning}{16}{The Shapley values in machine learning}{0}}
+\headcommand {\slideentry {2}{0}{1}{16/19}{}{0}}
+\headcommand {\beamer@framepages {16}{19}}
+\headcommand {\slideentry {2}{0}{2}{20/20}{}{0}}
+\headcommand {\beamer@framepages {20}{20}}
+\headcommand {\slideentry {2}{0}{3}{21/21}{}{0}}
+\headcommand {\beamer@framepages {21}{21}}
+\headcommand {\slideentry {2}{0}{4}{22/23}{}{0}}
+\headcommand {\beamer@framepages {22}{23}}
+\headcommand {\slideentry {2}{0}{5}{24/27}{}{0}}
+\headcommand {\beamer@framepages {24}{27}}
+\headcommand {\slideentry {2}{0}{6}{28/28}{}{0}}
 \headcommand {\beamer@framepages {28}{28}}
-\headcommand {\beamer@sectionpages {28}{28}}
-\headcommand {\beamer@subsectionpages {28}{28}}
-\headcommand {\sectionentry {4}{Shapley composition on the simplex}{29}{Shapley composition on the simplex}{0}}
-\headcommand {\slideentry {4}{0}{1}{29/29}{}{0}}
+\headcommand {\slideentry {2}{0}{7}{29/29}{}{0}}
 \headcommand {\beamer@framepages {29}{29}}
-\headcommand {\beamer@sectionpages {29}{29}}
-\headcommand {\beamer@subsectionpages {29}{29}}
-\headcommand {\sectionentry {5}{Explaining a prediction with Shapley compositions}{30}{Explaining a prediction with Shapley compositions}{0}}
-\headcommand {\slideentry {5}{0}{1}{30/30}{}{0}}
+\headcommand {\slideentry {2}{0}{8}{30/30}{}{0}}
 \headcommand {\beamer@framepages {30}{30}}
-\headcommand {\beamer@sectionpages {30}{30}}
-\headcommand {\beamer@subsectionpages {30}{30}}
-\headcommand {\sectionentry {6}{Discussion and conclusion}{31}{Discussion and conclusion}{0}}
-\headcommand {\slideentry {6}{0}{1}{31/31}{}{0}}
+\headcommand {\beamer@sectionpages {16}{30}}
+\headcommand {\beamer@subsectionpages {16}{30}}
+\headcommand {\sectionentry {3}{Compositional data analysis}{31}{Compositional data analysis}{0}}
+\headcommand {\slideentry {3}{0}{1}{31/31}{}{0}}
 \headcommand {\beamer@framepages {31}{31}}
-\headcommand {\beamer@sectionpages {31}{31}}
-\headcommand {\beamer@subsectionpages {31}{31}}
-\headcommand {\sectionentry {7}{References}{32}{References}{0}}
-\headcommand {\slideentry {7}{0}{0}{32/32}{}{0}}
+\headcommand {\slideentry {3}{0}{2}{32/32}{}{0}}
 \headcommand {\beamer@framepages {32}{32}}
-\headcommand {\slideentry {7}{0}{0}{32/33}{}{0}}
-\headcommand {\beamer@framepages {32}{33}}
-\headcommand {\slideentry {7}{0}{1}{34/34}{}{0}}
+\headcommand {\slideentry {3}{0}{3}{33/33}{}{0}}
+\headcommand {\beamer@framepages {33}{33}}
+\headcommand {\slideentry {3}{0}{4}{34/34}{}{0}}
 \headcommand {\beamer@framepages {34}{34}}
-\headcommand {\beamer@partpages {1}{34}}
-\headcommand {\beamer@subsectionpages {31}{34}}
 \headcommand {\beamer@sectionpages {31}{34}}
-\headcommand {\beamer@documentpages {34}}
-\headcommand {\gdef \inserttotalframenumber {23}}
+\headcommand {\beamer@subsectionpages {31}{34}}
+\headcommand {\sectionentry {4}{Shapley composition on the simplex}{35}{Shapley composition on the simplex}{0}}
+\headcommand {\slideentry {4}{0}{1}{35/36}{}{0}}
+\headcommand {\beamer@framepages {35}{36}}
+\headcommand {\slideentry {4}{0}{2}{37/39}{}{0}}
+\headcommand {\beamer@framepages {37}{39}}
+\headcommand {\slideentry {4}{0}{3}{40/41}{}{0}}
+\headcommand {\beamer@framepages {40}{41}}
+\headcommand {\beamer@sectionpages {35}{41}}
+\headcommand {\beamer@subsectionpages {35}{41}}
+\headcommand {\sectionentry {5}{Explaining a prediction with Shapley compositions}{42}{Explaining a prediction with Shapley compositions}{0}}
+\headcommand {\slideentry {5}{0}{1}{42/42}{}{0}}
+\headcommand {\beamer@framepages {42}{42}}
+\headcommand {\slideentry {5}{0}{2}{43/44}{}{0}}
+\headcommand {\beamer@framepages {43}{44}}
+\headcommand {\slideentry {5}{0}{3}{45/45}{}{0}}
+\headcommand {\beamer@framepages {45}{45}}
+\headcommand {\slideentry {5}{0}{4}{46/46}{}{0}}
+\headcommand {\beamer@framepages {46}{46}}
+\headcommand {\slideentry {5}{0}{5}{47/47}{}{0}}
+\headcommand {\beamer@framepages {47}{47}}
+\headcommand {\beamer@sectionpages {42}{47}}
+\headcommand {\beamer@subsectionpages {42}{47}}
+\headcommand {\sectionentry {6}{Discussion and conclusion}{48}{Discussion and conclusion}{0}}
+\headcommand {\slideentry {6}{0}{1}{48/54}{}{0}}
+\headcommand {\beamer@framepages {48}{54}}
+\headcommand {\beamer@sectionpages {48}{54}}
+\headcommand {\beamer@subsectionpages {48}{54}}
+\headcommand {\sectionentry {7}{References}{55}{References}{0}}
+\headcommand {\slideentry {7}{0}{0}{55/55}{}{0}}
+\headcommand {\beamer@framepages {55}{55}}
+\headcommand {\slideentry {7}{0}{0}{55/56}{}{0}}
+\headcommand {\beamer@framepages {55}{56}}
+\headcommand {\slideentry {7}{0}{0}{55/57}{}{0}}
+\headcommand {\beamer@framepages {55}{57}}
+\headcommand {\slideentry {7}{0}{1}{58/58}{}{0}}
+\headcommand {\beamer@framepages {58}{58}}
+\headcommand {\beamer@partpages {1}{58}}
+\headcommand {\beamer@subsectionpages {48}{58}}
+\headcommand {\beamer@sectionpages {48}{58}}
+\headcommand {\beamer@documentpages {58}}
+\headcommand {\gdef \inserttotalframenumber {34}}

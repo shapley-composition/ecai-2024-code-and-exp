@@ -5,12 +5,24 @@
 \usetikzlibrary{shapes,arrows,chains}
 \usetikzlibrary[calc]
 \usepackage{amssymb,amsmath,mathrsfs,stmaryrd,bm,amsthm,amsfonts}
+\usepackage{mathtools}
 \usepackage{pgfplotstable}
 \usepackage{biblatex}
+\usepackage{soul}
 \addbibresource{../paper/biblio.bib}
 \renewcommand{\footnotesize}{\scriptsize}
 \usepackage{pifont}
 \usetikzlibrary{math}
+
+\DeclareMathOperator{\logit}{logit}
+\DeclareMathOperator{\sigmoid}{sigmoid}
+\DeclareMathOperator{\abs}{abs}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\llr}{llr}
+\DeclareMathOperator{\lr}{lr}
+\DeclareMathOperator{\ilr}{ilr}
+\DeclareMathOperator{\ilrl}{ilrl}
+\DeclareMathOperator{\e}{e}
 
 \newcommand{\tikzxmark}{
 \tikz[scale=0.25] {
@@ -74,7 +86,7 @@
 
   \begin{frame}
     \frametitle{Introduction}
-    \textbf{Shapley values in cooperatibe game theory}\footfullcite{shapley1953value}
+    \textbf{Shapley values in cooperative game theory}\footfullcite{shapley1953value}
     \begin{itemize}
     \item Distributes the total payoff among the players.
     \item The unique quantity respecting a set of desired axiomatic properties:
@@ -118,7 +130,7 @@
     \pause
     \item Multiclass classifier \tikzxmark
 
-          ex: The output of a softmax layer lives on a multidimensional simplex!
+          ex: The output of a softmax lives on a multidimensional simplex!
         \end{itemize}
 
   \end{frame}
@@ -190,6 +202,72 @@
         
       \end{frame}
 
+\begin{frame}{Introduction}
+  \begin{center}
+    The relative information between parts matter!
+  \end{center}
+  \begin{figure}
+    \centering
+\begin{tikzpicture}
+\begin{axis}[
+  ymin=0, ymax=55,
+  yticklabel=\empty,
+  xticklabel=\empty,
+    minor y tick num = 3,
+    area style,
+    ]
+    \addplot+[ybar interval,mark=no] plot coordinates { (0, 0) (5, 31) (10, 0) (15, 0) (20, 0) };
+    \node[] at (axis cs:2.5,15) {\Huge ?};
+    \node[] at (axis cs:12.5,15) {\Huge ?};
+    \node[] at (axis cs:17.5,15) {\Huge ?};
+\end{axis}
+\end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\addtocounter{framenumber}{-1}
+\begin{frame}{Introduction}
+  \begin{center}
+    The relative information between parts matter!
+  \end{center}
+  \begin{figure}
+    \centering
+\begin{tikzpicture}
+\begin{axis}[
+  ymin=0, ymax=55,
+  yticklabel=\empty,
+  xticklabel=\empty,
+    minor y tick num = 3,
+    area style,
+    ]
+\addplot+[ybar interval,mark=no] plot coordinates { (0, 31) (5, 31) (10, 7) (15, 31) (20, 0) };
+\end{axis}
+\end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+\addtocounter{framenumber}{-1}
+\begin{frame}{Introduction}
+  \begin{center}
+    The relative information between parts matter!
+  \end{center}
+  \begin{figure}
+    \centering
+\begin{tikzpicture}
+\begin{axis}[
+  ymin=0, ymax=55,
+  yticklabel=\empty,
+  xticklabel=\empty,
+    minor y tick num = 3,
+    area style,
+    ]
+\addplot+[ybar interval,mark=no] plot coordinates { (0, 16) (5, 31) (10, 0) (15, 53) (20, 0) };
+\end{axis}
+\end{tikzpicture}
+  \end{figure}
+\end{frame}
+
+      
   \begin{frame}
     \frametitle{Introduction}
 
@@ -290,11 +368,11 @@ Some notation. Let:
 
 \begin{frame}
   \frametitle{The Shapley values in machine learning}
-The \textbf{value function}:
+The \textbf{prediction difference} (knowing only features indexed by $S$):
 \begin{equation}
   \begin{aligned}
-    v_{f,\bm{x},\text{Pr}}: 2^{\mathcal{I}} &\to \mathbb{R},\\
-    S &\mapsto \mathbb{E}_\text{Pr}[f(\bm{x})\mid \bm{x}_S],
+    \delta_{f,\bm{x},\text{Pr}}: 2^{\mathcal{I}} &\to \mathbb{R},\\
+    S &\mapsto \mathbb{E}_\text{Pr}[f(\bm{x})\mid \bm{x}_S] - \mathbb{E}_\text{Pr}[f(\bm{x})],
   \end{aligned}
 \end{equation}
 where $\mathbb{E}_{\text{Pr}}[f(\bm{x}) \mid \bm{x}_S] = \int_{\bm{x} \in \mathcal{X}}f(\bm{x})\text{Pr}(\bm{x} \mid \bm{x}_S)d\bm{x}$.
@@ -309,7 +387,7 @@ When an instance $\bm{x}$ is observed, the expected value of the prediction is s
 The \textbf{contribution} of the feature indexed by $i \notin S$ in the prediction $f(\bm{x})$ given the known features indexed by $S$ is given by:
 \begin{equation}
   \label{eq:contrib}
-  c_{f,\bm{x},\text{Pr}}(i,\bm{X}_S) = v_{f,\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) - v_{f,\bm{x},\text{Pr}}(\bm{X}_S),
+  c_{f,\bm{x},\text{Pr}}(i,\bm{X}_S) = \delta_{f,\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) - \delta_{f,\bm{x},\text{Pr}}(\bm{X}_S),
 \end{equation}
 
 This measures the contribution of the $i$th features with a particular \emph{coalition} of features indexed by $S$.
@@ -358,6 +436,9 @@ which is known as the \emph{efficiency} property.
     \caption{Explanation of the probability for the class Setosa for a flower from the Iris dataset. The classifier is an SVM with radial basis function and pairwise coupling. {\tiny Image from \url{https://github.com/shap/shap/tree/master}.}}
   \end{figure}
 
+  Efficiency: $\underbrace{f(\bm{x})}_{\text{prediction}}-\underbrace{\mathbb{E}_{\text{Pr}}[f(\bm{X})]}_{\text{base value}} = \sum_{i=1}^{d} \phi_f(i),$
+  \vspace{1cm}
+  
   Note that the Shapley explanation is ran in the \emph{logit} domain!
   
 \end{frame}
@@ -428,6 +509,7 @@ which is known as the \emph{efficiency} property.
         
       \end{frame}
 
+      
   \begin{frame}
   \frametitle{The Shapley values in machine learning}
 
@@ -490,30 +572,260 @@ which is known as the \emph{efficiency} property.
 
 \section{Compositional data analysis}
 
-\begin{frame}
-\frametitle{Compositional data analysis}
+\begin{frame}{Compositional data analysis}
+  \begin{minipage}{0.49\textwidth}
+    \begin{figure}
+      \centering
+      \includegraphics[width=0.6\textwidth]{figures/basalt.jpg}
+      \caption{A piece of basalt}
+    \end{figure}
+  \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+      Composition:
+      \begin{itemize}
+      \item 35\% of pyroxene,
+      \item 50\% of plagioclase,
+      \item 12\% of olivine,
+      \item 3\% of magnetite.  
+      \end{itemize}
+      \vspace{0.4cm}
+      $\bm{x} = [35,50,12,3]^T$,\\
+      \vspace{0.2cm}
+      $\displaystyle \sum_{i} x_i = 100\%$.
+  \end{minipage}
+\end{frame}
 
+
+\begin{frame}{Compositional data analysis}
+  A composition lives on a simplex:
+    \vspace{-0.3cm}
+    \begin{equation}
+      \mathcal{S}^N = \Big\{ \bm{x} = [x_1, x_2,\dots x_{N}]^T \in \mathbb{R}^N \mid \forall i\in\llbracket 1,N \rrbracket, x_i>0 \text{~and~} \sum_{i=1}^{N} x_i = k \Big\},
+    \end{equation}
+    \vspace{-0.3cm}
+    \begin{minipage}{0.53\textwidth}
+      \begin{figure}
+        \centering
+        \input{figures/simplex}
+        \caption{Two dimensional simplex as the sample space of three-parts compositional data.}
+      \end{figure}
+    \end{minipage}
+    \begin{minipage}{0.45\textwidth}
+  Exemples of compositional data:
+  \begin{itemize}
+  \item vectors of percentages,
+  \item vectors of concentrations,
+  \item \textbf{discrete probability distributions} (probability simplex: $k=1$).
+    \end{itemize}
+    \end{minipage}    
+\end{frame}
+  
+\begin{frame}{Compositional data analysis}
+  \begin{center}
+    {\large
+      \textbf{The Aitchison geometry of the simplex} gives to the simplex an\\
+      \textbf{Euclidean vector space} structure.
+    } \footfullcite{aitchison1986statistical,aitchison2001}\\
+  \end{center}
+  \vspace{0.5cm}
+  {\footnotesize
+    $\bm{x},\bm{y} \in \mathcal{S}^N$ and $\alpha \in \mathbb{R}$,
+  \begin{itemize}
+\item perturbation: $\bm{x}\oplus \bm{y} = \mathcal{C}\left([x_1y_1,\dots x_{N}y_{N}]\right)$,
+    \item powering: $\alpha \odot \bm{x} = \mathcal{C}\left([x_{1}^{\alpha},\dots x_{N}^{\alpha}]\right)$,
+    \item inner product: $\displaystyle \langle \bm{x},\bm{y} \rangle_a = \frac{1}{2N}\sum_{i=1}^{N} \sum_{j=1}^{N} \log \frac{x_i}{x_j}\log \frac{y_i}{y_j}$
+  \end{itemize}
+  where, $\mathcal{C}\left(\bm{x} \right) = \left[ \frac{x_1}{\lVert \bm{x} \rVert_1}, \frac{x_2}{\lVert \bm{x} \rVert_1} ,\dots \frac{x_N}{\lVert \bm{x} \rVert_1} \right]^T$ is the \emph{closure} operator.
+  }
+\end{frame}
+
+
+\begin{frame}{Compositional data analysis}
+
+  \textbf{Cartesian coordinate system and the ILR transformation}
+\begin{equation}
+    \tilde{\bm{p}}=\ilr(\bm{p}) = \left[\underbrace{\langle \bm{p}, \bm{e}^{(1)} \rangle_a}_{\color{blue} \tilde{\bm{p}}_1} , \underbrace{\langle \bm{p}, \bm{e}^{(2)} \rangle_a}_{\color{magenta} \tilde{\bm{p}}_2},\dots \underbrace{\langle \bm{p}, \bm{e}^{(N-1)} \rangle_a}_{\color{teal} \tilde{\bm{p}}_{N-1}}  \right]^T \in \mathbb{R}^{N-1}.
+  \end{equation}
+  where $\{\bm{e}^{(i)}\}_{1\leq i \leq N}$ forms an \emph{Aitchison} orthonormal basis on the simplex\footfullcite{egozcue2003isometric}.
+  \begin{figure}
+    \begin{minipage}{0.39\textwidth}
+      \centering
+      \input{figures/bifurctree}
+    \end{minipage}
+    \begin{minipage}{0.6\textwidth}
+      \small
+      \begin{equation}
+        \tilde{p}_i = \langle \bm{p}, \bm{e}^{(i)} \rangle_a = \frac{1}{\sqrt{i\,(i+1)}} \log \left( \frac{\prod\limits_{j = 1}^{i}p_j}{(p_{i+1})^{i}} \right).
+      \end{equation}
+    \end{minipage}
+    \caption{Bifurcating tree corresponding to the orthonormal basis obtained with the Gram-Schmidt procedure.}
+    \label{fig:bifurctree}
+  \end{figure}
 \end{frame}
 
 \section{Shapley composition on the simplex}
 
 \begin{frame}
-\frametitle{Shapley composition on the simplex}
+  \frametitle{Shapley composition on the simplex}
+
+  \begin{center}
+    \large
+    Use the Aitchison geometry to extend the concept of Shapley value to the simplex for explaining multidimensional probabilistic predictions.
+  \end{center}
+  \vspace{1cm}
+\pause
+  We want to explain a prediction $\bm{f}(\bm{x}) \in  \mathcal{S}^N$, where $\bm{f}:\mathcal{X}\to \mathcal{S}^N$ is the learned model.
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+  \node [draw,
+	minimum width=1cm,
+	minimum height=1cm
+        ]  (model) {$\bm{f}$};
+        \node [left=1cm of model] (x) {$\bm{x}$};
+        \node [right=1cm of model] (pred) {\begin{tabular}{c}$\bm{f}(\bm{x})\in \mathcal{S}^N$\\\scriptsize $(N-1)$-dimensional\\\scriptsize probabilistic prediction\end{tabular}};
+        \draw[-stealth] (x.east) -- (model.west);
+        \draw[-stealth] (model.east) -- (pred.west);
+      \end{tikzpicture}
+    \end{figure}
+
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Shapley composition on the simplex}
+
+    We rewrite the \textbf{prediction difference} and the \textbf{contribution} as follows:
+    \begin{itemize}
+      \pause
+    \item \begin{equation}
+        \begin{aligned}
+          \bm{\delta}_{\bm{f},\bm{x},\text{Pr}}: 2^{\mathcal{I}} &\to \mathcal{S}^N,\\
+          S &\mapsto \mathbb{E}^{\mathcal{A}}_\text{Pr}[\bm{f}(\bm{x})\mid \bm{x}_S] \ominus \mathbb{E}^{\mathcal{A}}_\text{Pr}[\bm{f}(\bm{x})],
+        \end{aligned}
+      \end{equation}
+      \pause
+      \item \begin{equation}
+        \bm{c}_{\bm{f},\bm{x},\text{Pr}}(i,\bm{X}_S) = \bm{\delta}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_{S\cup\{i\}}) \ominus \bm{\delta}_{\bm{f},\bm{x},\text{Pr}}(\bm{X}_S),
+      \end{equation}
+    \end{itemize}
+where $\bm{a}\ominus\bm{b}$ is the perturbation $\bm{a} \oplus \left( (-1)\odot \bm{b}\right)$ which correspond to a substraction between compositions $\bm{a}$ and $\bm{b}$, and where:
+    
+\end{frame}
+
+\begin{frame}
+  \frametitle{Shapley composition on the simplex}
+  The Shapley quantity expressing the contribution of the $i$th feature on a prediction can simply be expressed on the simplex as the composition $\bm{\phi}(i)$ given by:
+\begin{equation}
+  \bm{\phi}_{\bm{f},\bm{x},\text{Pr}}(i) = \frac{1}{d!} \odot \underset{\pi}{\bigoplus}\bm{c}_{\bm{f},\bm{x},\text{Pr}}(i,\pi^{<i}_{\bm{X}}).
+\end{equation}
+We call this quantity {\large\textbf{Shapley composition}}.\\
+It lives on the probability simplex.
+\vspace{0.5cm}
+
+\pause
+It is:
+\begin{itemize}
+\item Linear 
+\item Efficient: $\underset{i=1}{\overset{d}\bigoplus} \bm{\phi}_{\bm{f}}(i) = \bm{f}(\bm{x}) \ominus \mathbb{E}^{\mathcal{A}}_{\text{Pr}}[\bm{f}(\bm{X})]$
+\item Symmetric
+\end{itemize}
 
 \end{frame}
+
 
 \section{Explaining a prediction with Shapley compositions}
 
 \begin{frame}
 \frametitle{Explaining a prediction with Shapley compositions}
+\framesubtitle{Visualizations in the isometric-log-ratio space}
 
+We can visualize the Shapley compositions in the isometric-log-ratio space.
+\begin{figure}
+  \centering
+  \input{figures/prob_simplex}
+  \caption{Isometric-log-ratio transformation of the $2$-dimensional simplex (basis obtained with the Gram-Schmidt procedure)}
+\end{figure}
+where $\tilde{p}_1 = \frac{1}{\sqrt{2}} \log \frac{p_1}{p_2}$ and $\tilde{p}_2 = \frac{1}{\sqrt{6}} \log \frac{p_1p_2}{p_3^2}$.
+\end{frame}
+
+\begin{frame}
+\frametitle{Explaining a prediction with Shapley compositions}
+\framesubtitle{Visualizations in the isometric-log-ratio space}
+
+And with more classes?
+\vspace{0.2cm}
+
+We can still visualize subspaces.
+\pause
+\begin{figure}
+  \centering
+  \input{../paper/bifurctree1}
+  \caption{Bifurcation tree used in our $10$-classes digit recognition task.}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Explaining a prediction with Shapley compositions}
+  \framesubtitle{Histograms}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{../paper/figures/3classes/histo.png}
+    \caption{Shapley compositions visualized as histograms
+for the Iris classification example}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Explaining a prediction with Shapley compositions}
+  \framesubtitle{Histograms}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{../paper/figures/moreclasses/histo.png}
+    \caption{Shapley compositions visualized as histograms for the seven classes digit recognition example.}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Explaining a prediction with Shapley compositions}
+
+  \begin{center}
+    Use the geometrical tools!
+  \end{center}
+  \vspace{0.2cm}
+  
+  We can summarize an explanation with:
+  \begin{itemize}
+  \item The norms of the Shapley compositions,
+  \item Angles between them,
+  \item And projection on the class-compositions.
+  \end{itemize}
 \end{frame}
 
 \section{Discussion and conclusion}
 
 \begin{frame}
 \frametitle{Discussion and conclusion}
+Summarize:
+\begin{itemize}
+\item We proposed an extention of the concept of Shapley value for explaination in a multiclass setting
+\pause
+\item Shapley composition,
+\pause
+\item \st{scalar} \textbf{distribution/composition} living on the simplex
+  \pause
+\item Visualisations in the ILR space, or as histograms,
+  \pause
+  \item Computation of norms, angles and projections.
+\end{itemize}
 
+\pause
+\vspace{0.2cm}
+Future work:
+\begin{itemize}
+\item The literature about Shapley value is prolific,
+\pause
+\item Axiomatic formulation and uniqueness...
+\end{itemize}
 \end{frame}
 
 
@@ -525,6 +837,9 @@ which is known as the \emph{efficiency} property.
 
 \begin{frame}
 \frametitle{Thank you!!}
+\begin{figure}\centering
+  \includegraphics[width=0.6\linewidth]{bowling.JPG}
+\end{figure}
 
 
 \end{frame}

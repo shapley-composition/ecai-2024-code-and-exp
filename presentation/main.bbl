@@ -19,6 +19,43 @@
 
 \refsection{0}
   \datalist[entry]{nty/global//global/global}
+    \entry{aitchison2001}{incollection}{}
+      \name{author}{1}{}{%
+        {{hash=99d6b648680092d4025ae63425c37f97}{%
+           family={Aitchison},
+           familyi={A\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+      }
+      \name{editor}{1}{}{%
+        {{hash=a9243eecbd3d11cb03ccb32a26ec17bd}{%
+           family={Marlos\bibnamedelimb A.\bibnamedelimi G.\bibnamedelimi Viana},
+           familyi={M\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim G\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={Donald\bibnamedelimb St.\bibnamedelimi P.\bibnamedelimi Richards\bibnamedelimb (eds.)\bibnamedelimb Ams\bibnamedelimb Special\bibnamedelimb Session\bibnamedelimb on\bibnamedelimb Algebraic\bibnamedelimb Methods\bibnamedelimb in\bibnamedelima Statistics},
+           giveni={D\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim P\bibinitperiod\bibinitdelim R\bibinitperiod\bibinitdelim (\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim o\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim i\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Mathematical Society}%
+      }
+      \strng{namehash}{99d6b648680092d4025ae63425c37f97}
+      \strng{fullhash}{99d6b648680092d4025ae63425c37f97}
+      \strng{bibnamehash}{99d6b648680092d4025ae63425c37f97}
+      \strng{authorbibnamehash}{99d6b648680092d4025ae63425c37f97}
+      \strng{authornamehash}{99d6b648680092d4025ae63425c37f97}
+      \strng{authorfullhash}{99d6b648680092d4025ae63425c37f97}
+      \strng{editorbibnamehash}{a9243eecbd3d11cb03ccb32a26ec17bd}
+      \strng{editornamehash}{a9243eecbd3d11cb03ccb32a26ec17bd}
+      \strng{editorfullhash}{a9243eecbd3d11cb03ccb32a26ec17bd}
+      \field{extraname}{1}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Algebraic Methods in Statistics and Probability}
+      \field{series}{Contemporary Mathematics 287}
+      \field{title}{Simplicial inference}
+      \field{year}{2001}
+    \endentry
     \entry{aitchison1982}{article}{}
       \name{author}{1}{}{%
         {{hash=99d6b648680092d4025ae63425c37f97}{%
@@ -36,6 +73,7 @@
       \strng{authorbibnamehash}{99d6b648680092d4025ae63425c37f97}
       \strng{authornamehash}{99d6b648680092d4025ae63425c37f97}
       \strng{authorfullhash}{99d6b648680092d4025ae63425c37f97}
+      \field{extraname}{2}
       \field{sortinit}{A}
       \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
       \field{labelnamesource}{author}
@@ -47,6 +85,78 @@
       \field{year}{1982}
       \field{pages}{139\bibrangedash 177}
       \range{pages}{39}
+    \endentry
+    \entry{aitchison1986statistical}{article}{}
+      \name{author}{1}{}{%
+        {{hash=99d6b648680092d4025ae63425c37f97}{%
+           family={Aitchison},
+           familyi={A\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Chapman}%
+        {Hall}%
+      }
+      \strng{namehash}{99d6b648680092d4025ae63425c37f97}
+      \strng{fullhash}{99d6b648680092d4025ae63425c37f97}
+      \strng{bibnamehash}{99d6b648680092d4025ae63425c37f97}
+      \strng{authorbibnamehash}{99d6b648680092d4025ae63425c37f97}
+      \strng{authornamehash}{99d6b648680092d4025ae63425c37f97}
+      \strng{authorfullhash}{99d6b648680092d4025ae63425c37f97}
+      \field{extraname}{3}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Monographs on Statistics and Applied Probability}
+      \field{title}{The Statistical Analysis of Compositional Data}
+      \field{volume}{25}
+      \field{year}{1986}
+    \endentry
+    \entry{egozcue2003isometric}{article}{}
+      \name{author}{4}{}{%
+        {{hash=1808dc536401361cdab1718ff08e7bd5}{%
+           family={Egozcue},
+           familyi={E\bibinitperiod},
+           given={Juan\bibnamedelima José},
+           giveni={J\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=2eea4c7d7a1051871715333c665f5c27}{%
+           family={Pawlowsky-Glahn},
+           familyi={P\bibinithyphendelim G\bibinitperiod},
+           given={Vera},
+           giveni={V\bibinitperiod}}}%
+        {{hash=5de3336daf85a5f343f238899e0bfdb2}{%
+           family={Mateu-Figueras},
+           familyi={M\bibinithyphendelim F\bibinitperiod},
+           given={Glòria},
+           giveni={G\bibinitperiod}}}%
+        {{hash=5915b4f46fb675dcd2ef6f74af0ae677}{%
+           family={Barcelo-Vidal},
+           familyi={B\bibinithyphendelim V\bibinitperiod},
+           given={Carles},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{35ffa9d2cd2abdff0680908941eae769}
+      \strng{fullhash}{c1e9d9e4561269557e7e254d84c57463}
+      \strng{bibnamehash}{35ffa9d2cd2abdff0680908941eae769}
+      \strng{authorbibnamehash}{35ffa9d2cd2abdff0680908941eae769}
+      \strng{authornamehash}{35ffa9d2cd2abdff0680908941eae769}
+      \strng{authorfullhash}{c1e9d9e4561269557e7e254d84c57463}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Mathematical geology}
+      \field{number}{3}
+      \field{title}{Isometric logratio transformations for compositional data analysis}
+      \field{volume}{35}
+      \field{year}{2003}
+      \field{pages}{279\bibrangedash 300}
+      \range{pages}{22}
     \endentry
     \entry{NIPS2017_7062}{incollection}{}
       \name{author}{2}{}{%

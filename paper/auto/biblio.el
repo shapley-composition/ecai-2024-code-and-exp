@@ -6,12 +6,13 @@
    (LaTeX-add-bibitems
     "NIPS2017_7062"
     "aitchison1980"
+    "aitchison1986statistical"
+    "aitchison2001"
     "vstrumbelj2014explaining"
     "datta2016"
     "shapley1953value"
     "pawlowskymodeling"
     "aitchison1982"
-    "aitchison2001"
     "egozcue2003isometric"
     "egozcue2005groups"
     "pedregosa2011scikit"
@@ -22,10 +23,6 @@
     "angelov2021explainable"
     "wu2003probability"
     "AAS2021103502"
-    "ribeiro2016should")
-   (LaTeX-add-environments
-    '("consoletext" LaTeX-env-args ["argument"] 0)
-    '("filetext" LaTeX-env-args ["argument"] 0)
-    '("algorithm2e" LaTeX-env-args ["argument"] 0)))
+    "ribeiro2016should"))
  '(or :bibtex :latex))
 
