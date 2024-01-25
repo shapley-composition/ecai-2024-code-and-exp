@@ -6,3 +6,5 @@ scikit-learn
 scipy
 matplotlib
 kaleido
+shap
+opencv-python
