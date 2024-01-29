@@ -8,3 +8,4 @@ matplotlib
 kaleido
 shap
 opencv-python
+xgboost

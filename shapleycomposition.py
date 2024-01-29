@@ -259,15 +259,30 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
 
         return fig
 
-    def shapley_histogram(self, figwidth=500, figheight=400, fontsize=14):
+    def shapley_histogram(self, figwidth=500, figheight=400, fontsize=14,
+                          stacked=False, horizontal=False):
+        barmode = 'stack' if stacked else 'group'
         fig = go.Figure(layout=go.Layout(autosize=False, width=figwidth, height=figheight))
-        fig.update_layout(barmode='group', font=dict(size=fontsize), legend=dict(orientation='h', font=dict(size=12), bgcolor='rgba(255,255,255,0.4)',yanchor="top", y=0.99, xanchor="right", x=1), margin=dict(l=0, r=0, t=0, b=0))
+        fig.update_layout(barmode=barmode, font=dict(size=fontsize), legend=dict(orientation='h', font=dict(size=12), bgcolor='rgba(255,255,255,0.4)',yanchor="top", y=0.99, xanchor="right", x=1), margin=dict(l=0, r=0, t=0, b=0))
         for i in range(self.n_class):
-            fig.add_trace(go.Bar(name=self.names_classes[i], x=self.names_features, y=ilr_inv(self.shapley, basis=self.basis)[:,i]))
-        fig.update_layout(bargroupgap=0)
+            x = self.names_features
+            y = ilr_inv(self.shapley, basis=self.basis)[:,i]
+            o = 'v'
+            if horizontal:
+                x, y = y, x
+                o = 'h'
+            fig.add_trace(go.Bar(name=self.names_classes[i], x=x, y=y,
+                                 orientation=o))
+        x_label = ''
+        y_label = 'mean(|SHAP value|)'
+        if horizontal:
+            x_label, y_label = y_label, x_label
+        fig.update_layout(bargroupgap=0, xaxis_title=x_label,
+                          yaxis_title=y_label)
         fig.show()
         
         return fig
 
-
-    
+    def shapley_stacked_hbars(self, *args, **kwargs):
+        return self.shapley_histogram(*args, **kwargs, stacked=True,
+                                      horizontal=True)
