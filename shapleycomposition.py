@@ -273,8 +273,8 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
                 o = 'h'
             fig.add_trace(go.Bar(name=self.names_classes[i], x=x, y=y,
                                  orientation=o))
-        x_label = ''
-        y_label = 'mean(|SHAP value|)'
+        x_label = 'Features'
+        y_label = ''
         if horizontal:
             x_label, y_label = y_label, x_label
         fig.update_layout(bargroupgap=0, xaxis_title=x_label,
