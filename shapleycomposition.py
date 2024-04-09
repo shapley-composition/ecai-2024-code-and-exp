@@ -131,7 +131,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
             print(round(norm_shapley[i], 7))
         print()
 
-        class_vect  = ilr(self.class_compo)
+        class_vect  = ilr(self.class_compo).reshape((self.n_class, self.n_class-1))
         proj_shap_class = np.zeros((self.n_class,self.n_feat))
         cos_shap_shap = np.zeros((self.n_feat,self.n_feat)) 
         print("Projection of the Shapley compositions on the class vectors:")
