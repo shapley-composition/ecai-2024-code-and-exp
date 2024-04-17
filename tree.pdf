@@ -1,0 +1,56 @@
+strict digraph {
+	node [shape=ellipse]
+	ilr8 [color=black]
+	ilr9 -> ilr8
+	node [shape=square]
+	p5 [color=blue]
+	ilr8 -> p5
+	node [shape=ellipse]
+	ilr7 [color=black]
+	ilr8 -> ilr7
+	node [shape=ellipse]
+	ilr5 [color=black]
+	ilr7 -> ilr5
+	node [shape=square]
+	p2 [color=blue]
+	ilr5 -> p2
+	node [shape=ellipse]
+	ilr1 [color=black]
+	ilr5 -> ilr1
+	node [shape=square]
+	p8 [color=blue]
+	ilr1 -> p8
+	node [shape=square]
+	p9 [color=blue]
+	ilr1 -> p9
+	node [shape=ellipse]
+	ilr6 [color=black]
+	ilr7 -> ilr6
+	node [shape=square]
+	p6 [color=blue]
+	ilr6 -> p6
+	node [shape=ellipse]
+	ilr4 [color=black]
+	ilr6 -> ilr4
+	node [shape=square]
+	p3 [color=blue]
+	ilr4 -> p3
+	node [shape=ellipse]
+	ilr2 [color=black]
+	ilr4 -> ilr2
+	node [shape=square]
+	p4 [color=blue]
+	ilr2 -> p4
+	node [shape=square]
+	p10 [color=blue]
+	ilr2 -> p10
+	node [shape=ellipse]
+	ilr3 [color=black]
+	ilr9 -> ilr3
+	node [shape=square]
+	p1 [color=blue]
+	ilr3 -> p1
+	node [shape=square]
+	p7 [color=blue]
+	ilr3 -> p7
+}

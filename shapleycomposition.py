@@ -103,6 +103,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
             M2_phi[j]   = new_M2
             m[j] += 1
             tr_var_phi[j]  = np.trace(new_M2/m[j])
+
         for i in range(self.n_feat):
             phi[i] = phi[i]/m[i]
 
