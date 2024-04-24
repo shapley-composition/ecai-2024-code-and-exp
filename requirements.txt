@@ -9,3 +9,4 @@ kaleido
 shap
 opencv-python
 xgboost
+pandas
