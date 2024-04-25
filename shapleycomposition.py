@@ -273,13 +273,19 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
 
         return fig
 
-    def shapley_histogram(self, figwidth=500, figheight=400, fontsize=14,
+    def shapley_histogram(self, sort=False, figwidth=500, figheight=400, fontsize=14,
                           stacked=False, horizontal=False):
         barmode = 'stack' if stacked else 'group'
         fig = go.Figure(layout=go.Layout(autosize=False, width=figwidth, height=figheight))
         fig.update_layout(barmode=barmode, font=dict(size=fontsize), colorway=px.colors.qualitative.D3, legend=dict(orientation='h', font=dict(size=12), bgcolor='rgba(255,255,255,0.4)',yanchor="top", y=0.99, xanchor="right", x=1), margin=dict(l=0, r=0, t=0, b=0))
+        if sort:
+            norm_shapley = np.linalg.norm(self.shapley, axis=1)
+            ord = np.argsort(-norm_shapley)
+        else:
+            ord = [i for i in range(self.n_feat)]
+        shapley_ord = self.shapley[ord,:]
         for i in range(self.n_class):
-            x = self.names_features
+            x = ['base'] + [self.names_features[k] for k in ord]
             y = ilr_inv(self.shapley, basis=self.basis)[:,i]
             o = 'v'
             if horizontal:
