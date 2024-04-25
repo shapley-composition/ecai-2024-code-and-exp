@@ -11,6 +11,65 @@ cm = plt.cm.tab10
 colors = cm.colors
 
 
+def rotate(vector, angle):
+    radians = np.radians(angle)
+    return np.inner(np.array([[np.cos(radians), -np.sin(radians)],
+                              [np.sin(radians), np.cos(radians)]]),
+                    np.array(vector).T)
+
+
+def plot_ilr_coordinate_system(ax):
+
+    class_coordinates = np.array([
+        rotate(np.array([1, 0]), 30),
+        rotate(np.array([1, 0]), 30+120),
+        rotate(np.array([1, 0]), 30+240)])
+
+    for i, coord in enumerate(class_coordinates):
+        ax.arrow(0, 0, coord[0], coord[1], shape='full', head_width=0.1,
+                 color=colors[i], linewidth=4)
+        ax.text(coord[0]/2, coord[1]/2, f"$C_{i+1}$")
+
+    decision_boundaries = np.array([rotate(np.array([0, 3]), 0),
+                                    rotate(np.array([0, 3]), 120),
+                                    rotate(np.array([0, 3]), 240)])
+
+    for i, coord in enumerate(decision_boundaries):
+        ax.arrow(0, 0, coord[0], coord[1], linestyle='--')
+
+    ax.set_box_aspect(1)
+
+
+def adjust_lightness(color, amount=0.5):
+    import matplotlib.colors as mc
+    import colorsys
+    try:
+        c = mc.cnames[color]
+    except:
+        c = color
+    c = colorsys.rgb_to_hls(*mc.to_rgb(c))
+    return colorsys.hls_to_rgb(c[0], max(0, min(1, amount * c[1])), c[2])
+
+
+def plot_instances(base, inst_ilr_tip_list, ax, head_width=0.1, linestyle='-',
+                  feature_names=None):
+    instance_colors = colors[3:]
+
+    for i, instance in enumerate(inst_ilr_tip_list):
+        last = base.copy()
+        color = instance_colors[i]
+        for j in range(len(instance)):
+            d_next = instance[j] - last
+            ax.arrow(x=last[0], y=last[1], dx=d_next[0], dy=d_next[1],
+                     shape='full', head_width=head_width,
+                     length_includes_head=True,
+                     color=adjust_lightness(color,
+                                            amount=1+0.5*(j/len(instance))),
+                     linestyle=linestyle, linewidth=2,
+                     label=f"Inst. {i} $X_{j+1}$")
+            last += d_next
+
+
 def plot_composite_shapley_feature_contributions(composite_shapley_values,
                                                  base=None, feature_names=None,
                                                  target_names=None,
@@ -37,7 +96,7 @@ def plot_composite_shapley_feature_contributions(composite_shapley_values,
     composite_shapley_values = np.array(composite_shapley_values).T
 
     if feature_names is None:
-        feature_names = np.array([f"$X_{j}$" for j in range(n_features)])
+        feature_names = np.array([f"$X_{j+1}$" for j in range(n_features)])
     else:
         feature_names = np.array(feature_names)
 
@@ -46,6 +105,11 @@ def plot_composite_shapley_feature_contributions(composite_shapley_values,
         print(order)
         composite_shapley_values = composite_shapley_values.T[order].T
         feature_names = feature_names[order]
+
+    if base is not None:
+        composite_shapley_values = np.hstack([base.reshape(-1, 1),
+                                              composite_shapley_values])
+        feature_names = np.concatenate([['Base', ], feature_names])
 
     if cummulative:
         composite_shapley_values = np.cumsum(composite_shapley_values, axis=1)
@@ -61,14 +125,8 @@ def plot_composite_shapley_feature_contributions(composite_shapley_values,
         if target_names is None:
             target_names = [r"$C_" + str(j+1) + "$" for j in range(n_classes)]
     else:
-        target_names = [r"$\tilde{p}_" + str(j+1) + "$" for j in range(n_classes)]
-
-    if base is not None:
-        if basis is not None:
-            base = ilr_inv(base, basis=basis)
-        feature_names = np.concatenate([['Base', ], feature_names])
-        composite_shapley_values = np.hstack([base.reshape(-1, 1),
-                                              composite_shapley_values])
+        target_names = [r"$\tilde{p}_" + str(j+1) + "$" for j in
+                        range(n_classes)]
 
     if ax is None:
         if fig is None:
