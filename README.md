@@ -37,8 +37,15 @@ use python package graphviz.
 
 Use Jupyter Notebook to visualise and edit the experiment files.
 
+You may want to create first a kernel with the current virtual environment
+
 ```
-pip install jupyter
+python -m ipykernel install --user --name=shapleycomposition
+```
+
+then open Jupyter notebook and select the created kernel.
+
+```
 jupyter notebook
 ```
 

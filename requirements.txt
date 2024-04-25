@@ -11,3 +11,6 @@ opencv-python
 xgboost
 pandas
 seaborn
+jupyter
+ipython
+ipykernel
