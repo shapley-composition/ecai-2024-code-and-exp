@@ -285,7 +285,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
             ord = [i for i in range(self.n_feat)]
         shapley_ord = self.shapley[ord,:]
         for i in range(self.n_class):
-            x = ['base'] + [self.names_features[k] for k in ord]
+            x = [self.names_features[k] for k in ord]
             y = ilr_inv(self.shapley, basis=self.basis)[:,i]
             o = 'v'
             if horizontal:
