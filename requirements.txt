@@ -10,3 +10,4 @@ shap
 opencv-python
 xgboost
 pandas
+seaborn
