@@ -1,6 +1,0 @@
-\beamer@sectionintoc {1}{Introduction}{2}{0}{1}
-\beamer@sectionintoc {2}{The Shapley values in machine learning}{16}{0}{2}
-\beamer@sectionintoc {3}{Compositional data analysis}{31}{0}{3}
-\beamer@sectionintoc {4}{Shapley composition on the simplex}{35}{0}{4}
-\beamer@sectionintoc {5}{Explaining a prediction with Shapley compositions}{42}{0}{5}
-\beamer@sectionintoc {6}{Discussion and conclusion}{48}{0}{6}
