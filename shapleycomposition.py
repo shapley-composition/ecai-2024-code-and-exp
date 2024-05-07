@@ -1,4 +1,5 @@
 import random
+import warnings
 import numpy as np
 from math import sqrt, exp
 from composition_stats import closure, ilr, ilr_inv, inner, perturb, perturb_inv, power, multiplicative_replacement, sbp_basis
@@ -6,7 +7,14 @@ import plotly.graph_objects as go
 import plotly.express as px
 from scipy.spatial import ConvexHull
 
-
+def zeros_multiplicative_replacement(x, eps=np.finfo(np.float16).tiny):
+    #Check Dealing With Zeros and Missing Values in Compositional Data Sets Using Nonparametric Imputation, J.A. Martin-Fernandez, C. Barcelo-Vidal, V. Pawlowsky-Glahn
+    z = np.tile((x==0).sum(axis=1),(x.shape[1],1)).T
+    if z.sum()>0: warnings.warn("At least one zero has been detected. Multiplicative replacement strategy has been applied.") 
+    x = x*(1-z*eps)
+    x[x==0] = eps
+    return x
+    
 def welford_update(aggregates, count, new_element):
     (mean, M2) = aggregates
     diff = new_element - mean
@@ -48,7 +56,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
             #self.basis = np.flip(sbp_basis(sbpmatrix), axis=0)
             self.basis = sbp_basis(sbpmatrix)
             self.sbpmatrix = sbpmatrix
-        self.base      = ilr(model(train_data), basis=self.basis).mean(axis=0)
+        self.base      = ilr(zeros_multiplicative_replacement(closure(self.model(train_data).astype(np.float16))), basis=self.basis).mean(axis=0)
         self.pred      = None
         self.shapley   = None
 
@@ -97,7 +105,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
                 if pos_k > pos_j:
                     x_perturb1[k] = x_sampled[k]
                     x_perturb2[k] = x_sampled[k]
-            current_phi = ilr(self.model(x_perturb1.reshape(1,-1)), basis=self.basis) - ilr(self.model(x_perturb2.reshape(1,-1)), basis=self.basis)
+            current_phi = ilr(zeros_multiplicative_replacement(np.expand_dims(closure(self.model(x_perturb1.reshape(1,-1)).astype(np.float16)), axis=0)), basis=self.basis) - ilr(zeros_multiplicative_replacement(np.expand_dims(closure(self.model(x_perturb2.reshape(1,-1)).astype(np.float16)), axis=0)), basis=self.basis)
             phi[j] += current_phi
             (new_mean, new_M2) = welford_update((mean_phi[j], M2_phi[j]), m[j], (current_phi))
             mean_phi[j] = new_mean
@@ -108,7 +116,7 @@ with feature contributions" by Erik Štrumbelj and Igor Kononenko.
         for i in range(self.n_feat):
             phi[i] = phi[i]/m[i]
 
-        self.pred = ilr(self.model(x.reshape(1,-1)), basis=self.basis)
+        self.pred = ilr(zeros_multiplicative_replacement(np.expand_dims(closure(self.model(x.reshape(1,-1)).astype(np.float16)), axis=0)), basis=self.basis)
         if adjust_sum:
             #adjust the sum of shapley compositions as in https://github.com/shap/shap/blob/master/shap/explainers/_sampling.py (last visit November 2023)
             v = 1e6 *tr_var_phi/tr_var_phi.max()
