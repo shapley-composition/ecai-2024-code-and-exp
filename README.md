@@ -63,11 +63,16 @@ jupyter execute 3classes_example.ipynb
 ## About zeros
 
 A composition cannot contain zeros. Dealing with zeros has been problematic in compositional data analysis [[1]](#1).
-In this work, all zeros are considered as rounded zeros rather than essential zeros (following a similar argument as the Cromwell's rule, we assume that no probabilistic prediction should give a zero probability).
-The multiplicative replacement strategy is applied here to the probabilistic predictions. Moreover, in order to avoid exploding values due to too small probabilities, the predictions are cast to float16 such that the minimum probability is 6.104e-05.
+In this work, all zeros are considered as rounded zeros rather than essential zeros (following a similar argument as the Cromwell's rule [[2]](#2), we assume that no probabilistic prediction should give a zero probability).
+The multiplicative replacement strategy is applied here to the probabilistic predictions. Moreover, in order to avoid exploding values due to too small probabilities, the predictions are casted to float16 such that the minimum probability is 6.104e-05.
 
 ## References
 <a id="1">[1]</a> 
 Josep A Martín-Fernández, Carles Barceló-Vidal, and Vera Pawlowsky-Glahn (2003).
 Dealing with zeros and missing values in compositional data sets using nonparametric imputation.
 In: Mathematical Geology 35.3, pp. 253–278.
+
+<a id="2">[2]</a> 
+Dennis V. Lindley (2006).
+Understanding Uncertainty.
+Wiley-Interscience.
